@@ -1,7 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { useState, type FormEvent } from "react";
 import { Section } from "./Section";
-import { Button } from "@/components/ui/button";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ export function Newsletter() {
       <div className="rounded-2xl bg-forest-deep text-cream p-8 md:p-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center overflow-hidden relative">
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-32 -top-32 h-[520px] w-[520px] rounded-full opacity-[0.09]"
+          className="pointer-events-none absolute -right-32 -top-32 h-130 w-130 rounded-full opacity-[0.09]"
           style={{
             background:
               "conic-gradient(from 0deg, var(--saffron), transparent 12%, var(--crimson) 24%, transparent 36%, var(--cream) 48%, transparent 60%)",
@@ -32,7 +32,9 @@ export function Newsletter() {
           <h2 className="mt-5 font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.05]">
             Tour dates, new work
             <br />
-            <span className="italic text-saffron">and stories from backstage.</span>
+            <span className="italic text-saffron">
+              and stories from backstage.
+            </span>
           </h2>
           <p className="mt-5 text-cream/70 max-w-md">
             Four letters a year. No noise. Unsubscribe in one click.
@@ -47,7 +49,10 @@ export function Newsletter() {
             <>
               <div className="flex flex-col sm:flex-row gap-3 sm:items-end">
                 <div className="flex-1">
-                  <label htmlFor="newsletter-email" className="eyebrow text-cream/60">
+                  <label
+                    htmlFor="newsletter-email"
+                    className="eyebrow text-cream/60"
+                  >
                     Your email
                   </label>
                   <input

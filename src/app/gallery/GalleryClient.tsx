@@ -1,17 +1,17 @@
 "use client";
-import { useMemo, useState, useEffect, useCallback } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { PageContainer } from "@/components/site/PageContainer";
-import { Section } from "@/components/site/Section";
-import { PageHero } from "@/components/site/PageHero";
-import { Stat } from "@/components/site/Stat";
-import { Chip } from "@/components/site/Chip";
-import { X, Play, Search, ArrowUpRight } from "lucide-react";
+import aboutAsset from "@/assets/about.jpg.asset.json";
 import perf1 from "@/assets/perf1.jpg.asset.json";
 import perf2 from "@/assets/perf2.jpg.asset.json";
 import perf3 from "@/assets/perf3.jpg.asset.json";
-import aboutAsset from "@/assets/about.jpg.asset.json";
+import { Chip } from "@/components/site/Chip";
+import { PageContainer } from "@/components/site/PageContainer";
+import { PageHero } from "@/components/site/PageHero";
+import { Section } from "@/components/site/Section";
+import { Stat } from "@/components/site/Stat";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUpRight, Play, Search, X } from "lucide-react";
+import Image from "next/image";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Category = "Stage" | "Backstage" | "Rehearsal" | "Portrait" | "On tour";
 type Ratio = "portrait" | "landscape" | "square" | "tall";
@@ -29,32 +29,186 @@ type Media = {
 };
 
 const MEDIA: Media[] = [
-  { id: "m1", type: "photo", src: perf1.url, caption: "Devi Mahatme — Berlin premiere", location: "Berlin", year: 2026, category: "Stage", ratio: "portrait" },
-  { id: "m2", type: "video", src: perf2.url, poster: perf2.url, caption: "Ornament & Origin — trailer", location: "Zürich", year: 2026, category: "Stage", ratio: "landscape" },
-  { id: "m3", type: "photo", src: perf3.url, caption: "Chende & Maddale study", location: "Frankfurt", year: 2025, category: "Rehearsal", ratio: "tall" },
-  { id: "m4", type: "photo", src: aboutAsset.url, caption: "Backstage · vesha preparation", location: "München", year: 2025, category: "Backstage", ratio: "landscape" },
-  { id: "m5", type: "photo", src: heroAsset.url, caption: "Himmela ensemble — opening", location: "Hamburg", year: 2025, category: "Stage", ratio: "portrait" },
-  { id: "m6", type: "video", src: perf1.url, poster: perf1.url, caption: "Rehearsal room — Sudhanva Vijaya", location: "Berlin", year: 2025, category: "Rehearsal", ratio: "square" },
-  { id: "m7", type: "photo", src: perf2.url, caption: "Portrait — Meera Kamath as Stree Vesha", location: "Berlin", year: 2026, category: "Portrait", ratio: "portrait" },
-  { id: "m8", type: "photo", src: perf3.url, caption: "Karna Parva — final tableau", location: "Frankfurt", year: 2025, category: "Stage", ratio: "landscape" },
-  { id: "m9", type: "photo", src: aboutAsset.url, caption: "On tour — Amsterdam load-in", location: "Amsterdam", year: 2025, category: "On tour", ratio: "square" },
-  { id: "m10", type: "photo", src: heroAsset.url, caption: "Backstage · kirīṭa fitting", location: "Köln", year: 2025, category: "Backstage", ratio: "tall" },
-  { id: "m11", type: "video", src: perf3.url, poster: perf3.url, caption: "Chende — solo passage", location: "Stuttgart", year: 2026, category: "Rehearsal", ratio: "portrait" },
-  { id: "m12", type: "photo", src: perf1.url, caption: "Portrait — Ranganatha Bhat", location: "Berlin", year: 2026, category: "Portrait", ratio: "landscape" },
-  { id: "m13", type: "photo", src: perf2.url, caption: "Bhasmasura Mohini — Köln", location: "Köln", year: 2025, category: "Stage", ratio: "tall" },
-  { id: "m14", type: "photo", src: aboutAsset.url, caption: "On tour — Brussels, dawn", location: "Brussels", year: 2025, category: "On tour", ratio: "landscape" },
-  { id: "m15", type: "photo", src: heroAsset.url, caption: "Ritual to Stage — workshop", location: "Stuttgart", year: 2026, category: "Rehearsal", ratio: "square" },
-  { id: "m16", type: "photo", src: perf1.url, caption: "Backstage · quiet minute", location: "Wien", year: 2026, category: "Backstage", ratio: "portrait" },
+  {
+    id: "m1",
+    type: "photo",
+    src: perf1.url,
+    caption: "Devi Mahatme — Berlin premiere",
+    location: "Berlin",
+    year: 2026,
+    category: "Stage",
+    ratio: "portrait",
+  },
+  {
+    id: "m2",
+    type: "video",
+    src: perf2.url,
+    poster: perf2.url,
+    caption: "Ornament & Origin — trailer",
+    location: "Zürich",
+    year: 2026,
+    category: "Stage",
+    ratio: "landscape",
+  },
+  {
+    id: "m3",
+    type: "photo",
+    src: perf3.url,
+    caption: "Chende & Maddale study",
+    location: "Frankfurt",
+    year: 2025,
+    category: "Rehearsal",
+    ratio: "tall",
+  },
+  {
+    id: "m4",
+    type: "photo",
+    src: aboutAsset.url,
+    caption: "Backstage · vesha preparation",
+    location: "München",
+    year: 2025,
+    category: "Backstage",
+    ratio: "landscape",
+  },
+  {
+    id: "m5",
+    type: "photo",
+    src: heroAsset.url,
+    caption: "Himmela ensemble — opening",
+    location: "Hamburg",
+    year: 2025,
+    category: "Stage",
+    ratio: "portrait",
+  },
+  {
+    id: "m6",
+    type: "video",
+    src: perf1.url,
+    poster: perf1.url,
+    caption: "Rehearsal room — Sudhanva Vijaya",
+    location: "Berlin",
+    year: 2025,
+    category: "Rehearsal",
+    ratio: "square",
+  },
+  {
+    id: "m7",
+    type: "photo",
+    src: perf2.url,
+    caption: "Portrait — Meera Kamath as Stree Vesha",
+    location: "Berlin",
+    year: 2026,
+    category: "Portrait",
+    ratio: "portrait",
+  },
+  {
+    id: "m8",
+    type: "photo",
+    src: perf3.url,
+    caption: "Karna Parva — final tableau",
+    location: "Frankfurt",
+    year: 2025,
+    category: "Stage",
+    ratio: "landscape",
+  },
+  {
+    id: "m9",
+    type: "photo",
+    src: aboutAsset.url,
+    caption: "On tour — Amsterdam load-in",
+    location: "Amsterdam",
+    year: 2025,
+    category: "On tour",
+    ratio: "square",
+  },
+  {
+    id: "m10",
+    type: "photo",
+    src: heroAsset.url,
+    caption: "Backstage · kirīṭa fitting",
+    location: "Köln",
+    year: 2025,
+    category: "Backstage",
+    ratio: "tall",
+  },
+  {
+    id: "m11",
+    type: "video",
+    src: perf3.url,
+    poster: perf3.url,
+    caption: "Chende — solo passage",
+    location: "Stuttgart",
+    year: 2026,
+    category: "Rehearsal",
+    ratio: "portrait",
+  },
+  {
+    id: "m12",
+    type: "photo",
+    src: perf1.url,
+    caption: "Portrait — Ranganatha Bhat",
+    location: "Berlin",
+    year: 2026,
+    category: "Portrait",
+    ratio: "landscape",
+  },
+  {
+    id: "m13",
+    type: "photo",
+    src: perf2.url,
+    caption: "Bhasmasura Mohini — Köln",
+    location: "Köln",
+    year: 2025,
+    category: "Stage",
+    ratio: "tall",
+  },
+  {
+    id: "m14",
+    type: "photo",
+    src: aboutAsset.url,
+    caption: "On tour — Brussels, dawn",
+    location: "Brussels",
+    year: 2025,
+    category: "On tour",
+    ratio: "landscape",
+  },
+  {
+    id: "m15",
+    type: "photo",
+    src: heroAsset.url,
+    caption: "Ritual to Stage — workshop",
+    location: "Stuttgart",
+    year: 2026,
+    category: "Rehearsal",
+    ratio: "square",
+  },
+  {
+    id: "m16",
+    type: "photo",
+    src: perf1.url,
+    caption: "Backstage · quiet minute",
+    location: "Wien",
+    year: 2026,
+    category: "Backstage",
+    ratio: "portrait",
+  },
 ];
 
-const CATEGORIES = ["All", "Stage", "Backstage", "Rehearsal", "Portrait", "On tour"] as const;
+const CATEGORIES = [
+  "All",
+  "Stage",
+  "Backstage",
+  "Rehearsal",
+  "Portrait",
+  "On tour",
+] as const;
 const TYPES = ["All media", "Photos", "Videos"] as const;
 
 const ratioClass: Record<Ratio, string> = {
-  portrait: "aspect-[3/4]",
-  landscape: "aspect-[4/3]",
+  portrait: "aspect-3/4",
+  landscape: "aspect-4/3",
   square: "aspect-square",
-  tall: "aspect-[3/5]",
+  tall: "aspect-3/5",
 };
 
 import heroAsset from "@/assets/hero.jpg.asset.json";
@@ -62,7 +216,8 @@ import heroAsset from "@/assets/hero.jpg.asset.json";
 export default function GalleryClient() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("All");
-  const [mediaType, setMediaType] = useState<(typeof TYPES)[number]>("All media");
+  const [mediaType, setMediaType] =
+    useState<(typeof TYPES)[number]>("All media");
   const [active, setActive] = useState<Media | null>(null);
 
   const filtered = useMemo(() => {
@@ -72,7 +227,9 @@ export default function GalleryClient() {
       if (mediaType === "Photos" && m.type !== "photo") return false;
       if (mediaType === "Videos" && m.type !== "video") return false;
       if (!q) return true;
-      return [m.caption, m.location, m.category].some((f) => f.toLowerCase().includes(q));
+      return [m.caption, m.location, m.category].some((f) =>
+        f.toLowerCase().includes(q),
+      );
     });
   }, [query, category, mediaType]);
 
@@ -98,9 +255,18 @@ export default function GalleryClient() {
         lede="Photographs and short films from Yakshamitraru Germany's performances, rehearsals and touring life across Europe."
         meta={
           <>
-            <Stat n={MEDIA.filter((m) => m.type === "photo").length} label="Photographs" />
-            <Stat n={MEDIA.filter((m) => m.type === "video").length} label="Films" />
-            <Stat n={new Set(MEDIA.map((m) => m.location)).size} label="Cities captured" />
+            <Stat
+              n={MEDIA.filter((m) => m.type === "photo").length}
+              label="Photographs"
+            />
+            <Stat
+              n={MEDIA.filter((m) => m.type === "video").length}
+              label="Films"
+            />
+            <Stat
+              n={new Set(MEDIA.map((m) => m.location)).size}
+              label="Cities captured"
+            />
           </>
         }
       />
@@ -121,7 +287,11 @@ export default function GalleryClient() {
             </div>
             <div className="flex gap-2">
               {TYPES.map((t) => (
-                <Chip key={t} active={mediaType === t} onClick={() => setMediaType(t)}>
+                <Chip
+                  key={t}
+                  active={mediaType === t}
+                  onClick={() => setMediaType(t)}
+                >
                   {t}
                 </Chip>
               ))}
@@ -129,7 +299,11 @@ export default function GalleryClient() {
           </div>
           <div className="flex flex-wrap gap-2 overflow-x-auto -mx-1 px-1">
             {CATEGORIES.map((c) => (
-              <Chip key={c} active={category === c} onClick={() => setCategory(c)}>
+              <Chip
+                key={c}
+                active={category === c}
+                onClick={() => setCategory(c)}
+              >
                 {c}
               </Chip>
             ))}
@@ -159,8 +333,12 @@ export default function GalleryClient() {
 
         {filtered.length === 0 ? (
           <div className="py-24 text-center">
-            <p className="font-serif text-3xl text-forest-deep">Nothing matches yet.</p>
-            <p className="mt-3 text-ink-soft">Try broadening the search or resetting filters.</p>
+            <p className="font-serif text-3xl text-forest-deep">
+              Nothing matches yet.
+            </p>
+            <p className="mt-3 text-ink-soft">
+              Try broadening the search or resetting filters.
+            </p>
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-6 [column-fill:_balance]">
@@ -171,7 +349,10 @@ export default function GalleryClient() {
                 className="group relative mb-4 md:mb-6 block w-full break-inside-avoid rounded-2xl overflow-hidden media-zoom hover-lift text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-saffron"
                 style={{ animationDelay: `${(i % 8) * 40}ms` }}
               >
-                <motion.div layoutId={`gallery-${m.id}`} className={`relative ${ratioClass[m.ratio]}`}>
+                <motion.div
+                  layoutId={`gallery-${m.id}`}
+                  className={`relative ${ratioClass[m.ratio]}`}
+                >
                   <Image
                     src={m.poster ?? m.src}
                     alt={m.caption}
@@ -182,7 +363,9 @@ export default function GalleryClient() {
 
                 {/* Type badge */}
                 <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-forest-deep/70 backdrop-blur-md px-2.5 py-1 text-[10px] tracking-[0.2em] uppercase text-cream">
-                  {m.type === "video" ? <Play className="h-3 w-3 fill-cream" /> : null}
+                  {m.type === "video" ? (
+                    <Play className="h-3 w-3 fill-cream" />
+                  ) : null}
                   {m.type}
                 </div>
 
@@ -196,11 +379,13 @@ export default function GalleryClient() {
                 )}
 
                 {/* Elegant hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/95 via-forest-deep/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-t from-forest-deep/95 via-forest-deep/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <figcaption className="absolute inset-x-0 bottom-0 p-5 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 text-cream">
                   <div className="eyebrow text-saffron">{m.category}</div>
-                  <div className="font-serif text-xl leading-tight mt-2">{m.caption}</div>
+                  <div className="font-serif text-xl leading-tight mt-2">
+                    {m.caption}
+                  </div>
                   <div className="mt-2 flex items-center justify-between text-xs text-cream/75">
                     <span>
                       {m.location} · {m.year}
@@ -260,14 +445,16 @@ export default function GalleryClient() {
                   />
                 )}
               </div>
-              <motion.figcaption 
+              <motion.figcaption
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 className="text-center text-cream max-w-2xl"
               >
-                 <div className="eyebrow text-saffron">{active.category}</div>
-                <div className="font-serif text-2xl md:text-3xl mt-2">{active.caption}</div>
+                <div className="eyebrow text-saffron">{active.category}</div>
+                <div className="font-serif text-2xl md:text-3xl mt-2">
+                  {active.caption}
+                </div>
                 <div className="mt-2 text-sm text-cream/70">
                   {active.location} · {active.year}
                 </div>

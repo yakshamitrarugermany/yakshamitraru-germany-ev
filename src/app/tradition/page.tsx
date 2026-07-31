@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { PageContainer } from "@/components/site/PageContainer";
-import { Section, SectionHeader } from "@/components/site/Section";
-import { PageHero } from "@/components/site/PageHero";
-import { BrandCard } from "@/components/site/BrandCard";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Music, Paintbrush, BookOpen, Crown, Theater } from "lucide-react";
-import heroAsset from "@/assets/hero.jpg.asset.json";
 import perf1 from "@/assets/perf1.jpg.asset.json";
 import perf3 from "@/assets/perf3.jpg.asset.json";
+import { BrandCard } from "@/components/site/BrandCard";
+import { PageContainer } from "@/components/site/PageContainer";
+import { PageHero } from "@/components/site/PageHero";
+import { Section, SectionHeader } from "@/components/site/Section";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight, Crown, Music, Paintbrush, Theater } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Tradition — Yakshamitraru Germany e.V.",
@@ -64,17 +63,23 @@ export default function TraditionPage() {
               <span>Origins</span>
             </div>
             <h2 className="mt-6 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.02] text-forest-deep text-balance">
-              The Theatre of the <em className="italic font-light">Celestials</em>.
+              The Theatre of the{" "}
+              <em className="italic font-light">Celestials</em>.
             </h2>
             <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
-              Translating literally to "The Song of the Demi-Gods" (Yaksha - demi-god, Gana - song), this art form evolved from classical music and theatrical traditions over four centuries ago. 
+              Translating literally to &quot;The Song of the Demi-Gods&quot;
+              (Yaksha - demi-god, Gana - song), this art form evolved from
+              classical music and theatrical traditions over four centuries ago.
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
-              Traditionally performed in the open air from dusk until dawn after the winter harvest, Yakshagana served as both entertainment and moral education for rural communities, passing down the stories of the Ramayana, Mahabharata, and Puranas.
+              Traditionally performed in the open air from dusk until dawn after
+              the winter harvest, Yakshagana served as both entertainment and
+              moral education for rural communities, passing down the stories of
+              the Ramayana, Mahabharata, and Puranas.
             </p>
           </div>
           <div className="lg:col-span-6 relative">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+            <div className="relative aspect-4/3 overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
               <Image
                 src={perf1.url}
                 alt="Yakshagana ensemble"
@@ -93,7 +98,8 @@ export default function TraditionPage() {
           eyebrow="The Elements"
           title={
             <>
-              An intricate <em className="italic font-light">synthesis</em> of arts.
+              An intricate <em className="italic font-light">synthesis</em> of
+              arts.
             </>
           }
           align="center"
@@ -101,7 +107,11 @@ export default function TraditionPage() {
         />
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 z-10 relative">
           {ELEMENTS.map((e) => (
-            <BrandCard key={e.title} variant="forest" className="p-8 hover-lift">
+            <BrandCard
+              key={e.title}
+              variant="forest"
+              className="p-8 hover-lift"
+            >
               <div className="grid place-items-center h-12 w-12 rounded-full bg-saffron/15 text-saffron">
                 <e.icon className="h-5 w-5" />
               </div>
@@ -118,7 +128,7 @@ export default function TraditionPage() {
       <Section tone="cream">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6 order-2 lg:order-1 relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+            <div className="relative aspect-4/5 overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
               <Image
                 src={perf3.url}
                 alt="Yakshagana dancer"
@@ -137,7 +147,10 @@ export default function TraditionPage() {
               Witness the <em className="italic font-light">spectacle</em>.
             </h2>
             <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
-              While we preserve the rigorous discipline of Yakshagana, our European performances are designed to be accessible to diverse audiences, often accompanied by translations and contextual explanations.
+              While we preserve the rigorous discipline of Yakshagana, our
+              European performances are designed to be accessible to diverse
+              audiences, often accompanied by translations and contextual
+              explanations.
             </p>
             <div className="mt-10">
               <Button asChild variant="saffron" size="xl">

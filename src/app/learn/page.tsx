@@ -1,14 +1,19 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { PageContainer } from "@/components/site/PageContainer";
-import { Section, SectionHeader } from "@/components/site/Section";
-import { PageHero } from "@/components/site/PageHero";
-import { BrandCard } from "@/components/site/BrandCard";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight, MonitorPlay, Video, Calendar, Globe, Users } from "lucide-react";
-import heroAsset from "@/assets/hero.jpg.asset.json";
 import aboutAsset from "@/assets/about.jpg.asset.json";
+import { BrandCard } from "@/components/site/BrandCard";
+import { PageContainer } from "@/components/site/PageContainer";
+import { PageHero } from "@/components/site/PageHero";
+import { Section, SectionHeader } from "@/components/site/Section";
+import { Button } from "@/components/ui/button";
+import {
+  ArrowUpRight,
+  Calendar,
+  Globe,
+  MonitorPlay,
+  Users,
+} from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Learn — Yakshamitraru Germany e.V.",
@@ -58,7 +63,7 @@ export default function LearnPage() {
       <Section tone="cream">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6 relative">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+            <div className="relative aspect-4/3 overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
               <Image
                 src={aboutAsset.url}
                 alt="Yakshagana artists backstage"
@@ -74,13 +79,19 @@ export default function LearnPage() {
               <span>Curriculum</span>
             </div>
             <h2 className="mt-6 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.02] text-forest-deep text-balance">
-              Rigorous training, <em className="italic font-light">modern</em> delivery.
+              Rigorous training, <em className="italic font-light">modern</em>{" "}
+              delivery.
             </h2>
             <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
-              Our curriculum covers the foundational elements of Yakshagana — starting with the basic steps (Hejje) and body movements, progressing to complex dance sequences and emotional expression (Abhinaya).
+              Our curriculum covers the foundational elements of Yakshagana —
+              starting with the basic steps (Hejje) and body movements,
+              progressing to complex dance sequences and emotional expression
+              (Abhinaya).
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
-              Classes are conducted in Kannada and English, making them welcoming to both the diaspora wanting to connect with their roots and Europeans drawn to the theatre form.
+              Classes are conducted in Kannada and English, making them
+              welcoming to both the diaspora wanting to connect with their roots
+              and Europeans drawn to the theatre form.
             </p>
           </div>
         </div>
@@ -92,7 +103,8 @@ export default function LearnPage() {
           eyebrow="Why Join Us"
           title={
             <>
-              A bridge to <em className="italic font-light">coastal Karnataka</em>.
+              A bridge to{" "}
+              <em className="italic font-light">coastal Karnataka</em>.
             </>
           }
           align="center"
@@ -100,7 +112,11 @@ export default function LearnPage() {
         />
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 z-10 relative">
           {BENEFITS.map((b) => (
-            <BrandCard key={b.title} variant="forest" className="p-8 hover-lift border border-cream/10 bg-cream/[0.04]">
+            <BrandCard
+              key={b.title}
+              variant="forest"
+              className="p-8 hover-lift border border-cream/10 bg-cream/4"
+            >
               <div className="grid place-items-center h-12 w-12 rounded-full bg-saffron/15 text-saffron">
                 <b.icon className="h-5 w-5" />
               </div>
@@ -125,7 +141,9 @@ export default function LearnPage() {
             Begin your journey.
           </h2>
           <p className="mt-6 text-lg text-ink-soft leading-relaxed">
-            New batches begin periodically. Reach out to us to express your interest and we will get back to you with the schedule and prerequisites.
+            New batches begin periodically. Reach out to us to express your
+            interest and we will get back to you with the schedule and
+            prerequisites.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Button asChild variant="saffron" size="xl">

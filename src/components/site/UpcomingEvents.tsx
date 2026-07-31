@@ -49,10 +49,14 @@ export function UpcomingEvents() {
           <Link href="/events">Full calendar</Link>
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-        {EVENTS.map((e) => (
-          <EventCard key={e.title} {...e} />
-        ))}
+      <div className="relative -mx-6 md:mx-0">
+        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-8 px-6 md:px-0 pb-6 md:pb-0 overflow-x-auto md:overflow-visible snap-x snap-mandatory hide-scrollbar">
+          {EVENTS.map((e) => (
+            <div key={e.title} className="shrink-0 w-[85%] sm:w-[45%] md:w-auto snap-start h-full">
+              <EventCard {...e} />
+            </div>
+          ))}
+        </div>
       </div>
     </Section>
   );
