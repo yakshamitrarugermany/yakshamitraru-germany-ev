@@ -1,15 +1,19 @@
 "use client";
-import { useState, type FormEvent, type ReactNode } from "react";
-import { z } from "zod";
-import Link from "next/link";
-import { PageContainer } from "@/components/site/PageContainer";
-import { Section, SectionHeader } from "@/components/site/Section";
 import { BrandCard } from "@/components/site/BrandCard";
-import { PageHero } from "@/components/site/PageHero";
 import { FAQAccordion } from "@/components/site/FAQAccordion";
+import { PageContainer } from "@/components/site/PageContainer";
+import { PageHero } from "@/components/site/PageHero";
+import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
-import { FiInstagram as Instagram, FiYoutube as Youtube, FiFacebook as Facebook } from "react-icons/fi";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import Link from "next/link";
+import { useState, type FormEvent, type ReactNode } from "react";
+import {
+  FiFacebook as Facebook,
+  FiInstagram as Instagram,
+  FiYoutube as Youtube,
+} from "react-icons/fi";
+import { z } from "zod";
 
 const CONTACT = {
   email: "info@yakshamitraru.de",
@@ -28,7 +32,11 @@ const bookingSchema = z.object({
   eventType: z.string().trim().max(80).optional().or(z.literal("")),
   date: z.string().trim().max(60).optional().or(z.literal("")),
   audience: z.string().trim().max(40).optional().or(z.literal("")),
-  message: z.string().trim().min(10, "A short brief helps us respond well").max(2000),
+  message: z
+    .string()
+    .trim()
+    .min(10, "A short brief helps us respond well")
+    .max(2000),
 });
 
 const FAQS: { q: string; a: string }[] = [
@@ -69,7 +77,8 @@ export default function ContactClient() {
     const parsed = bookingSchema.safeParse(data);
     if (!parsed.success) {
       const errs: Record<string, string> = {};
-      for (const issue of parsed.error.issues) errs[String(issue.path[0])] = issue.message;
+      for (const issue of parsed.error.issues)
+        errs[String(issue.path[0])] = issue.message;
       setErrors(errs);
       return;
     }
@@ -96,7 +105,7 @@ export default function ContactClient() {
   }
 
   const whatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
-    "Hello Yakshamitraru — I'd like to enquire about a performance.",
+    "Hello Yakshamitraru — I&apos;d like to enquire about a performance.",
   )}`;
 
   return (
@@ -104,7 +113,12 @@ export default function ContactClient() {
       {/* Hero */}
       <PageHero
         eyebrow="Contact · Book"
-        title={<>Bring <em className="italic font-light">Yakshagana</em> to your stage.</>}
+        title={
+          <>
+            Bring <em className="italic font-light">Yakshagana</em> to your
+            stage.
+          </>
+        }
         lede="Theatres, festivals, universities and cultural institutions across Europe — share a few details and we will come back with programme options, technical rider and fees."
         actions={
           <>
@@ -155,7 +169,8 @@ export default function ContactClient() {
               eyebrow="Booking form"
               title={
                 <>
-                  Tell us about your <em className="italic font-light">event.</em>
+                  Tell us about your{" "}
+                  <em className="italic font-light">event.</em>
                 </>
               }
               lede="The more you share, the sharper our response. We typically reply within two working days."
@@ -167,10 +182,29 @@ export default function ContactClient() {
               className="mt-10 rounded-2xl bg-white border border-border p-6 md:p-10 shadow-sm"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                <Field label="Your name" name="name" required error={errors.name} />
-                <Field label="Organisation (optional)" name="organization" error={errors.organization} />
-                <Field label="Email" name="email" type="email" required error={errors.email} />
-                <Field label="Phone (optional)" name="phone" error={errors.phone} />
+                <Field
+                  label="Your name"
+                  name="name"
+                  required
+                  error={errors.name}
+                />
+                <Field
+                  label="Organisation (optional)"
+                  name="organization"
+                  error={errors.organization}
+                />
+                <Field
+                  label="Email"
+                  name="email"
+                  type="email"
+                  required
+                  error={errors.email}
+                />
+                <Field
+                  label="Phone (optional)"
+                  name="phone"
+                  error={errors.phone}
+                />
                 <Field label="City / Venue" name="city" error={errors.city} />
                 <SelectField
                   label="Event type"
@@ -198,7 +232,12 @@ export default function ContactClient() {
                   options={["Under 100", "100–300", "300–800", "800+"]}
                 />
                 <div className="md:col-span-2">
-                  <label htmlFor="booking-message" className="eyebrow text-ink-soft">Brief <span className="text-crimson">*</span></label>
+                  <label
+                    htmlFor="booking-message"
+                    className="eyebrow text-ink-soft"
+                  >
+                    Brief <span className="text-crimson">*</span>
+                  </label>
                   <textarea
                     id="booking-message"
                     name="message"
@@ -207,13 +246,18 @@ export default function ContactClient() {
                     placeholder="Tell us about the event, audience, format and any programme ideas."
                     className="mt-3 w-full bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-3 text-foreground placeholder:text-muted-foreground resize-none transition-colors"
                   />
-                  {errors.message && <p className="mt-2 text-xs text-crimson">{errors.message}</p>}
+                  {errors.message && (
+                    <p className="mt-2 text-xs text-crimson">
+                      {errors.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
                 <p className="text-xs text-ink-soft max-w-sm">
-                  On submit, your email client opens with the enquiry addressed to {CONTACT.email}.
+                  On submit, your email client opens with the enquiry addressed
+                  to {CONTACT.email}.
                 </p>
                 <Button type="submit" variant="forest" size="xl">
                   Send enquiry <span aria-hidden>→</span>
@@ -221,7 +265,8 @@ export default function ContactClient() {
               </div>
               {sent && (
                 <p className="mt-6 text-sm text-forest-deep">
-                  Thank you — your email client should now be open. If not, write to{" "}
+                  Thank you — your email client should now be open. If not,
+                  write to{" "}
                   <a href={`mailto:${CONTACT.email}`} className="underline">
                     {CONTACT.email}
                   </a>
@@ -234,7 +279,7 @@ export default function ContactClient() {
           {/* Sidebar: map + info */}
           <aside className="lg:col-span-5 flex flex-col gap-6">
             <BrandCard variant="cream" className="overflow-hidden">
-              <div className="aspect-[4/3] w-full bg-secondary">
+              <div className="aspect-4/3 w-full bg-secondary">
                 <iframe
                   title="Yakshamitraru Germany e.V. location"
                   src={`https://www.google.com/maps?q=${encodeURIComponent(CONTACT.mapsQuery)}&output=embed`}
@@ -275,10 +320,26 @@ export default function ContactClient() {
                 Rehearsal clips, tour diaries and premieres.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Social href="https://instagram.com" icon={<Instagram className="h-4 w-4" />} label="Instagram" />
-                <Social href="https://youtube.com" icon={<Youtube className="h-4 w-4" />} label="YouTube" />
-                <Social href="https://facebook.com" icon={<Facebook className="h-4 w-4" />} label="Facebook" />
-                <Social href={whatsappHref} icon={<MessageCircle className="h-4 w-4" />} label="WhatsApp" />
+                <Social
+                  href="https://instagram.com"
+                  icon={<Instagram className="h-4 w-4" />}
+                  label="Instagram"
+                />
+                <Social
+                  href="https://youtube.com"
+                  icon={<Youtube className="h-4 w-4" />}
+                  label="YouTube"
+                />
+                <Social
+                  href="https://facebook.com"
+                  icon={<Facebook className="h-4 w-4" />}
+                  label="Facebook"
+                />
+                <Social
+                  href={whatsappHref}
+                  icon={<MessageCircle className="h-4 w-4" />}
+                  label="WhatsApp"
+                />
               </div>
             </BrandCard>
           </aside>
@@ -293,7 +354,8 @@ export default function ContactClient() {
               eyebrow="Frequently asked"
               title={
                 <>
-                  Everything you might <em className="italic font-light">wonder.</em>
+                  Everything you might{" "}
+                  <em className="italic font-light">wonder.</em>
                 </>
               }
               lede="Can't find your answer? Write to us and we will respond personally."
@@ -341,23 +403,42 @@ function InfoCard({
     >
       <span
         className={`grid place-items-center h-12 w-12 rounded-full shrink-0 ${
-          accent ? "bg-saffron text-forest-deep" : "bg-forest-deep/5 text-forest-deep ring-1 ring-forest-deep/10"
+          accent
+            ? "bg-saffron text-forest-deep"
+            : "bg-forest-deep/5 text-forest-deep ring-1 ring-forest-deep/10"
         }`}
       >
         {icon}
       </span>
       <span className="flex-1 min-w-0">
-        <span className={`eyebrow block ${accent ? "text-saffron" : "text-crimson"}`}>{label}</span>
-        <span className="mt-1 block font-serif text-xl leading-tight truncate">{value}</span>
+        <span
+          className={`eyebrow block ${accent ? "text-saffron" : "text-crimson"}`}
+        >
+          {label}
+        </span>
+        <span className="mt-1 block font-serif text-xl leading-tight truncate">
+          {value}
+        </span>
       </span>
-      <span aria-hidden className="text-lg opacity-60 group-hover:translate-x-1 transition-transform">
+      <span
+        aria-hidden
+        className="text-lg opacity-60 group-hover:translate-x-1 transition-transform"
+      >
         →
       </span>
     </a>
   );
 }
 
-function Social({ href, icon, label }: { href: string; icon: ReactNode; label: string }) {
+function Social({
+  href,
+  icon,
+  label,
+}: {
+  href: string;
+  icon: ReactNode;
+  label: string;
+}) {
   return (
     <a
       href={href}
@@ -420,7 +501,9 @@ function SelectField({
   const id = `f-${name}`;
   return (
     <div>
-      <label htmlFor={id} className="eyebrow text-ink-soft">{label}</label>
+      <label htmlFor={id} className="eyebrow text-ink-soft">
+        {label}
+      </label>
       <div className="relative mt-3">
         <select
           id={id}

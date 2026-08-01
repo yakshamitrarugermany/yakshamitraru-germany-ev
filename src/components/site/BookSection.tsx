@@ -1,5 +1,5 @@
 "use client";
-import { useState, useId, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { z } from "zod";
 
 const schema = z.object({
@@ -8,7 +8,11 @@ const schema = z.object({
   email: z.string().trim().email("Please enter a valid email").max(255),
   city: z.string().trim().max(120).optional().or(z.literal("")),
   date: z.string().trim().max(60).optional().or(z.literal("")),
-  message: z.string().trim().min(10, "A short brief helps us respond well").max(2000),
+  message: z
+    .string()
+    .trim()
+    .min(10, "A short brief helps us respond well")
+    .max(2000),
 });
 
 const CONTACT_EMAIL = "info@yakshamitraru.de";
@@ -52,11 +56,14 @@ export function BookSection() {
   }
 
   return (
-    <section id="book" className="relative bg-forest-deep text-cream py-24 md:py-40 overflow-hidden">
+    <section
+      id="book"
+      className="relative bg-forest-deep text-cream py-24 md:py-40 overflow-hidden"
+    >
       {/* Decorative rays */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full opacity-[0.08]"
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-225 h-225 rounded-full opacity-[0.08]"
         style={{
           background:
             "conic-gradient(from 0deg, var(--saffron), transparent 8%, var(--crimson) 16%, transparent 24%, var(--cream) 32%, transparent 40%, var(--saffron) 48%, transparent 56%)",
@@ -84,7 +91,10 @@ export function BookSection() {
             <div>
               <dt className="eyebrow text-saffron/80">Enquiries</dt>
               <dd className="mt-2 font-serif text-xl text-cream">
-                <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-saffron">
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="hover:text-saffron"
+                >
                   {CONTACT_EMAIL}
                 </a>
               </dd>
@@ -104,12 +114,22 @@ export function BookSection() {
           onSubmit={onSubmit}
           noValidate
           aria-label="Performance booking enquiry"
-          className="lg:col-span-7 rounded-sm bg-cream/[0.04] backdrop-blur-sm border border-cream/15 p-6 md:p-10"
+          className="lg:col-span-7 rounded-sm bg-cream/4 backdrop-blur-sm border border-cream/15 p-6 md:p-10"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
             <Field label="Your name" name="name" error={errors.name} required />
-            <Field label="Organisation (optional)" name="organization" error={errors.organization} />
-            <Field label="Email" name="email" type="email" error={errors.email} required />
+            <Field
+              label="Organisation (optional)"
+              name="organization"
+              error={errors.organization}
+            />
+            <Field
+              label="Email"
+              name="email"
+              type="email"
+              error={errors.email}
+              required
+            />
             <Field label="City / Venue" name="city" error={errors.city} />
             <Field
               label="Preferred date"

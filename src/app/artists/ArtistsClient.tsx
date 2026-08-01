@@ -1,20 +1,20 @@
 "use client";
-import { useMemo, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { PageContainer } from "@/components/site/PageContainer";
-import { Section, SectionHeader } from "@/components/site/Section";
-import { ArtistCard } from "@/components/site/ArtistCard";
-import { BrandInput } from "@/components/site/FormField";
-import { PageHero } from "@/components/site/PageHero";
-import { Stat } from "@/components/site/Stat";
-import { FilterSelect } from "@/components/site/FilterSelect";
-import { Button } from "@/components/ui/button";
-import { Search, ArrowUpRight, MapPin } from "lucide-react";
+import aboutAsset from "@/assets/about.jpg.asset.json";
 import perf1 from "@/assets/perf1.jpg.asset.json";
 import perf2 from "@/assets/perf2.jpg.asset.json";
 import perf3 from "@/assets/perf3.jpg.asset.json";
-import aboutAsset from "@/assets/about.jpg.asset.json";
+import { ArtistCard } from "@/components/site/ArtistCard";
+import { FilterSelect } from "@/components/site/FilterSelect";
+import { BrandInput } from "@/components/site/FormField";
+import { PageContainer } from "@/components/site/PageContainer";
+import { PageHero } from "@/components/site/PageHero";
+import { Section, SectionHeader } from "@/components/site/Section";
+import { Stat } from "@/components/site/Stat";
+import { Button } from "@/components/ui/button";
+import { MapPin, Search } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 type Discipline =
   | "Vesha"
@@ -34,18 +34,102 @@ type Artist = {
 };
 
 const ARTISTS: Artist[] = [
-  { name: "Ranganatha Bhat", role: "Pundu Vesha · Lead", discipline: "Vesha", city: "Berlin", image: perf1.url, since: 2018 },
-  { name: "Shrikanth Hegde", role: "Bhagavata · Vocalist", discipline: "Bhagavata", city: "München", image: perf2.url, since: 2016 },
-  { name: "Vasudev Acharya", role: "Chende · Percussion", discipline: "Chende", city: "Frankfurt", image: perf3.url, since: 2019 },
-  { name: "Krishna Prasad", role: "Maddale · Percussion", discipline: "Maddale", city: "Hamburg", image: aboutAsset.url, since: 2020 },
-  { name: "Anantha Padmanabha", role: "Kirīṭa Vesha", discipline: "Vesha", city: "Köln", image: perf2.url, since: 2015 },
-  { name: "Meera Kamath", role: "Stree Vesha · Lead", discipline: "Stree Vesha", city: "Berlin", image: perf3.url, since: 2021 },
-  { name: "Ganesh Rao", role: "Rakshasa Vesha", discipline: "Vesha", city: "Stuttgart", image: perf1.url, since: 2017 },
-  { name: "Lakshmi Bhat", role: "Himmela · Ensemble", discipline: "Himmela", city: "Zürich", image: aboutAsset.url, since: 2022 },
-  { name: "Sudhir Kulkarni", role: "Bhagavata · Vocalist", discipline: "Bhagavata", city: "Wien", image: perf2.url, since: 2018 },
-  { name: "Narayana Shetty", role: "Chende · Percussion", discipline: "Chende", city: "Amsterdam", image: perf3.url, since: 2020 },
-  { name: "Rohit Pai", role: "Maddale · Percussion", discipline: "Maddale", city: "Berlin", image: perf1.url, since: 2023 },
-  { name: "Deepa Nayak", role: "Stree Vesha", discipline: "Stree Vesha", city: "München", image: aboutAsset.url, since: 2022 },
+  {
+    name: "Ranganatha Bhat",
+    role: "Pundu Vesha · Lead",
+    discipline: "Vesha",
+    city: "Berlin",
+    image: perf1.url,
+    since: 2018,
+  },
+  {
+    name: "Shrikanth Hegde",
+    role: "Bhagavata · Vocalist",
+    discipline: "Bhagavata",
+    city: "München",
+    image: perf2.url,
+    since: 2016,
+  },
+  {
+    name: "Vasudev Acharya",
+    role: "Chende · Percussion",
+    discipline: "Chende",
+    city: "Frankfurt",
+    image: perf3.url,
+    since: 2019,
+  },
+  {
+    name: "Krishna Prasad",
+    role: "Maddale · Percussion",
+    discipline: "Maddale",
+    city: "Hamburg",
+    image: aboutAsset.url,
+    since: 2020,
+  },
+  {
+    name: "Anantha Padmanabha",
+    role: "Kirīṭa Vesha",
+    discipline: "Vesha",
+    city: "Köln",
+    image: perf2.url,
+    since: 2015,
+  },
+  {
+    name: "Meera Kamath",
+    role: "Stree Vesha · Lead",
+    discipline: "Stree Vesha",
+    city: "Berlin",
+    image: perf3.url,
+    since: 2021,
+  },
+  {
+    name: "Ganesh Rao",
+    role: "Rakshasa Vesha",
+    discipline: "Vesha",
+    city: "Stuttgart",
+    image: perf1.url,
+    since: 2017,
+  },
+  {
+    name: "Lakshmi Bhat",
+    role: "Himmela · Ensemble",
+    discipline: "Himmela",
+    city: "Zürich",
+    image: aboutAsset.url,
+    since: 2022,
+  },
+  {
+    name: "Sudhir Kulkarni",
+    role: "Bhagavata · Vocalist",
+    discipline: "Bhagavata",
+    city: "Wien",
+    image: perf2.url,
+    since: 2018,
+  },
+  {
+    name: "Narayana Shetty",
+    role: "Chende · Percussion",
+    discipline: "Chende",
+    city: "Amsterdam",
+    image: perf3.url,
+    since: 2020,
+  },
+  {
+    name: "Rohit Pai",
+    role: "Maddale · Percussion",
+    discipline: "Maddale",
+    city: "Berlin",
+    image: perf1.url,
+    since: 2023,
+  },
+  {
+    name: "Deepa Nayak",
+    role: "Stree Vesha",
+    discipline: "Stree Vesha",
+    city: "München",
+    image: aboutAsset.url,
+    since: 2022,
+  },
 ];
 
 const DISCIPLINES = [
@@ -73,16 +157,20 @@ const CITIES = [
 
 export default function ArtistsClient() {
   const [query, setQuery] = useState("");
-  const [discipline, setDiscipline] = useState<(typeof DISCIPLINES)[number]>("All disciplines");
+  const [discipline, setDiscipline] =
+    useState<(typeof DISCIPLINES)[number]>("All disciplines");
   const [city, setCity] = useState<(typeof CITIES)[number]>("All cities");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return ARTISTS.filter((a) => {
-      if (discipline !== "All disciplines" && a.discipline !== discipline) return false;
+      if (discipline !== "All disciplines" && a.discipline !== discipline)
+        return false;
       if (city !== "All cities" && a.city !== city) return false;
       if (!q) return true;
-      return [a.name, a.role, a.city, a.discipline].some((f) => f.toLowerCase().includes(q));
+      return [a.name, a.role, a.city, a.discipline].some((f) =>
+        f.toLowerCase().includes(q),
+      );
     });
   }, [query, discipline, city]);
 
@@ -95,12 +183,20 @@ export default function ArtistsClient() {
       <PageHero
         padY="tall"
         eyebrow="The Ensemble"
-        title={<>The artists of <em className="italic font-light">Yakshamitraru Germany</em>.</>}
+        title={
+          <>
+            The artists of{" "}
+            <em className="italic font-light">Yakshamitraru Germany</em>.
+          </>
+        }
         lede="A registered ensemble of vesha performers, bhagavatas and himmela musicians — trained in the Tenkutittu and Badagutittu traditions, based across Germany and touring Europe."
         meta={
           <>
             <Stat n={ARTISTS.length} label="Ensemble members" />
-            <Stat n={new Set(ARTISTS.map((a) => a.city)).size} label="European cities" />
+            <Stat
+              n={new Set(ARTISTS.map((a) => a.city)).size}
+              label="European cities"
+            />
             <Stat n={6} label="Disciplines" />
           </>
         }
@@ -147,41 +243,70 @@ export default function ArtistsClient() {
               </div>
               <h2 className="mt-6 font-serif text-5xl md:text-6xl leading-[1.02] text-forest-deep text-balance">
                 {spotlight.name.split(" ")[0]}{" "}
-                <em className="italic font-light text-forest-deep/80">{spotlight.name.split(" ").slice(1).join(" ")}</em>
+                <em className="italic font-light text-forest-deep/80">
+                  {spotlight.name.split(" ").slice(1).join(" ")}
+                </em>
               </h2>
-              <p className="mt-4 eyebrow text-forest-deep/60">{spotlight.role}</p>
+              <p className="mt-4 eyebrow text-forest-deep/60">
+                {spotlight.role}
+              </p>
               <p className="mt-8 text-lg text-forest-deep/80 leading-relaxed max-w-lg">
-                A senior {spotlight.discipline.toLowerCase()} artist trained in the Tenkutittu tradition,
-                based in {spotlight.city} since {spotlight.since}. Anchors the ensemble's European premieres
-                and leads the annual workshop residency.
+                A senior {spotlight.discipline.toLowerCase()} artist trained in
+                the Tenkutittu tradition, based in {spotlight.city} since{" "}
+                {spotlight.since}. Anchors the ensemble&apos;s European
+                premieres and leads the annual workshop residency.
               </p>
               <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md">
                 <div>
-                  <dt className="eyebrow text-forest-deep/50 text-[10px]">Discipline</dt>
-                  <dd className="mt-2 font-serif text-xl text-forest-deep leading-tight">{spotlight.discipline}</dd>
-                </div>
-                <div>
-                  <dt className="eyebrow text-forest-deep/50 text-[10px]">Based in</dt>
-                  <dd className="mt-2 font-serif text-xl text-forest-deep leading-tight flex items-center gap-1.5">
-                    <MapPin className="h-4 w-4 text-saffron shrink-0" />{spotlight.city}
+                  <dt className="eyebrow text-forest-deep/50 text-[10px]">
+                    Discipline
+                  </dt>
+                  <dd className="mt-2 font-serif text-xl text-forest-deep leading-tight">
+                    {spotlight.discipline}
                   </dd>
                 </div>
                 <div>
-                  <dt className="eyebrow text-forest-deep/50 text-[10px]">Since</dt>
-                  <dd className="mt-2 font-serif text-xl text-forest-deep leading-tight tabular-nums">{spotlight.since}</dd>
+                  <dt className="eyebrow text-forest-deep/50 text-[10px]">
+                    Based in
+                  </dt>
+                  <dd className="mt-2 font-serif text-xl text-forest-deep leading-tight flex items-center gap-1.5">
+                    <MapPin className="h-4 w-4 text-saffron shrink-0" />
+                    {spotlight.city}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="eyebrow text-forest-deep/50 text-[10px]">
+                    Since
+                  </dt>
+                  <dd className="mt-2 font-serif text-xl text-forest-deep leading-tight tabular-nums">
+                    {spotlight.since}
+                  </dd>
                 </div>
               </dl>
             </div>
             <div className="lg:col-span-6 order-1 lg:order-2 relative">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-forest-deep media-zoom">
-                <Image src={spotlight.image} alt={spotlight.name} fill className="object-cover" />
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-forest-deep/40 via-transparent to-transparent" />
+              <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-forest-deep media-zoom">
+                <Image
+                  src={spotlight.image}
+                  alt={spotlight.name}
+                  fill
+                  className="object-cover"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-linear-to-t from-forest-deep/40 via-transparent to-transparent"
+                />
               </div>
-              <div className="hidden md:block absolute -bottom-6 -left-6 rounded-2xl bg-cream shadow-2xl p-5 max-w-[220px]">
+              <div className="hidden md:block absolute -bottom-6 -left-6 rounded-2xl bg-cream shadow-2xl p-5 max-w-55">
                 <div className="eyebrow text-crimson text-[10px]">N° 01</div>
-                <div className="mt-2 font-serif text-lg text-forest-deep leading-tight">Featured member of the ensemble.</div>
+                <div className="mt-2 font-serif text-lg text-forest-deep leading-tight">
+                  Featured member of the ensemble.
+                </div>
               </div>
-              <div aria-hidden className="hidden md:block absolute -top-6 -right-6 h-24 w-24 rounded-full bg-saffron/20 blur-2xl" />
+              <div
+                aria-hidden
+                className="hidden md:block absolute -top-6 -right-6 h-24 w-24 rounded-full bg-saffron/20 blur-2xl"
+              />
             </div>
           </div>
         </Section>
@@ -194,11 +319,14 @@ export default function ArtistsClient() {
             eyebrow={`${filtered.length} ${filtered.length === 1 ? "artist" : "artists"}`}
             title={
               <>
-                Meet the <em className="italic font-light">Yakshamitraru</em> ensemble.
+                Meet the <em className="italic font-light">Yakshamitraru</em>{" "}
+                ensemble.
               </>
             }
           />
-          {(query || discipline !== "All disciplines" || city !== "All cities") && (
+          {(query ||
+            discipline !== "All disciplines" ||
+            city !== "All cities") && (
             <button
               onClick={() => {
                 setQuery("");
@@ -214,8 +342,12 @@ export default function ArtistsClient() {
 
         {filtered.length === 0 ? (
           <div className="py-24 text-center">
-            <p className="font-serif text-3xl text-forest-deep">No artists match your filters.</p>
-            <p className="mt-3 text-ink-soft">Try broadening the search or resetting filters.</p>
+            <p className="font-serif text-3xl text-forest-deep">
+              No artists match your filters.
+            </p>
+            <p className="mt-3 text-ink-soft">
+              Try broadening the search or resetting filters.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
@@ -241,7 +373,8 @@ export default function ArtistsClient() {
               <span>Join the Ensemble</span>
             </div>
             <h2 className="display-2 mt-6 text-cream">
-              Are you a <em className="italic font-light">Yakshagana</em> artist in Europe?
+              Are you a <em className="italic font-light">Yakshagana</em> artist
+              in Europe?
             </h2>
             <p className="lede mt-6 text-cream/80 max-w-xl">
               We welcome vesha performers, bhagavatas, chende and maddale
@@ -265,7 +398,6 @@ export default function ArtistsClient() {
           </div>
         </div>
       </Section>
-
     </PageContainer>
   );
 }

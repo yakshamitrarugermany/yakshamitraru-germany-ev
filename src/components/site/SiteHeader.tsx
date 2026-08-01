@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const NAV = [
   { label: "About Us", to: "/about" },
+  { label: "Our Journey", to: "/our-journey" },
   { label: "Tradition", to: "/tradition" },
   { label: "Events", to: "/events" },
   { label: "Artists", to: "/artists" },
@@ -36,17 +37,30 @@ export function SiteHeader() {
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-cream/90 backdrop-blur-xl border-b border-ink/10 shadow-[0_10px_30px_-20px_rgba(0,0,0,0.15)]"
-          : "bg-[#2a060b] backdrop-blur-md"
+          : "linear-gradient(to right, #3A231E 0%, #160D0B 50%, #3A231E 100%) backdrop-blur-lg"
       }`}
     >
       <div className="container-page flex h-14 md:h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group">
-          <span className={`relative grid place-items-center h-9 w-9 md:h-10 md:w-10 rounded-full overflow-hidden ring-2 transition-all duration-500 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.5)] ${scrolled ? "ring-forest-deep/20 bg-forest-deep text-cream" : "ring-saffron/40 bg-saffron text-forest-deep"}`}>
-            <span className="font-serif font-medium text-lg leading-none">Y</span>
-          </span>
+        <Link href="/" className="flex items-center gap-3 group shrink-0">
+          <div className="relative flex items-center justify-center h-10 w-10 md:h-11 md:w-11 min-h-10 min-w-10 md:min-h-11 md:min-w-11 shrink-0 rounded-full bg-forest overflow-hidden">
+            <Image
+              src="/images/logos/Yakshamitraru_e.V_Logo_Circle.png"
+              alt="Yakshamitraru Germany"
+              fill
+              className="object-cover"
+            />
+          </div>
           <span className="flex flex-col leading-tight">
-            <span className={`font-serif text-[15px] md:text-[16px] tracking-tight transition-colors duration-500 ${scrolled ? "text-ink" : "text-cream"}`}>Yakshamitraru</span>
-            <span className={`eyebrow text-[9px] md:text-[10px] transition-colors duration-500 ${scrolled ? "text-ink/60" : "text-saffron/80"}`}>Germany e.V.</span>
+            <span
+              className={`font-serif text-[15px] md:text-[16px] tracking-tight transition-colors duration-500 ${scrolled ? "text-ink" : "text-cream"}`}
+            >
+              Yakshamitraru
+            </span>
+            <span
+              className={`eyebrow text-[9px] md:text-[10px] transition-colors duration-500 ${scrolled ? "text-ink/60" : "text-saffron/80"}`}
+            >
+              Germany e.V.
+            </span>
           </span>
         </Link>
 
@@ -75,21 +89,22 @@ export function SiteHeader() {
           </Link>
           <button
             onClick={() => setOpen((v) => !v)}
-            className={`md:hidden inline-flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-md transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron ${
-              scrolled
-                ? "border border-ink/20 bg-ink/5 text-ink"
-                : "border border-cream/25 bg-cream/10 text-cream"
+            className={`md:hidden inline-flex p-3 -mr-3 items-center justify-center bg-transparent transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron ${
+              scrolled ? "text-ink" : "text-cream"
             }`}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="site-mobile-nav"
           >
-            <div className="flex flex-col gap-[5px]">
+            <div className="relative w-5 h-3.5">
               <span
-                className={`block h-0.5 w-5 bg-current rounded-full transition-transform duration-300 ${open ? "translate-y-[3px] rotate-45" : ""}`}
+                className={`absolute left-0 block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"}`}
               />
               <span
-                className={`block h-0.5 w-5 bg-current rounded-full transition-transform duration-300 ${open ? "-translate-y-[3px] -rotate-45" : ""}`}
+                className={`absolute left-0 top-1/2 -translate-y-1/2 block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${open ? "opacity-0" : "opacity-100"}`}
+              />
+              <span
+                className={`absolute left-0 block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"}`}
               />
             </div>
           </button>
@@ -105,10 +120,14 @@ export function SiteHeader() {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className={`md:hidden backdrop-blur-xl border-t overflow-hidden ${
-              scrolled ? "bg-cream/95 border-ink/10" : "bg-[#2a060b]/98 border-cream/10"
+              scrolled
+                ? "bg-cream/95 border-ink/10"
+                : "bg-[#2a060b]/98 border-cream/10"
             }`}
           >
-            <nav className={`container-page flex flex-col py-4 divide-y ${scrolled ? "divide-ink/10" : "divide-cream/10"}`}>
+            <nav
+              className={`container-page flex flex-col py-4 divide-y ${scrolled ? "divide-ink/10" : "divide-cream/10"}`}
+            >
               {NAV.map((item) => {
                 const isActive = pathname === item.to;
                 return (

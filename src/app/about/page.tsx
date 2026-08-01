@@ -1,30 +1,30 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { PageContainer } from "@/components/site/PageContainer";
-import { Section, SectionHeader } from "@/components/site/Section";
-import { PageHero } from "@/components/site/PageHero";
+import aboutAsset from "@/assets/about.jpg.asset.json";
+import heroAsset from "@/assets/hero.jpg.asset.json";
+import perf1 from "@/assets/perf1.jpg.asset.json";
+import perf2 from "@/assets/perf2.jpg.asset.json";
+import perf3 from "@/assets/perf3.jpg.asset.json";
 import { BrandCard } from "@/components/site/BrandCard";
+import { PageContainer } from "@/components/site/PageContainer";
+import { PageHero } from "@/components/site/PageHero";
+import { Section, SectionHeader } from "@/components/site/Section";
 import { Stat } from "@/components/site/Stat";
 import { Button } from "@/components/ui/button";
 import {
   ArrowUpRight,
-  Sparkles,
+  Award,
+  Calendar,
   Compass,
-  Music4,
-  Users,
+  Globe2,
   GraduationCap,
   Landmark,
-  Award,
-  Globe2,
-  Calendar,
   MessageCircle,
+  Music4,
+  Sparkles,
+  Users,
 } from "lucide-react";
-import heroAsset from "@/assets/hero.jpg.asset.json";
-import aboutAsset from "@/assets/about.jpg.asset.json";
-import perf1 from "@/assets/perf1.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
-import perf3 from "@/assets/perf3.jpg.asset.json";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About — Yakshamitraru Germany e.V.",
@@ -208,7 +208,7 @@ export default function AboutPage() {
       <Section tone="cream">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6 relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+            <div className="relative aspect-4/5 overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
               <Image
                 src={heroAsset.url}
                 alt="Yakshagana performance on a European stage"
@@ -219,7 +219,7 @@ export default function AboutPage() {
             </div>
             <div
               aria-hidden
-              className="hidden lg:block absolute -top-10 -left-8 font-serif text-[10rem] leading-none text-forest-deep/[0.05] select-none pointer-events-none"
+              className="hidden lg:block absolute -top-10 -left-8 font-serif text-[10rem] leading-none text-forest-deep/5 select-none pointer-events-none"
             >
               2016
             </div>
@@ -249,6 +249,42 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
+      </Section>
+
+      <Section tone="cream" className="pt-0">
+        <div className="mx-auto max-w-4xl">
+          <div className="eyebrow text-forest flex items-center gap-3">
+            <span className="hairline bg-forest hairline-grow" />
+            <span>European Stage for Indian Art</span>
+          </div>
+          <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-3xl">
+            The joy and passion of Yakshamitraru Germany inspire the team not
+            only to introduce Yakshagana to European audiences but also to
+            perform it with immense pride. Since its inception, the team has
+            travelled extensively across Europe, sharing the rich cultural
+            heritage of Yakshagana through authentic performances.
+          </p>
+          <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-3xl">
+            Between 2018 and 2025, Yakshamitraru Germany has staged performances
+            in several German cities, including Frankfurt, Munich, Berlin,
+            Cologne, and Hamburg, as well as in countries such as France,
+            Sweden, Poland, the Netherlands, Switzerland, Spain, and Denmark,
+            bringing this timeless Indian art form to diverse audiences across
+            Europe.
+          </p>
+        </div>
+      </Section>
+
+      <Section tone="cream" className="pt-0">
+        <SectionHeader
+          eyebrow="Annual Festival"
+          title={
+            <>
+              Yaksha <em className="italic font-light">Sankranthi</em>.
+            </>
+          }
+          lede="Yaksha Sankranthi, introduced in Frankfurt in 2023, celebrates the spirit of Yakshagana on European stages, bringing traditional performances to diverse audiences while recognising and honouring artists who preserve and promote Indian art forms across Europe through the Yaksha Mitra Award."
+        />
       </Section>
 
       {/* 3. Mission & Vision */}
@@ -289,8 +325,9 @@ export default function AboutPage() {
             </h3>
             <p className="mt-6 text-base md:text-lg text-cream/80 leading-relaxed">
               A permanent training studio, a youth ensemble and a touring
-              circuit across Europe's cultural capitals — so Yakshagana lives
-              here as it does on its coast: nightly, generously, in full voice.
+              circuit across Europe&apos;s cultural capitals — so Yakshagana
+              lives here as it does on its coast: nightly, generously, in full
+              voice.
             </p>
           </BrandCard>
         </div>
@@ -316,13 +353,15 @@ export default function AboutPage() {
             <li
               key={m.year}
               className={`relative ${
-                i % 2 === 0 ? "md:pr-10 md:text-right" : "md:pl-10 md:col-start-2"
+                i % 2 === 0
+                  ? "md:pr-10 md:text-right"
+                  : "md:pl-10 md:col-start-2"
               }`}
             >
               <div
                 aria-hidden
                 className={`hidden md:block absolute top-3 h-3 w-3 rounded-full bg-saffron ring-4 ring-cream ${
-                  i % 2 === 0 ? "-right-[7px]" : "-left-[7px]"
+                  i % 2 === 0 ? "-right-1.75" : "-left-1.75"
                 }`}
               />
               <div className="font-mono text-sm text-crimson tracking-wider">
@@ -348,7 +387,8 @@ export default function AboutPage() {
               <span>What we do</span>
             </div>
             <h2 className="mt-6 font-serif text-[clamp(2rem,3.5vw,3rem)] leading-[1.05] text-forest-deep text-balance">
-              Five ways we carry the tradition <em className="italic font-light">forward</em>.
+              Five ways we carry the tradition{" "}
+              <em className="italic font-light">forward</em>.
             </h2>
             <p className="mt-6 text-ink-soft leading-relaxed">
               Our work spans the stage, the studio and the community — designed
@@ -358,7 +398,11 @@ export default function AboutPage() {
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {ACTIVITIES.map((a) => (
-              <BrandCard key={a.title} variant="cream" className="p-7 md:p-8 hover-lift">
+              <BrandCard
+                key={a.title}
+                variant="cream"
+                className="p-7 md:p-8 hover-lift"
+              >
                 <div className="grid place-items-center h-12 w-12 rounded-full bg-saffron/15 text-saffron">
                   <a.icon className="h-5 w-5" />
                 </div>
@@ -388,7 +432,7 @@ export default function AboutPage() {
           {VALUES.map((v) => (
             <div
               key={v.title}
-              className="rounded-2xl border border-cream/10 bg-cream/[0.04] p-7 hover:bg-cream/[0.07] transition-colors"
+              className="rounded-2xl border border-cream/10 bg-cream/4 p-7 hover:bg-cream/[0.07] transition-colors"
             >
               <div className="grid place-items-center h-12 w-12 rounded-full bg-saffron/20 text-saffron">
                 <v.icon className="h-5 w-5" />
@@ -423,7 +467,7 @@ export default function AboutPage() {
               interactive
               className="flex flex-col"
             >
-              <div className="relative aspect-[4/5] overflow-hidden bg-forest-deep media-zoom">
+              <div className="relative aspect-4/5 overflow-hidden bg-forest-deep media-zoom">
                 <Image
                   src={p.image}
                   alt={p.name}
@@ -432,7 +476,7 @@ export default function AboutPage() {
                 />
                 <div
                   aria-hidden
-                  className="absolute inset-0 bg-gradient-to-t from-forest-deep/50 via-transparent to-transparent"
+                  className="absolute inset-0 bg-linear-to-t from-forest-deep/50 via-transparent to-transparent"
                 />
               </div>
               <div className="p-6">
@@ -458,7 +502,8 @@ export default function AboutPage() {
               <span>Why Yakshamitraru Germany</span>
             </div>
             <h2 className="mt-6 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.02] text-forest-deep text-balance">
-              What makes this ensemble <em className="italic font-light">unique</em>.
+              What makes this ensemble{" "}
+              <em className="italic font-light">unique</em>.
             </h2>
             <p className="mt-6 text-ink-soft leading-relaxed max-w-md">
               We are not a booking agency, a festival or a temple programme. We
@@ -494,7 +539,8 @@ export default function AboutPage() {
               <span>Come closer</span>
             </div>
             <h2 className="display-2 mt-6 text-cream">
-              Step into a <em className="italic font-light">Yakshagana</em> night.
+              Step into a <em className="italic font-light">Yakshagana</em>{" "}
+              night.
             </h2>
             <p className="lede mt-6 text-cream/80 max-w-xl">
               Attend a performance, invite the ensemble to your city, or simply
@@ -511,7 +557,10 @@ export default function AboutPage() {
               </Link>
             </Button>
             <Button asChild variant="outline-cream" size="xl">
-              <Link href="/contact#booking" className="inline-flex items-center gap-2">
+              <Link
+                href="/contact#booking"
+                className="inline-flex items-center gap-2"
+              >
                 Book a performance
                 <ArrowUpRight className="h-4 w-4" />
               </Link>

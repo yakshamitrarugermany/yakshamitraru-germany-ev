@@ -1,11 +1,11 @@
 "use client";
-import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import type { ReactNode } from "react";
 
 /**
  * PageHero — Shared editorial hero for interior pages
- * (Artists, Events, Gallery, Contact, etc.). Mirrors the homepage Hero's
+ * (Artists, Events, Gallery, Contact, etc.). Mirrors the homepage Hero&apos;s
  * deep-maroon stage backdrop with a saffron "gold-radial" spotlight, so
  * every page opens on the same premium visual language.
  */
@@ -42,7 +42,10 @@ export function PageHero({
     radial === "gallery"
       ? { key: "-top-32 left-[10%]", accent: "-bottom-40 right-[5%]" }
       : radial === "center"
-        ? { key: "-top-40 left-1/2 -translate-x-1/2", accent: "-bottom-40 left-1/2 -translate-x-1/2" }
+        ? {
+            key: "-top-40 left-1/2 -translate-x-1/2",
+            accent: "-bottom-40 left-1/2 -translate-x-1/2",
+          }
         : { key: "-top-40 right-[15%]", accent: "-bottom-40 -left-40" };
 
   return (
@@ -62,7 +65,7 @@ export function PageHero({
       <div
         aria-hidden
         className={cn(
-          "pointer-events-none absolute h-[720px] w-[720px] gold-radial opacity-40",
+          "pointer-events-none absolute h-180 w-180 gold-radial opacity-40",
           lights.key,
         )}
       />
@@ -70,12 +73,17 @@ export function PageHero({
       <div
         aria-hidden
         className={cn(
-          "pointer-events-none absolute h-[520px] w-[520px] gold-radial opacity-15",
+          "pointer-events-none absolute h-130 w-130 gold-radial opacity-15",
           lights.accent,
         )}
       />
       <div className="relative container-page">
-        <div className={cn("max-w-4xl", align === "center" && "mx-auto text-center")}>
+        <div
+          className={cn(
+            "max-w-4xl",
+            align === "center" && "mx-auto text-center",
+          )}
+        >
           {eyebrow && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -102,7 +110,11 @@ export function PageHero({
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.3 }}
+              transition={{
+                duration: 0.7,
+                ease: [0.2, 0.7, 0.2, 1],
+                delay: 0.3,
+              }}
               className="lede mt-8 text-cream/80 max-w-2xl"
             >
               {lede}
@@ -113,7 +125,11 @@ export function PageHero({
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.45 }}
+              transition={{
+                duration: 0.7,
+                ease: [0.2, 0.7, 0.2, 1],
+                delay: 0.45,
+              }}
               className="mt-10 flex flex-wrap gap-4"
             >
               {actions}
@@ -124,7 +140,11 @@ export function PageHero({
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.55 }}
+              transition={{
+                duration: 0.7,
+                ease: [0.2, 0.7, 0.2, 1],
+                delay: 0.55,
+              }}
               className="mt-10 flex flex-wrap gap-x-10 gap-y-6 text-cream/70"
             >
               {meta}
