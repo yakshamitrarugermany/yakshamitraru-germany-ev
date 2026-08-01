@@ -341,7 +341,7 @@ export default function GalleryClient() {
             </p>
           </div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-6 [column-fill:_balance]">
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-6 [column-fill:balance]">
             {filtered.map((m, i) => (
               <button
                 key={m.id}
@@ -407,7 +407,7 @@ export default function GalleryClient() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-forest-deep/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
+            className="fixed inset-0 z-100 bg-forest-deep/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
             onClick={close}
             role="dialog"
             aria-modal="true"

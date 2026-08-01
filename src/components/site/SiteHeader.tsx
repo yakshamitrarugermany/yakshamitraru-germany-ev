@@ -42,14 +42,14 @@ export function SiteHeader() {
     >
       <div className="container-page flex h-14 md:h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group shrink-0">
-          <span className="relative grid place-items-center h-11 w-11 shrink-0 rounded-full bg-forest overflow-hidden">
+          <div className="relative flex items-center justify-center h-10 w-10 md:h-11 md:w-11 min-h-10 min-w-10 md:min-h-11 md:min-w-11 shrink-0 rounded-full bg-forest overflow-hidden">
             <Image
-              src="/images/Yakshamitraru_e.V_Logo_Circle.png"
-              alt="Yakshamitraru Germany logo"
+              src="/images/logos/Yakshamitraru_e.V_Logo_Circle.png"
+              alt="Yakshamitraru Germany"
               fill
               className="object-cover"
             />
-          </span>
+          </div>
           <span className="flex flex-col leading-tight">
             <span
               className={`font-serif text-[15px] md:text-[16px] tracking-tight transition-colors duration-500 ${scrolled ? "text-ink" : "text-cream"}`}

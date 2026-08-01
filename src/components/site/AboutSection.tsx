@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import aboutAsset from "@/assets/about.jpg.asset.json";
+import { Button } from "@/components/ui/button";
 import { Section, SectionHeader } from "./Section";
 
 export function AboutSection() {
@@ -16,10 +18,13 @@ export function AboutSection() {
             }
             lede="A dedicated community preserving and promoting the art of Yakshagana in Europe."
           />
+          <Button asChild variant="forest" size="pill" className="mt-6 md:mt-8">
+            <Link href="/about">Learn More About Us</Link>
+          </Button>
         </div>
 
         <div className="lg:col-span-7 lg:pt-2">
-          <div className="relative aspect-video sm:aspect-[16/7] w-full overflow-hidden rounded-2xl mb-8 md:mb-10 shadow-xl">
+          <div className="relative aspect-video sm:aspect-16/7 w-full overflow-hidden rounded-2xl mb-8 md:mb-10 shadow-xl">
             <Image
               src={aboutAsset.url}
               alt="About Yakshamitraru Germany"

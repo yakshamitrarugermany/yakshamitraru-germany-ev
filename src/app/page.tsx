@@ -16,7 +16,7 @@ import { Testimonials } from "@/components/site/Testimonials";
 export const metadata: Metadata = {
   title: "Yakshamitraru Germany e.V. — Yakshagana across Europe",
   description:
-    "A registered German cultural association bringing Yakshagana — the 400-year-old dance-theatre of coastal Karnataka — to stages across Europe. Book a performance.",
+    "A registered German cultural association bringing Yakshagana — the 400-year-old dance-theatre of India — to stages across Europe. Book a performance.",
   openGraph: {
     title: "Yakshamitraru Germany e.V. — Yakshagana across Europe",
     description:

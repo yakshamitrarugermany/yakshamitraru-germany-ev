@@ -30,7 +30,7 @@ export function Mission() {
             }
             lede="Crown, drum and story — carried from a Karnataka coast into European nights."
           />
-          <Button asChild variant="forest" size="pill" className="mt-6 mb-10">
+          <Button asChild variant="forest" size="pill" className="mt-6">
             <Link href="/tradition">Explore Yakshagana</Link>
           </Button>
         </div>
@@ -70,7 +70,7 @@ export function Mission() {
           {/* Ghost numeral */}
           <div
             aria-hidden
-            className="hidden lg:block absolute -top-10 -left-8 font-serif text-[10rem] leading-none text-forest-deep/[0.05] select-none pointer-events-none"
+            className="hidden lg:block absolute -top-10 -left-8 font-serif text-[10rem] leading-none text-forest-deep/5 select-none pointer-events-none"
           >
             1600
           </div>

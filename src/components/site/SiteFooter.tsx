@@ -9,8 +9,8 @@ export function SiteFooter() {
           <div className="flex items-center gap-3">
             <span className="relative grid place-items-center h-11 w-11 rounded-full bg-forest overflow-hidden">
               <Image
-                src="/images/Yakshamitraru_e.V_Logo_Circle.png"
-                alt="Yakshamitraru Germany logo"
+                src="/images/logos/Yakshamitraru_e.V_Logo_Circle.png"
+                alt="Yakshamitraru Germany"
                 fill
                 className="object-cover"
               />

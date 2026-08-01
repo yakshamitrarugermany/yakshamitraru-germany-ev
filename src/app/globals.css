@@ -39,9 +39,9 @@
   --color-cream: var(--cream);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
-  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Space Grotesk", ui-monospace, monospace;
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-space), ui-monospace, monospace;
 }
 
 :root {

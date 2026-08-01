@@ -184,7 +184,7 @@ export function Hero() {
             {/* Right — performer carousel */}
             <div className="lg:col-span-6 xl:col-span-6 order-1 lg:order-2 relative">
               <div
-                className="relative aspect-10/11 sm:aspect-[5/6] lg:aspect-[4/5] w-full overflow-hidden rounded-2xl lg:rounded-none lg:rounded-l-[2rem] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
+                className="relative min-h-100 aspect-10/11 sm:min-h-125 sm:aspect-5/6 lg:min-h-0 lg:aspect-4/5 w-full overflow-hidden rounded-2xl lg:rounded-none lg:rounded-l-[2rem] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
                 style={{
                   transform: `translate3d(0, ${Math.min(scrollY * 0.08, 60)}px, 0)`,
                 }}
@@ -196,7 +196,7 @@ export function Hero() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1.4, ease: "easeOut" }}
-                    className="absolute inset-0"
+                    className="absolute inset-0 w-full h-full"
                   >
                     <Image
                       src={SLIDES[index].src}
@@ -222,7 +222,7 @@ export function Hero() {
               <button
                 onClick={() => go(-1)}
                 aria-label="Previous slide"
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron hidden md:grid"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron"
               >
                 <svg
                   className="w-6 h-6"
@@ -241,7 +241,7 @@ export function Hero() {
               <button
                 onClick={() => go(1)}
                 aria-label="Next slide"
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron hidden md:grid"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron"
               >
                 <svg
                   className="w-6 h-6"
