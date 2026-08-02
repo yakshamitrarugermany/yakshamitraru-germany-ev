@@ -1,6 +1,6 @@
 import { BrandCard } from "@/components/site/BrandCard";
 import { OurJourneyTimeline } from "@/components/site/OurJourneyTimeline";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import type { Metadata } from "next";
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function OurJourneyPage() {
   return (
-    <PageContainer>
+    <>
       <PageHero
         padY="tall"
         eyebrow="Our Story"
@@ -142,6 +142,6 @@ export default function OurJourneyPage() {
           </p>
         </div>
       </Section>
-    </PageContainer>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import perf1 from "@/assets/perf1.jpg.asset.json";
 import perf3 from "@/assets/perf3.jpg.asset.json";
 import { BrandCard } from "@/components/site/BrandCard";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ const ELEMENTS = [
 
 export default function TraditionPage() {
   return (
-    <PageContainer>
+    <>
       {/* 1. Hero */}
       <PageHero
         padY="tall"
@@ -79,7 +79,7 @@ export default function TraditionPage() {
             </p>
           </div>
           <div className="lg:col-span-6 relative">
-            <div className="relative aspect-4/3 overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+            <div className="relative aspect-4/3 overflow-hidden rounded-sm media-zoom shadow-card">
               <Image
                 src={perf1.url}
                 alt="Yakshagana ensemble"
@@ -128,7 +128,7 @@ export default function TraditionPage() {
       <Section tone="cream">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6 order-2 lg:order-1 relative">
-            <div className="relative aspect-4/5 overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+            <div className="relative aspect-4/5 overflow-hidden rounded-sm media-zoom shadow-card">
               <Image
                 src={perf3.url}
                 alt="Yakshagana dancer"
@@ -163,6 +163,6 @@ export default function TraditionPage() {
           </div>
         </div>
       </Section>
-    </PageContainer>
+    </>
   );
 }

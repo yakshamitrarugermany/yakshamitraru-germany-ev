@@ -37,7 +37,7 @@ export function Mission() {
 
         {/* Image collage — image-first */}
         <div className="lg:col-span-7 relative">
-          <div className="relative aspect-4/5 w-full overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+          <div className="relative aspect-4/5 w-full overflow-hidden rounded-sm media-zoom shadow-card">
             <Image
               src={aboutAsset.url}
               alt="Yakshagana performer preparing"
@@ -58,7 +58,7 @@ export function Mission() {
           </div>
 
           {/* Floating secondary image — collage feel */}
-          <div className="hidden md:block absolute -bottom-12 -right-6 w-[42%] aspect-3/4 overflow-hidden rounded-sm media-zoom shadow-[0_40px_100px_-30px_color-mix(in_oklab,var(--forest-deep)_65%,transparent)] ring-4 ring-cream">
+          <div className="hidden md:block absolute -bottom-12 -right-6 w-[42%] aspect-3/4 overflow-hidden rounded-sm media-zoom shadow-card ring-4 ring-cream">
             <Image
               src={perf2.url}
               alt="Crown detail"

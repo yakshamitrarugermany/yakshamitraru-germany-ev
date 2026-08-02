@@ -3,7 +3,7 @@ import { BookSection } from "@/components/site/BookSection";
 import { FeaturedArtists } from "@/components/site/FeaturedArtists";
 import { Hero } from "@/components/site/Hero";
 import { Mission } from "@/components/site/Mission";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { UpcomingPerformance } from "@/components/site/UpcomingPerformance";
 import type { Metadata } from "next";
 
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <PageContainer>
+    <>
       <main>
         <Hero />
         <UpcomingPerformance />
@@ -47,6 +47,6 @@ export default function HomePage() {
         <BookSection />
         <Newsletter />
       </main>
-    </PageContainer>
+    </>
   );
 }

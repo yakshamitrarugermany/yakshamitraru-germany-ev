@@ -1,7 +1,7 @@
 "use client";
 import { BrandCard } from "@/components/site/BrandCard";
 import { FAQAccordion } from "@/components/site/FAQAccordion";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
@@ -109,7 +109,7 @@ export default function ContactClient() {
   )}`;
 
   return (
-    <PageContainer>
+    <>
       {/* Hero */}
       <PageHero
         eyebrow="Contact · Book"
@@ -371,7 +371,7 @@ export default function ContactClient() {
           </div>
         </div>
       </Section>
-    </PageContainer>
+    </>
   );
 }
 

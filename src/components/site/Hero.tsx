@@ -9,6 +9,7 @@ import { Calendar, MapPin, Sparkles, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useScroll, useTransform } from "framer-motion";
 
 const SLIDES = [
   { src: heroAsset.url, alt: "Yakshagana performer in full crown and costume" },
@@ -30,8 +31,10 @@ const STATS = [
 export function Hero() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const timerRef = useRef<number | null>(null);
+  
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 750], [0, 60], { clamp: true });
 
   useEffect(() => {
     if (paused) return;
@@ -43,12 +46,6 @@ export function Hero() {
       if (timerRef.current) window.clearTimeout(timerRef.current);
     };
   }, [index, paused]);
-
-  useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const go = (dir: 1 | -1) =>
     setIndex((i) => (i + dir + SLIDES.length) % SLIDES.length);
@@ -62,7 +59,9 @@ export function Hero() {
         onMouseLeave={() => setPaused(false)}
         onTouchStart={() => setPaused(true)}
         onTouchEnd={() => setPaused(false)}
+        role="region"
         aria-roledescription="carousel"
+        aria-label="Hero Carousel"
       >
         {/* Base gradient wash */}
         <div
@@ -183,11 +182,9 @@ export function Hero() {
 
             {/* Right — performer carousel */}
             <div className="lg:col-span-6 xl:col-span-6 order-1 lg:order-2 relative">
-              <div
+              <motion.div
                 className="relative min-h-100 aspect-10/11 sm:min-h-125 sm:aspect-5/6 lg:min-h-0 lg:aspect-4/5 w-full overflow-hidden rounded-2xl lg:rounded-none lg:rounded-l-[2rem] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
-                style={{
-                  transform: `translate3d(0, ${Math.min(scrollY * 0.08, 60)}px, 0)`,
-                }}
+                style={{ y }}
               >
                 <AnimatePresence initial={false}>
                   <motion.div
@@ -216,7 +213,7 @@ export function Hero() {
                   aria-hidden
                   className="absolute inset-0 bg-linear-to-t from-[#2a060b]/70 via-transparent to-transparent"
                 />
-              </div>
+              </motion.div>
 
               {/* Carousel controls */}
               <button

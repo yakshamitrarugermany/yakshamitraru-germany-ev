@@ -4,7 +4,7 @@ import perf1 from "@/assets/perf1.jpg.asset.json";
 import perf2 from "@/assets/perf2.jpg.asset.json";
 import perf3 from "@/assets/perf3.jpg.asset.json";
 import { Chip } from "@/components/site/Chip";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { PageHero } from "@/components/site/PageHero";
 import { Section } from "@/components/site/Section";
 import { Stat } from "@/components/site/Stat";
@@ -246,7 +246,7 @@ export default function GalleryClient() {
   }, [active, close]);
 
   return (
-    <PageContainer>
+    <>
       {/* Hero */}
       <PageHero
         radial="gallery"
@@ -463,6 +463,6 @@ export default function GalleryClient() {
           </motion.div>
         )}
       </AnimatePresence>
-    </PageContainer>
+    </>
   );
 }

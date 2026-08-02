@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -22,14 +22,23 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const threshold = Math.max(window.innerHeight - 96, 240);
+    const isScrolled = latest > threshold;
+    if (isScrolled !== scrolled) {
+      setScrolled(isScrolled);
+    }
+  });
+
   useEffect(() => {
-    const onScroll = () => {
+    // Initial check on mount
+    const timeout = setTimeout(() => {
       const threshold = Math.max(window.innerHeight - 96, 240);
       setScrolled(window.scrollY > threshold);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    }, 0);
+    return () => clearTimeout(timeout);
   }, []);
 
   return (

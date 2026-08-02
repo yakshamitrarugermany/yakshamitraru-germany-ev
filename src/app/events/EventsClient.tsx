@@ -8,7 +8,7 @@ import { BrandCard } from "@/components/site/BrandCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { EventCard } from "@/components/site/EventCard";
 import { FilterSelect } from "@/components/site/FilterSelect";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Stat } from "@/components/site/Stat";
@@ -212,7 +212,7 @@ export default function EventsClient() {
   const [featured, ...restUpcoming] = upcoming;
 
   return (
-    <PageContainer>
+    <>
       <main>
         <EventsHero />
         <SearchFilters
@@ -296,7 +296,7 @@ export default function EventsClient() {
 
         <BookSection />
       </main>
-    </PageContainer>
+    </>
   );
 }
 
