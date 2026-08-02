@@ -39,7 +39,7 @@ export function UpcomingPerformance() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           {/* Large image with floating badges */}
           <div className="lg:col-span-8 relative group">
-            <div className="media-zoom relative w-full aspect-4/3 md:aspect-16/10 rounded-3xl overflow-hidden shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_55%,transparent)]">
+            <div className="media-zoom relative w-full aspect-4/3 md:aspect-16/10 rounded-3xl overflow-hidden shadow-card">
               <Image
                 src={perf1.url}
                 alt="Devi Mahatme — opening night"

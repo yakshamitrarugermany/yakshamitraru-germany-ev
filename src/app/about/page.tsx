@@ -4,7 +4,7 @@ import perf1 from "@/assets/perf1.jpg.asset.json";
 import perf2 from "@/assets/perf2.jpg.asset.json";
 import perf3 from "@/assets/perf3.jpg.asset.json";
 import { BrandCard } from "@/components/site/BrandCard";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Stat } from "@/components/site/Stat";
@@ -183,7 +183,7 @@ const WHY = [
 
 export default function AboutPage() {
   return (
-    <PageContainer>
+    <>
       {/* 1. Hero */}
       <PageHero
         padY="tall"
@@ -208,7 +208,7 @@ export default function AboutPage() {
       <Section tone="cream">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6 relative">
-            <div className="relative aspect-4/5 overflow-hidden rounded-sm media-zoom shadow-[0_50px_120px_-40px_color-mix(in_oklab,var(--forest-deep)_60%,transparent)]">
+            <div className="relative aspect-4/5 overflow-hidden rounded-sm media-zoom shadow-card">
               <Image
                 src={heroAsset.url}
                 alt="Yakshagana performance on a European stage"
@@ -574,6 +574,6 @@ export default function AboutPage() {
           </div>
         </div>
       </Section>
-    </PageContainer>
+    </>
   );
 }

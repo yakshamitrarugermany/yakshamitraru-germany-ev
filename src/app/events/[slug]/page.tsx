@@ -2,7 +2,7 @@ import { BookSection } from "@/components/site/BookSection";
 import { BrandCard } from "@/components/site/BrandCard";
 import { EventCard } from "@/components/site/EventCard";
 import { FAQAccordion } from "@/components/site/FAQAccordion";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
 import {
@@ -192,7 +192,7 @@ export default async function EventDetailPage({
   if (!event) notFound();
 
   return (
-    <PageContainer>
+    <>
       <main>
         <EventHero event={event} />
         <DateVenue event={event} />
@@ -203,7 +203,7 @@ export default async function EventDetailPage({
         <RelatedSection related={event.related} />
         <BookSection />
       </main>
-    </PageContainer>
+    </>
   );
 }
 

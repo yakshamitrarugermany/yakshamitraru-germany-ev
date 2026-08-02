@@ -6,7 +6,7 @@ import perf3 from "@/assets/perf3.jpg.asset.json";
 import { ArtistCard } from "@/components/site/ArtistCard";
 import { FilterSelect } from "@/components/site/FilterSelect";
 import { BrandInput } from "@/components/site/FormField";
-import { PageContainer } from "@/components/site/PageContainer";
+
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Stat } from "@/components/site/Stat";
@@ -178,7 +178,7 @@ export default function ArtistsClient() {
   const gridArtists = filtered;
 
   return (
-    <PageContainer>
+    <>
       {/* Hero */}
       <PageHero
         padY="tall"
@@ -398,6 +398,6 @@ export default function ArtistsClient() {
           </div>
         </div>
       </Section>
-    </PageContainer>
+    </>
   );
 }
