@@ -1,22 +1,27 @@
 "use client";
-import aboutAsset from "@/assets/about.jpg.asset.json";
-import heroAsset from "@/assets/hero.jpg.asset.json";
-import perf1 from "@/assets/perf1.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
-import perf3 from "@/assets/perf3.jpg.asset.json";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { Calendar, MapPin, Sparkles, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useScroll, useTransform } from "framer-motion";
 
 const SLIDES = [
-  { src: heroAsset.url, alt: "Yakshagana performer in full crown and costume" },
-  { src: perf1.url, alt: "Yakshagana ensemble on stage" },
-  { src: perf2.url, alt: "Bhagavata and percussionists mid-performance" },
-  { src: perf3.url, alt: "Veshadari in dramatic stage light" },
-  { src: aboutAsset.url, alt: "Backstage moment before curtain" },
+  {
+    src: "/images/hero/hero1.jpg",
+    alt: "Yakshagana performer in full crown and costume",
+  },
+  { src: "/images/hero/hero2.jpg", alt: "Yakshagana ensemble on stage" },
+  {
+    src: "/images/hero/hero3.jpg",
+    alt: "Bhagavata and percussionists mid-performance",
+  },
+  { src: "/images/hero/hero4.jpg", alt: "Veshadari in dramatic stage light" },
+  { src: "/images/hero/hero5.jpg", alt: "Backstage moment before curtain" },
 ];
 
 const ROTATE_MS = 3000;
@@ -32,7 +37,7 @@ export function Hero() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<number | null>(null);
-  
+
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 750], [0, 60], { clamp: true });
 
