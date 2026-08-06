@@ -1,4 +1,9 @@
 "use client";
+import aboutAsset from "@/assets/about.jpg.asset.json";
+import heroAsset from "@/assets/hero.jpg.asset.json";
+import perf1 from "@/assets/perf1.jpg.asset.json";
+import perf2 from "@/assets/perf2.jpg.asset.json";
+import perf3 from "@/assets/perf3.jpg.asset.json";
 import {
   AnimatePresence,
   motion,
@@ -24,14 +29,93 @@ const SLIDES = [
   { src: "/images/hero/hero5.jpg", alt: "Backstage moment before curtain" },
 ];
 
+const FEATURED_ARTISTS = [
+  {
+    name: "Apurva Beleyur",
+    lines: ["Apurva", "Beleyur"],
+    image: heroAsset.url,
+    href: "/artists",
+  },
+  {
+    name: "Shashidhar Nairy",
+    lines: ["Shashidhar", "Nairy"],
+    image: perf1.url,
+    href: "/artists",
+  },
+  {
+    name: "Sushma Ravindra",
+    lines: ["Sushma", "Ravindra"],
+    image: perf2.url,
+    href: "/artists",
+  },
+  {
+    name: "Shreehari Hosamane",
+    lines: ["Shreehari", "Hosamane"],
+    image: perf3.url,
+    href: "/artists",
+  },
+  {
+    name: "Prateek Hegde Bengle",
+    lines: ["Prateek Hegde", "Bengle"],
+    image: aboutAsset.url,
+    href: "/artists",
+  },
+];
+
 const ROTATE_MS = 3000;
 
 const STATS = [
-  { icon: Sparkles, k: "60+", v: "Performances" },
-  { icon: MapPin, k: "18", v: "Cities in Europe" },
-  { icon: Users, k: "16", v: "Dedicated Artists" },
+  { icon: Sparkles, k: "45+", v: "Performances" },
+  { icon: MapPin, k: "26", v: "Cities in Europe" },
+  { icon: Users, k: "20+", v: "Artists" },
   { icon: Calendar, k: "Since 2018", v: "One Community" },
 ];
+
+function HeroFeaturedArtists() {
+  return (
+    <div className="mt-10 w-full border-t border-cream/10 pt-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.7,
+          ease: [0.2, 0.7, 0.2, 1],
+          delay: 0.2,
+        }}
+        className="flex justify-center items-start w-full max-w-125 lg:max-w-none mx-auto gap-2 md:gap-20 lg:gap-22 xl:gap-20"
+      >
+        {FEATURED_ARTISTS.map((artist) => (
+          <Link
+            key={artist.name}
+            href={artist.href}
+            className="group flex flex-col items-center gap-2 lg:gap-3 w-12 sm:w-15 md:w-18 lg:w-16 xl:w-20 shrink-0"
+          >
+            <div className="relative w-12 h-12 sm:w-18 sm:h-18 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-34 xl:h-34 rounded-full overflow-hidden shadow-card transition-all duration-500 lg:group-hover:scale-[1.05] lg:group-hover:shadow-card-hover border border-cream/10 lg:group-hover:border-saffron/40">
+              <Image
+                src={artist.image}
+                alt={artist.name}
+                fill
+                className="object-cover transition-transform duration-700 lg:group-hover:scale-110"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_4px_12px_rgba(0,0,0,0.4)]"
+              />
+            </div>
+            <span className="font-serif text-xs sm:text-base md:text-xl lg:text-xl xl:text-2xl text-cream/90 lg:text-cream/80 transition-colors lg:group-hover:text-saffron text-center leading-tight">
+              {artist.lines.map((part, i) => (
+                <span key={i} className="block whitespace-nowrap">
+                  {part}
+                </span>
+              ))}
+            </span>
+          </Link>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
 export function Hero() {
   const [index, setIndex] = useState(0);
@@ -54,6 +138,38 @@ export function Hero() {
 
   const go = (dir: 1 | -1) =>
     setIndex((i) => (i + dir + SLIDES.length) % SLIDES.length);
+
+  const renderHeroHeader = () => (
+    <>
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.1, ease: [0.2, 0.7, 0.2, 1] }}
+        className="font-serif text-[clamp(2.75rem,7vw,5.5rem)] leading-[0.95] text-cream text-balance drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
+      >
+        Yakshamitraru
+        <br />
+        <span className="italic text-saffron">Germany e.V.</span>
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.7,
+          ease: [0.2, 0.7, 0.2, 1],
+          delay: 0.08,
+        }}
+        className="mt-4 max-w-152 text-[1rem] md:text-[1.20rem] leading-7 md:leading-8 text-cream/70"
+      >
+        A passionate group of Yakshagana enthusiasts dedicated to preserving,
+        presenting, and promoting India&apos;s rich traditional art form{" "}
+        <span className="font-bold">Yakshagana</span> across Germany and Europe.
+      </motion.p>
+    </>
+  );
 
   return (
     <section className="relative w-full">
@@ -83,39 +199,11 @@ export function Hero() {
           className="pointer-events-none absolute -bottom-40 -left-40 h-130 w-130 gold-radial opacity-15"
         />
 
-        <div className="relative container-page pt-20 md:pt-36 pb-32 md:pb-40 min-h-[92svh] md:min-h-[94svh]">
+        <div className="relative container-page pt-18 md:pt-22 pb-24 min-h-[92svh] md:min-h-[94svh]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Left — content */}
             <div className="lg:col-span-6 xl:col-span-6 relative z-10 order-2 lg:order-1">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.1, ease: [0.2, 0.7, 0.2, 1] }}
-                className="font-serif text-[clamp(2.75rem,7vw,5.5rem)] leading-[0.95] text-cream text-balance drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
-              >
-                Yakshamitraru
-                <br />
-                <span className="italic text-saffron">Germany e.V.</span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.7,
-                  ease: [0.2, 0.7, 0.2, 1],
-                  delay: 0.08,
-                }}
-                className="mt-4 max-w-152 text-[1rem] md:text-[1.20rem] leading-7 md:leading-8 text-cream/70"
-              >
-                A passionate group of Yakshagana enthusiasts dedicated to
-                preserving, presenting, and promoting India&apos;s rich
-                traditional art form{" "}
-                <span className="font-bold">Yakshagana</span> across Germany and
-                Europe.
-              </motion.p>
+              {renderHeroHeader()}
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -147,7 +235,7 @@ export function Hero() {
                 }}
                 className="mt-8 max-w-lg text-base italic text-cream/80 leading-relaxed"
               >
-                Four centuries of India&apos;s traditional theatre{" "}
+                India&apos;s traditional theatre{" "}
                 <span className="font-bold">Yakshagana</span> which consists of
                 Storytelling, unique dance music, vibrant make-up, costume and
                 dialogue.
@@ -186,9 +274,9 @@ export function Hero() {
             </div>
 
             {/* Right — performer carousel */}
-            <div className="lg:col-span-6 xl:col-span-6 order-1 lg:order-2 relative">
+            <div className="lg:col-span-6 xl:col-span-6 order-1 lg:order-2 relative flex flex-col gap-6 md:gap-8">
               <motion.div
-                className="relative min-h-100 aspect-10/11 sm:min-h-125 sm:aspect-5/6 lg:min-h-0 lg:aspect-4/5 w-full overflow-hidden rounded-2xl lg:rounded-none lg:rounded-l-[2rem] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
+                className="relative min-h-100 aspect-10/11 sm:min-h-125 sm:aspect-5/6 lg:min-h-0 lg:aspect-4/5 w-full overflow-hidden rounded-2xl lg:rounded-[2rem] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
                 style={{ y }}
               >
                 <AnimatePresence initial={false}>
@@ -282,6 +370,7 @@ export function Hero() {
               </div>
             </div>
           </div>
+          <HeroFeaturedArtists />
         </div>
       </div>
 

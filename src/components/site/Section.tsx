@@ -76,7 +76,7 @@ export function SectionHeader({
 
 export function SectionSeparator() {
   return (
-    <div className="flex items-center justify-center gap-4 py-4 md:py-8 opacity-30 pointer-events-none select-none">
+    <div className="flex items-center justify-center gap-4 py-4 md:py-4 opacity-30 pointer-events-none select-none">
       <div className="w-12 md:w-24 h-px bg-linear-to-r from-transparent to-forest-deep" />
       <div className="h-1.5 w-1.5 rounded-full bg-saffron" />
       <div className="w-12 md:w-24 h-px bg-linear-to-l from-transparent to-forest-deep" />
