@@ -1,37 +1,422 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Yakshamitraru Germany e.V. Website
 
-## Getting Started
+Official website for **Yakshamitraru Germany e.V.**, a cultural organization dedicated to preserving, promoting, and presenting the traditional Indian art form **Yakshagana** across Germany and Europe.
 
-First, run the development server:
+The website provides a digital platform to showcase Yakshagana performances, artists, events, cultural history, and the journey of Yakshamitraru Germany e.V.
+
+---
+
+# Project Overview
+
+This project is a modern, responsive website built with **Next.js 15** following a mobile-first approach.
+
+The website focuses on:
+
+- Presenting Yakshamitraru Germany e.V.'s history and mission
+- Showcasing upcoming and past performances
+- Highlighting artists and performers
+- Sharing performance galleries
+- Introducing Yakshagana traditions
+- Providing a foundation for future content management capabilities
+
+---
+
+# Tech Stack
+
+## Frontend
+
+- Next.js 15 (App Router)
+- React
+- TypeScript
+- Tailwind CSS v4
+- shadcn/ui
+- Framer Motion
+- Lucide React Icons
+
+## Development Tools
+
+- Git
+- GitHub
+- GitHub Actions
+- ESLint
+
+## Deployment
+
+Recommended:
+
+- Vercel
+
+---
+
+# Project Structure
+
+```
+src/
+│
+├── app/
+│   ├── about/
+│   ├── artists/
+│   ├── events/
+│   ├── gallery/
+│   ├── learn/
+│   ├── tradition/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+│
+├── components/
+│   └── site/
+│       ├── Hero.tsx
+│       ├── SiteHeader.tsx
+│       ├── SiteFooter.tsx
+│       ├── AboutSection.tsx
+│       ├── Mission.tsx
+│       ├── UpcomingPerformance.tsx
+│       └── reusable components
+│
+├── lib/
+│   └── utility functions
+│
+└── assets/
+    └── project assets
+```
+
+---
+
+# Getting Started
+
+## Prerequisites
+
+Install the following:
+
+- Node.js 22+
+- npm
+
+Verify installation:
+
+```bash
+node -v
+npm -v
+```
+
+---
+
+# Installation
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+```
+
+Navigate to the project:
+
+```bash
+cd yakshamitraru-germany
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+---
+
+# Running the Project
+
+## Development Server
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+## Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Runs the local development server.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Production Build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+```
+
+Creates an optimized production build.
+
+---
+
+## Start Production Server
+
+```bash
+npm run start
+```
+
+Runs the production build locally.
+
+---
+
+## Type Checking
+
+```bash
+npm run type-check
+```
+
+Checks TypeScript errors without generating files.
+
+---
+
+## Linting
+
+```bash
+npm run lint
+```
+
+Runs ESLint checks.
+
+---
+
+# Code Quality
+
+The project follows:
+
+- Next.js App Router architecture
+- TypeScript strict typing
+- Component-based development
+- Mobile-first responsive design
+- Reusable UI patterns
+- Automated CI validation
+
+Before merging changes, GitHub Actions verifies:
+
+- TypeScript validation
+- ESLint checks
+- Production build
+
+---
+
+# Git Workflow
+
+The project follows a feature branch workflow.
+
+Example:
+
+```
+main
+│
+├── feature/new-feature
+│
+├── fix/bug-fix
+│
+└── refactor/code-improvements
+```
+
+## Development Process
+
+1. Create a new branch
+2. Implement changes
+3. Run quality checks
+4. Commit changes
+5. Push branch
+6. Create Pull Request
+7. Review CI checks
+8. Merge into main
+
+---
+
+# Content Management
+
+Currently, website content is managed through project files.
+
+Examples:
+
+- Artist details
+- Event information
+- Gallery content
+- Hero carousel slides
+
+Content is structured to allow future migration to a CMS or admin dashboard.
+
+---
+
+# Images and Assets
+
+Images are stored inside:
+
+```
+public/images/
+```
+
+Recommended structure:
+
+```
+public/
+└── images/
+    ├── logos/
+    ├── hero/
+    ├── artists/
+    ├── events/
+    ├── gallery/
+    └── tradition/
+```
+
+## Image Guidelines
+
+Recommended:
+
+- Use WebP format where possible
+- Optimize image size before uploading
+- Use meaningful filenames
+
+Example:
+
+```
+yaksha-sankranthi-2025-frankfurt.webp
+```
+
+---
+
+# Deployment
+
+The recommended deployment platform is:
+
+## Vercel
+
+Deployment process:
+
+1. Connect GitHub repository
+2. Select Next.js framework
+3. Configure required settings
+4. Deploy
+
+Deployment flow:
+
+```
+Feature Branch
+       |
+       ↓
+Pull Request
+       |
+       ↓
+GitHub Actions CI Check
+       |
+       ↓
+Merge to Main
+       |
+       ↓
+Production Deployment
+```
+
+---
+
+# Environment Variables
+
+Currently, the project does not require environment variables.
+
+Future integrations may require:
+
+- Database credentials
+- Authentication keys
+- Storage configuration
+- Admin dashboard configuration
+
+---
+
+# Future Roadmap
+
+## Admin Dashboard
+
+Future versions may include an admin panel for managing:
+
+- Events
+- Performances
+- Artists
+- Gallery images
+- Announcements
+
+---
+
+## Backend Integration
+
+Possible future technologies:
+
+- Supabase
+- Database storage
+- Authentication
+- Cloud storage
+
+---
+
+# Maintenance Guidelines
+
+Before creating a Pull Request, run:
+
+```bash
+npm run type-check
+npm run lint
+npm run build
+```
+
+Ensure all checks pass before merging.
+
+---
+
+# Production Account Ownership
+
+For client handover, production accounts should belong to the client.
+
+Recommended ownership:
+
+| Service             | Owner                              |
+| ------------------- | ---------------------------------- |
+| GitHub Repository   | Client GitHub account/organization |
+| Vercel              | Client account                     |
+| Domain              | Client domain account              |
+| Google Drive Assets | Client account                     |
+
+Developer access should be provided through collaborator permissions.
+
+---
+
+# Current Project Status
+
+Completed:
+
+- Next.js 15 migration
+- App Router architecture
+- Responsive mobile-first design
+- Tailwind CSS implementation
+- shadcn/ui integration
+- Framer Motion animations
+- GitHub Actions CI setup
+- Code quality refactoring
+
+---
+
+# Contact
+
+**Yakshamitraru Germany e.V.**
+
+Website:
+
+```
+yakshamitrarugermany.com
+```
 "" 

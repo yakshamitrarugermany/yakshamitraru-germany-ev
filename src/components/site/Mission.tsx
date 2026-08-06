@@ -1,5 +1,3 @@
-import aboutAsset from "@/assets/about.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,7 +37,7 @@ export function Mission() {
         <div className="lg:col-span-7 relative">
           <div className="relative aspect-4/5 w-full overflow-hidden rounded-sm media-zoom shadow-card">
             <Image
-              src={aboutAsset.url}
+              src="/images/hero/hero7.jpeg"
               alt="Yakshagana performer preparing"
               fill
               className="object-cover"
@@ -60,7 +58,7 @@ export function Mission() {
           {/* Floating secondary image — collage feel */}
           <div className="hidden md:block absolute -bottom-12 -right-6 w-[42%] aspect-3/4 overflow-hidden rounded-sm media-zoom shadow-card ring-4 ring-cream">
             <Image
-              src={perf2.url}
+              src="/images/hero/hero6.jpg"
               alt="Crown detail"
               fill
               className="object-cover"

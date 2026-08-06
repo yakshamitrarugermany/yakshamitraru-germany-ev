@@ -1,7 +1,3 @@
-import hero from "@/assets/hero.jpg.asset.json";
-import perf1 from "@/assets/perf1.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
-import perf3 from "@/assets/perf3.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,10 +30,34 @@ export function GalleryPreview() {
 
       <div className="grid grid-cols-2 gap-3 md:gap-5 lg:gap-6">
         {[
-          { image: hero.url, alt: "Yakshagana performer in full crown and costume", character: "Kamsa", artist: "Prashanth", year: "2023" },
-          { image: perf1.url, alt: "Yakshagana ensemble on stage", character: "Devi Mahatme", artist: "Ensemble", year: "2024" },
-          { image: perf2.url, alt: "Bhagavata and percussionists mid-performance", character: "Himmela", artist: "Musicians", year: "2024" },
-          { image: perf3.url, alt: "Veshadari in dramatic stage light", character: "Rakshasa", artist: "Suhas", year: "2025" },
+          {
+            image: "/images/gallery/photo1.jpg",
+            alt: "Yakshagana performer in full crown and costume",
+            character: "Kamsa",
+            artist: "Prashanth",
+            year: "2023",
+          },
+          {
+            image: "/images/gallery/photo2.jpg",
+            alt: "Yakshagana ensemble on stage",
+            character: "Devi Mahatme",
+            artist: "Ensemble",
+            year: "2024",
+          },
+          {
+            image: "/images/gallery/photo3.jpg",
+            alt: "Bhagavata and percussionists mid-performance",
+            character: "Himmela",
+            artist: "Musicians",
+            year: "2024",
+          },
+          {
+            image: "/images/gallery/photo4.jpg",
+            alt: "Veshadari in dramatic stage light",
+            character: "Rakshasa",
+            artist: "Suhas",
+            year: "2025",
+          },
         ].map((item, i) => (
           <div
             key={i}
@@ -51,10 +71,12 @@ export function GalleryPreview() {
             />
             {/* Subtle dark gradient overlay */}
             <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             {/* Information overlay */}
             <div className="absolute inset-x-0 bottom-0 p-3 md:p-5 flex flex-col justify-end text-cream translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
-              <span className="font-serif text-sm md:text-lg leading-tight">{item.character}</span>
+              <span className="font-serif text-sm md:text-lg leading-tight">
+                {item.character}
+              </span>
               <span className="text-[9px] md:text-[11px] text-cream/70 uppercase tracking-widest mt-1 font-medium">
                 {item.artist} · {item.year}
               </span>

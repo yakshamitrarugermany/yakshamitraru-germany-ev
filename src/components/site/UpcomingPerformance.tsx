@@ -1,4 +1,3 @@
-import perf1 from "@/assets/perf1.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Ticket } from "lucide-react";
 import Image from "next/image";
@@ -41,7 +40,7 @@ export function UpcomingPerformance() {
           <div className="lg:col-span-8 relative group">
             <div className="media-zoom relative w-full aspect-4/3 md:aspect-16/10 rounded-3xl overflow-hidden shadow-card">
               <Image
-                src={perf1.url}
+                src="/images/events/event1.jpg"
                 alt="Devi Mahatme — opening night"
                 fill
                 className="object-cover"
