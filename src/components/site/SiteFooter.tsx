@@ -1,12 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  FiFacebook as Facebook,
+  FiInstagram as Instagram,
+  FiYoutube as Youtube,
+} from "react-icons/fi";
 
 export function SiteFooter() {
   return (
     <footer className="bg-forest-deep text-cream border-t border-cream/10">
       <div className="container-page py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-5">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <span className="relative grid place-items-center h-11 w-11 rounded-full bg-forest overflow-hidden">
               <Image
                 src="/images/logos/Yakshamitraru_e.V_Logo_Circle.png"
@@ -21,16 +26,33 @@ export function SiteFooter() {
                 Germany e.V.
               </div>
             </div>
-          </div>
+          </Link>
           <p className="mt-6 max-w-sm text-sm text-cream/60 leading-relaxed">
-            A registered German cultural association presenting Yakshagana
-            dance-theatre on European stages.
+            A passionate group of Yakshagana enthusiasts dedicated to
+            preserving, presenting, and promoting India&apos;s rich traditional
+            art form Yakshagana across Germany and Europe
           </p>
         </div>
 
         <div className="md:col-span-3">
           <div className="eyebrow text-saffron/80">Explore</div>
           <ul className="mt-5 space-y-3 text-sm text-cream/80">
+            <li>
+              <Link
+                href="/about"
+                className="hover:text-saffron transition-colors"
+              >
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/our-journey"
+                className="hover:text-saffron transition-colors"
+              >
+                Our Journey
+              </Link>
+            </li>
             <li>
               <Link
                 href="/#mission"
@@ -65,10 +87,10 @@ export function SiteFooter() {
             </li>
             <li>
               <Link
-                href="/contact#booking"
+                href="/learn"
                 className="hover:text-saffron transition-colors"
               >
-                Book a performance
+                Learn
               </Link>
             </li>
           </ul>
@@ -78,14 +100,47 @@ export function SiteFooter() {
           <div className="eyebrow text-saffron/80">Contact</div>
           <ul className="mt-5 space-y-3 text-sm text-cream/80">
             <li>
+              <Link
+                href="/contact#booking"
+                className="hover:text-saffron transition-colors"
+              >
+                Book a performance
+              </Link>
+            </li>
+            <li>
               <a
-                href="mailto:info@yakshamitraru.de"
+                href="mailto:yakshamitrarugermany@gmail.com"
                 className="hover:text-saffron"
               >
-                info@yakshamitraru.de
+                yakshamitrarugermany@gmail.com
               </a>
             </li>
-            <li>Yakshamitraru Germany e.V. · Germany</li>
+            <li>
+              <a
+                href="https://www.instagram.com/yakshamitrarugermany_e.v?igsh=MXRpZHNjYzIwcnQ4ZA=="
+                className="flex items-center gap-2 hover:text-saffron"
+              >
+                <Instagram className="h-4 w-4" shrink-0 />{" "}
+                <span>Instagram</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/yakshamitrarugermany"
+                className="flex items-center gap-2 hover:text-saffron"
+              >
+                <Facebook className="h-4 w-4 shrink-0" /> <span>Facebook</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://youtube.com/@yakshamitrarugermany?si=pyfkxbeGN3Z47Gra"
+                className="flex items-center gap-2 hover:text-saffron"
+              >
+                <Youtube className="h-4 w-4" shrink-0 /> <span>Youtube</span>
+              </a>
+            </li>
+            <li>Yakshamitraru Germany e.V. - Germany</li>
           </ul>
         </div>
       </div>
@@ -96,7 +151,7 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Yakshamitraru Germany e.V. All rights
             reserved.
           </span>
-          <span className="eyebrow">Yakshagana · Since 1600s</span>
+          <span className="eyebrow">Yakshagana in Europe · Since 2018</span>
         </div>
       </div>
     </footer>

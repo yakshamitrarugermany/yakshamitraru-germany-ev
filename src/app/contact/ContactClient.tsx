@@ -5,7 +5,7 @@ import { FAQAccordion } from "@/components/site/FAQAccordion";
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import Link from "next/link";
 import { useState, type FormEvent, type ReactNode } from "react";
 import {
@@ -16,9 +16,9 @@ import {
 import { z } from "zod";
 
 const CONTACT = {
-  email: "info@yakshamitraru.de",
-  phone: "+49 30 1234 5678",
-  whatsapp: "+491701234567", // digits only, no +
+  email: "yakshamitrarugermany@gmail.com",
+  phone: "+49 176 3469 0281",
+  whatsapp: "+4917634690281", // digits only, no +
   address: "Yakshamitraru Germany e.V., Kulturstraße 12, 10115 Berlin, Germany",
   mapsQuery: "Kulturstraße 12, 10115 Berlin, Germany",
 };
@@ -69,6 +69,9 @@ const FAQS: { q: string; a: string }[] = [
 export default function ContactClient() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
+  const [sentData, setSentData] = useState<z.infer<
+    typeof bookingSchema
+  > | null>(null);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -101,11 +104,20 @@ export default function ContactClient() {
       .filter(Boolean)
       .join("\n");
     window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setSentData(v);
     setSent(true);
   }
 
   const whatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
-    "Hello Yakshamitraru — I&apos;d like to enquire about a performance.",
+    "Hello Yakshamitraru — I'd like to enquire about a performance.",
+  )}`;
+  const continueWhatsappHref = sentData
+    ? `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
+        `Hello Yakshamitraru Germany,\n\nI just sent an email enquiry regarding a performance.\n\nName: ${sentData.name}\nMessage: ${sentData.message}`,
+      )}`
+    : whatsappHref;
+  const askQuestionWhatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
+    "Hello Yakshamitraru Germany,\n\nI have a question regarding...",
   )}`;
 
   return (
@@ -123,13 +135,13 @@ export default function ContactClient() {
         actions={
           <>
             <Button asChild variant="saffron" size="xl">
-              <Link href="#booking">Send enquiry</Link>
-            </Button>
-            <Button asChild variant="outline-cream" size="xl">
               <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-4 w-4" />
                 WhatsApp us
               </a>
+            </Button>
+            <Button asChild variant="outline-cream" size="xl">
+              <Link href="#booking">Send enquiry</Link>
             </Button>
           </>
         }
@@ -146,7 +158,7 @@ export default function ContactClient() {
           />
           <InfoCard
             icon={<Phone className="h-5 w-5" />}
-            label="Phone"
+            label="Apoorva Beleyur"
             value={CONTACT.phone}
             href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
           />
@@ -161,10 +173,10 @@ export default function ContactClient() {
       </Section>
 
       {/* Booking form + Map */}
-      <Section tone="cream" id="booking">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+      <Section tone="cream" id="booking" size="sm">
+        <div className="flex flex-col gap-10 lg:gap-12">
           {/* Form */}
-          <div className="lg:col-span-7">
+          <div>
             <SectionHeader
               eyebrow="Booking form"
               title={
@@ -179,19 +191,14 @@ export default function ContactClient() {
             <form
               onSubmit={onSubmit}
               noValidate
-              className="mt-10 rounded-2xl bg-white border border-border p-6 md:p-10 shadow-sm"
+              className="mt-8 rounded-2xl bg-white border border-border p-6 md:p-7 lg:p-8 shadow-sm"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 lg:gap-y-4">
                 <Field
                   label="Your name"
                   name="name"
                   required
                   error={errors.name}
-                />
-                <Field
-                  label="Organisation (optional)"
-                  name="organization"
-                  error={errors.organization}
                 />
                 <Field
                   label="Email"
@@ -205,7 +212,6 @@ export default function ContactClient() {
                   name="phone"
                   error={errors.phone}
                 />
-                <Field label="City / Venue" name="city" error={errors.city} />
                 <SelectField
                   label="Event type"
                   name="eventType"
@@ -219,11 +225,17 @@ export default function ContactClient() {
                     "Other",
                   ]}
                 />
+                <Field label="City / Venue" name="city" error={errors.city} />
                 <Field
                   label="Preferred date"
                   name="date"
                   placeholder="e.g. Autumn 2026, or a specific week"
                   error={errors.date}
+                />
+                <Field
+                  label="Organisation (optional)"
+                  name="organization"
+                  error={errors.organization}
                 />
                 <SelectField
                   label="Audience size"
@@ -243,8 +255,8 @@ export default function ContactClient() {
                     name="message"
                     rows={5}
                     required
-                    placeholder="Tell us about the event, audience, format and any programme ideas."
-                    className="mt-3 w-full bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-3 text-foreground placeholder:text-muted-foreground resize-none transition-colors"
+                    placeholder="Briefly describe your event, requirements, or enquiry..."
+                    className="mt-1.5 w-full bg-transparent border border-ink/20 rounded-xl p-4 focus:border-forest-deep outline-none text-foreground placeholder:text-ink-soft placeholder:text-base resize-y transition-colors shadow-sm"
                   />
                   {errors.message && (
                     <p className="mt-2 text-xs text-crimson">
@@ -264,74 +276,65 @@ export default function ContactClient() {
                 </Button>
               </div>
               {sent && (
-                <p className="mt-6 text-sm text-forest-deep">
-                  Thank you — your email client should now be open. If not,
-                  write to{" "}
-                  <a href={`mailto:${CONTACT.email}`} className="underline">
-                    {CONTACT.email}
-                  </a>
-                  .
-                </p>
+                <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-saffron/10 p-5 rounded-xl border border-saffron/20">
+                  <p className="text-sm text-forest-deep max-w-lg">
+                    Thank you — your email client should now be open. If not,
+                    write to{" "}
+                    <a
+                      href={`mailto:${CONTACT.email}`}
+                      className="underline font-medium hover:text-saffron transition-colors"
+                    >
+                      {CONTACT.email}
+                    </a>
+                    .
+                  </p>
+                  <Button
+                    asChild
+                    variant="saffron"
+                    size="lg"
+                    className="shrink-0"
+                  >
+                    <a
+                      href={continueWhatsappHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Continue on WhatsApp
+                    </a>
+                  </Button>
+                </div>
               )}
             </form>
           </div>
-
-          {/* Sidebar: map + info */}
-          <aside className="lg:col-span-5 flex flex-col gap-6">
-            <BrandCard variant="cream" className="overflow-hidden">
-              <div className="aspect-4/3 w-full bg-secondary">
-                <iframe
-                  title="Yakshamitraru Germany e.V. location"
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(CONTACT.mapsQuery)}&output=embed`}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="h-full w-full border-0"
-                />
-              </div>
-              <div className="p-6">
-                <div className="eyebrow text-crimson flex items-center gap-2">
-                  <MapPin className="h-3.5 w-3.5" />
-                  Registered seat
-                </div>
-                <p className="mt-3 font-serif text-xl leading-snug text-forest-deep">
-                  Yakshamitraru Germany e.V.
-                  <br />
-                  Kulturstraße 12
-                  <br />
-                  10115 Berlin, Germany
+          {/* Banner */}
+          <aside>
+            <BrandCard
+              variant="forest"
+              className="p-6 md:p-8 lg:p-10 lg:flex lg:items-center lg:justify-between lg:gap-8"
+            >
+              <div className="lg:max-w-xl">
+                <div className="eyebrow text-saffron">Follow the ensemble</div>
+                <h3 className="heading-lg mt-3 text-cream">
+                  Behind the <em className="italic font-light">curtain.</em>
+                </h3>
+                <p className="mt-3 text-cream/70 text-sm lg:text-base">
+                  Rehearsal clips, tour diaries and premieres.
                 </p>
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.mapsQuery)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 text-sm text-forest-deep hover:text-crimson underline underline-offset-4"
-                >
-                  Open in Google Maps →
-                </a>
               </div>
-            </BrandCard>
-
-            <BrandCard variant="forest" className="p-6 md:p-8">
-              <div className="eyebrow text-saffron">Follow the ensemble</div>
-              <h3 className="heading-lg mt-3 text-cream">
-                Behind the <em className="italic font-light">curtain.</em>
-              </h3>
-              <p className="mt-3 text-cream/70 text-sm">
-                Rehearsal clips, tour diaries and premieres.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="mt-6 lg:mt-0 flex flex-wrap gap-3 shrink-0">
                 <Social
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/yakshamitrarugermany_e.v?igsh=MXRpZHNjYzIwcnQ4ZA=="
                   icon={<Instagram className="h-4 w-4" />}
                   label="Instagram"
                 />
                 <Social
-                  href="https://youtube.com"
+                  href="https://youtube.com/@yakshamitrarugermany?si=pyfkxbeGN3Z47Gra"
                   icon={<Youtube className="h-4 w-4" />}
                   label="YouTube"
                 />
                 <Social
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/yakshamitrarugermany"
                   icon={<Facebook className="h-4 w-4" />}
                   label="Facebook"
                 />
@@ -347,8 +350,8 @@ export default function ContactClient() {
       </Section>
 
       {/* FAQ */}
-      <Section tone="muted">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+      <Section tone="muted" size="sm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           <div className="lg:col-span-4">
             <SectionHeader
               eyebrow="Frequently asked"
@@ -362,7 +365,14 @@ export default function ContactClient() {
             />
             <div className="mt-8">
               <Button asChild variant="outline-ink" size="lg">
-                <a href={`mailto:${CONTACT.email}`}>Ask a question</a>
+                <a
+                  href={askQuestionWhatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Ask a question
+                </a>
               </Button>
             </div>
           </div>
@@ -480,7 +490,7 @@ function Field({
         type={type}
         required={required}
         placeholder={placeholder}
-        className="mt-3 w-full bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-3 text-foreground placeholder:text-muted-foreground transition-colors"
+        className="w-full bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-1 text-foreground placeholder:text-ink-soft placeholder:text-sm transition-colors"
       />
       {error && <p className="mt-2 text-xs text-crimson">{error}</p>}
     </div>
@@ -504,12 +514,12 @@ function SelectField({
       <label htmlFor={id} className="eyebrow text-ink-soft">
         {label}
       </label>
-      <div className="relative mt-3">
+      <div className="relative">
         <select
           id={id}
           name={name}
           defaultValue=""
-          className="w-full appearance-none bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-3 pr-8 text-foreground transition-colors cursor-pointer"
+          className="w-full appearance-none bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-1 pr-8 text-ink-soft text-sm transition-colors cursor-pointer"
         >
           <option value="" disabled>
             Select…

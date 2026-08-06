@@ -135,7 +135,7 @@ const COMMITTEE = [
   {
     name: "Ranganatha Bhat",
     role: "President",
-    bio: "Founding member. Lead vesha artist and artistic director since 2016.",
+    bio: "Founding member. Lead vesha artist and artistic director since 2018.",
     image: perf1.url,
   },
   {
@@ -196,9 +196,9 @@ export default function AboutPage() {
         lede="A registered cultural association carrying Yakshagana — the four-hundred-year-old night theatre of coastal Karnataka — onto European stages, with faithful craft and considered presentation."
         meta={
           <>
-            <Stat n={2016} label="Founded" />
-            <Stat n={16} label="Ensemble members" />
-            <Stat n={9} label="European cities" />
+            <Stat n={2018} label="Founded" />
+            <Stat n={20} label="Ensemble members" />
+            <Stat n={26} label="European cities" />
             <Stat n={"e.V."} label="Registered association" />
           </>
         }
@@ -221,7 +221,7 @@ export default function AboutPage() {
               aria-hidden
               className="hidden lg:block absolute -top-10 -left-8 font-serif text-[10rem] leading-none text-forest-deep/5 select-none pointer-events-none"
             >
-              2016
+              2018
             </div>
           </div>
           <div className="lg:col-span-6">
@@ -238,7 +238,7 @@ export default function AboutPage() {
               living room.&rdquo;
             </blockquote>
             <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
-              Yakshamitraru Germany e.V. was founded in 2016 by a small circle
+              Yakshamitraru Germany e.V. was founded in 2018 by a small circle
               of artists from coastal Karnataka living in Germany — determined
               that Yakshagana would not fade in the diaspora, but flourish here.
             </p>

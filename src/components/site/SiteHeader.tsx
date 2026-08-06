@@ -73,14 +73,14 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-9">
+        <nav className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-9">
           {NAV.map((item) => {
             const isActive = pathname === item.to;
             return (
               <Link
                 key={item.to}
                 href={item.to}
-                className={`text-sm transition-colors duration-300 hover:text-saffron ${isActive ? "text-saffron" : scrolled ? "text-ink/80" : "text-cream/80"}`}
+                className={`text-[13px] xl:text-sm whitespace-nowrap transition-colors duration-300 hover:text-saffron ${isActive ? "text-saffron" : scrolled ? "text-ink/80" : "text-cream/80"}`}
               >
                 {item.label}
               </Link>
@@ -91,7 +91,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/contact#booking"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-saffron px-5 py-2.5 text-sm font-medium text-forest-deep hover:bg-saffron/90 transition-colors shadow-[0_8px_24px_-12px_rgba(218,165,32,0.45)]"
+            className="hidden md:inline-flex items-center gap-1.5 lg:gap-2 rounded-full bg-saffron px-4 xl:px-5 py-2 xl:py-2.5 text-[13px] xl:text-sm font-medium whitespace-nowrap text-forest-deep hover:bg-saffron/90 transition-colors shadow-[0_8px_24px_-12px_rgba(218,165,32,0.45)]"
           >
             Book a performance
             <span aria-hidden>→</span>
