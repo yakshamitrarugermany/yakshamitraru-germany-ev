@@ -83,7 +83,7 @@ function HeroFeaturedArtists() {
         {FEATURED_ARTISTS.map((artist) => (
           <Link
             key={artist.name}
-            href={artist.href}
+            href="/"
             className="group flex flex-col items-center gap-2 lg:gap-3 w-12 sm:w-15 md:w-18 lg:w-16 xl:w-20 shrink-0"
           >
             <div className="relative w-12 h-12 sm:w-18 sm:h-18 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-34 xl:h-34 rounded-full overflow-hidden shadow-card transition-all duration-500 lg:group-hover:scale-[1.05] lg:group-hover:shadow-card-hover border border-cream/10 lg:group-hover:border-saffron/40">
