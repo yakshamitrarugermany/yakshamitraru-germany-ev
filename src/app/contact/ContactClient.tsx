@@ -1,19 +1,18 @@
 "use client";
 import { BrandCard } from "@/components/site/BrandCard";
-import { FAQAccordion } from "@/components/site/FAQAccordion";
 
+import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import {
   FiFacebook as Facebook,
   FiInstagram as Instagram,
   FiYoutube as Youtube,
 } from "react-icons/fi";
-import type { ReactNode } from "react";
-import { EnquiryForm } from "@/components/site/EnquiryForm";
 
 const CONTACT = {
   email: "yakshamitrarugermany@gmail.com",
@@ -127,7 +126,11 @@ export default function ContactClient() {
             />
 
             <div className="mt-8">
-              <EnquiryForm variant="contact" emailTo={CONTACT.email} whatsappPhone={CONTACT.whatsapp} />
+              <EnquiryForm
+                variant="contact"
+                emailTo={CONTACT.email}
+                whatsappPhone={CONTACT.whatsapp}
+              />
             </div>
           </div>
           {/* Banner */}
@@ -173,7 +176,7 @@ export default function ContactClient() {
       </Section>
 
       {/* FAQ */}
-      <Section tone="muted" size="sm">
+      {/* <Section tone="muted" size="sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           <div className="lg:col-span-4">
             <SectionHeader
@@ -203,7 +206,7 @@ export default function ContactClient() {
             <FAQAccordion items={FAQS} variant="bold" />
           </div>
         </div>
-      </Section>
+      </Section> */}
     </>
   );
 }
