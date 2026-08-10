@@ -248,7 +248,7 @@ export function Hero() {
                 className="mt-9 flex flex-wrap items-center gap-4"
               >
                 <Link
-                  href="/events"
+                  href="/contact"
                   className="group inline-flex items-center gap-3 rounded-full bg-saffron px-7 py-3.5 text-sm font-medium text-forest-deep transition-all duration-300 shadow-[0_10px_40px_-15px_color-mix(in_oklab,var(--saffron)_80%,transparent)] hover:shadow-[0_22px_60px_-18px_color-mix(in_oklab,var(--saffron)_95%,transparent)] hover:-translate-y-0.5 hover:bg-saffron/95"
                 >
                   Contact Us

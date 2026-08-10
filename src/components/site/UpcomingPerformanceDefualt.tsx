@@ -22,7 +22,7 @@ export function UpcomingPerformanceDefault() {
                 Witness <span className="italic">Yakshagana</span> Live
               </>
             }
-            lede="Next performance couldbe in your city! Contact us for an unforgettable evening of traditional dance-theatre under the European sky."
+            lede="Next performance could be in your city! Contact us for an unforgettable evening of traditional dance-theatre under the European sky."
           />
           <Button
             asChild

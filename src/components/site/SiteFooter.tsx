@@ -34,7 +34,7 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <div className="md:col-span-3">
+        {/* <div className="md:col-span-3">
           <div className="eyebrow text-saffron/80">Explore</div>
           <ul className="mt-5 space-y-3 text-sm text-cream/80">
             <li>
@@ -94,7 +94,7 @@ export function SiteFooter() {
               </Link>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         <div className="md:col-span-4">
           <div className="eyebrow text-saffron/80">Contact</div>
