@@ -29,31 +29,31 @@ const FEATURED_ARTISTS = [
     name: "Apurva Beleyur",
     lines: ["Apurva", "Beleyur"],
     image: "/images/artists/apurva.jpeg",
-    href: "/artists",
+    href: "/",
   },
   {
     name: "Shashidhar Nairy",
     lines: ["Shashidhar", "Nairy"],
     image: "/images/artists/shashi.jpeg",
-    href: "/artists",
+    href: "/",
   },
   {
     name: "Sushma Ravindra",
     lines: ["Sushma", "Ravindra"],
     image: "/images/artists/sushma.jpg",
-    href: "/artists",
+    href: "/",
   },
   {
     name: "Shreehari Hosamane",
     lines: ["Shreehari", "Hosamane"],
     image: "/images/artists/shreehari.jpeg",
-    href: "/artists",
+    href: "/",
   },
   {
     name: "Prateek Hegde Bengle",
     lines: ["Prateek Hegde", "Bengle"],
     image: "/images/artists/prateek.jpeg",
-    href: "/artists",
+    href: "/",
   },
 ];
 
