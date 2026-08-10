@@ -34,6 +34,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <UpcomingPerformance />
+        {/* <UpcomingPerformanceDefault /> */}
         <SectionSeparator />
         <Testimonials />
         <SectionSeparator />

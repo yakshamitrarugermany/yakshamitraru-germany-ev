@@ -7,13 +7,13 @@ import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import Link from "next/link";
-import { useState, type FormEvent, type ReactNode } from "react";
 import {
   FiFacebook as Facebook,
   FiInstagram as Instagram,
   FiYoutube as Youtube,
 } from "react-icons/fi";
-import { z } from "zod";
+import type { ReactNode } from "react";
+import { EnquiryForm } from "@/components/site/EnquiryForm";
 
 const CONTACT = {
   email: "yakshamitrarugermany@gmail.com",
@@ -22,22 +22,6 @@ const CONTACT = {
   address: "Yakshamitraru Germany e.V., Kulturstraße 12, 10115 Berlin, Germany",
   mapsQuery: "Kulturstraße 12, 10115 Berlin, Germany",
 };
-
-const bookingSchema = z.object({
-  name: z.string().trim().min(2, "Please share your name").max(120),
-  organization: z.string().trim().max(160).optional().or(z.literal("")),
-  email: z.string().trim().email("Please enter a valid email").max(255),
-  phone: z.string().trim().max(40).optional().or(z.literal("")),
-  city: z.string().trim().max(120).optional().or(z.literal("")),
-  eventType: z.string().trim().max(80).optional().or(z.literal("")),
-  date: z.string().trim().max(60).optional().or(z.literal("")),
-  audience: z.string().trim().max(40).optional().or(z.literal("")),
-  message: z
-    .string()
-    .trim()
-    .min(10, "A short brief helps us respond well")
-    .max(2000),
-});
 
 const FAQS: { q: string; a: string }[] = [
   {
@@ -67,55 +51,9 @@ const FAQS: { q: string; a: string }[] = [
 ];
 
 export default function ContactClient() {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [sent, setSent] = useState(false);
-  const [sentData, setSentData] = useState<z.infer<
-    typeof bookingSchema
-  > | null>(null);
-
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const data = Object.fromEntries(fd.entries());
-    const parsed = bookingSchema.safeParse(data);
-    if (!parsed.success) {
-      const errs: Record<string, string> = {};
-      for (const issue of parsed.error.issues)
-        errs[String(issue.path[0])] = issue.message;
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
-    const v = parsed.data;
-    const subject = `Performance enquiry — ${v.name}${v.organization ? " · " + v.organization : ""}`;
-    const body = [
-      `Name: ${v.name}`,
-      v.organization ? `Organisation: ${v.organization}` : null,
-      `Email: ${v.email}`,
-      v.phone ? `Phone: ${v.phone}` : null,
-      v.city ? `City / Venue: ${v.city}` : null,
-      v.eventType ? `Event type: ${v.eventType}` : null,
-      v.date ? `Preferred date: ${v.date}` : null,
-      v.audience ? `Audience size: ${v.audience}` : null,
-      "",
-      "Brief:",
-      v.message,
-    ]
-      .filter(Boolean)
-      .join("\n");
-    window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSentData(v);
-    setSent(true);
-  }
-
   const whatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
     "Hello Yakshamitraru — I'd like to enquire about a performance.",
   )}`;
-  const continueWhatsappHref = sentData
-    ? `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
-        `Hello Yakshamitraru Germany,\n\nI just sent an email enquiry regarding a performance.\n\nName: ${sentData.name}\nMessage: ${sentData.message}`,
-      )}`
-    : whatsappHref;
   const askQuestionWhatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
     "Hello Yakshamitraru Germany,\n\nI have a question regarding...",
   )}`;
@@ -188,124 +126,9 @@ export default function ContactClient() {
               lede="The more you share, the sharper our response. We typically reply within two working days."
             />
 
-            <form
-              onSubmit={onSubmit}
-              noValidate
-              className="mt-8 rounded-2xl bg-white border border-border p-6 md:p-7 lg:p-8 shadow-sm"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 lg:gap-y-4">
-                <Field
-                  label="Your name"
-                  name="name"
-                  required
-                  error={errors.name}
-                />
-                <Field
-                  label="Email"
-                  name="email"
-                  type="email"
-                  required
-                  error={errors.email}
-                />
-                <Field
-                  label="Phone (optional)"
-                  name="phone"
-                  error={errors.phone}
-                />
-                <SelectField
-                  label="Event type"
-                  name="eventType"
-                  error={errors.eventType}
-                  options={[
-                    "Full production",
-                    "Concert set",
-                    "Workshop / lecture",
-                    "Festival slot",
-                    "Private event",
-                    "Other",
-                  ]}
-                />
-                <Field label="City / Venue" name="city" error={errors.city} />
-                <Field
-                  label="Preferred date"
-                  name="date"
-                  placeholder="e.g. Autumn 2026, or a specific week"
-                  error={errors.date}
-                />
-                <Field
-                  label="Organisation (optional)"
-                  name="organization"
-                  error={errors.organization}
-                />
-                <SelectField
-                  label="Audience size"
-                  name="audience"
-                  error={errors.audience}
-                  options={["Under 100", "100–300", "300–800", "800+"]}
-                />
-                <div className="md:col-span-2">
-                  <label
-                    htmlFor="booking-message"
-                    className="eyebrow text-ink-soft"
-                  >
-                    Brief <span className="text-crimson">*</span>
-                  </label>
-                  <textarea
-                    id="booking-message"
-                    name="message"
-                    rows={5}
-                    required
-                    placeholder="Briefly describe your event, requirements, or enquiry..."
-                    className="mt-1.5 w-full bg-transparent border border-ink/20 rounded-xl p-4 focus:border-forest-deep outline-none text-foreground placeholder:text-ink-soft placeholder:text-base resize-y transition-colors shadow-sm"
-                  />
-                  {errors.message && (
-                    <p className="mt-2 text-xs text-crimson">
-                      {errors.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-                <p className="text-xs text-ink-soft max-w-sm">
-                  On submit, your email client opens with the enquiry addressed
-                  to {CONTACT.email}.
-                </p>
-                <Button type="submit" variant="forest" size="xl">
-                  Send enquiry <span aria-hidden>→</span>
-                </Button>
-              </div>
-              {sent && (
-                <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-saffron/10 p-5 rounded-xl border border-saffron/20">
-                  <p className="text-sm text-forest-deep max-w-lg">
-                    Thank you — your email client should now be open. If not,
-                    write to{" "}
-                    <a
-                      href={`mailto:${CONTACT.email}`}
-                      className="underline font-medium hover:text-saffron transition-colors"
-                    >
-                      {CONTACT.email}
-                    </a>
-                    .
-                  </p>
-                  <Button
-                    asChild
-                    variant="saffron"
-                    size="lg"
-                    className="shrink-0"
-                  >
-                    <a
-                      href={continueWhatsappHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <MessageCircle className="h-4 w-4 mr-2" />
-                      Continue on WhatsApp
-                    </a>
-                  </Button>
-                </div>
-              )}
-            </form>
+            <div className="mt-8">
+              <EnquiryForm variant="contact" emailTo={CONTACT.email} whatsappPhone={CONTACT.whatsapp} />
+            </div>
           </div>
           {/* Banner */}
           <aside>
@@ -459,82 +282,5 @@ function Social({
       {icon}
       {label}
     </a>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  required,
-  placeholder,
-  error,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-  placeholder?: string;
-  error?: string;
-}) {
-  const id = `f-${name}`;
-  return (
-    <div>
-      <label htmlFor={id} className="eyebrow text-ink-soft">
-        {label}
-        {required && <span className="text-crimson"> *</span>}
-      </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        required={required}
-        placeholder={placeholder}
-        className="w-full bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-1 text-foreground placeholder:text-ink-soft placeholder:text-sm transition-colors"
-      />
-      {error && <p className="mt-2 text-xs text-crimson">{error}</p>}
-    </div>
-  );
-}
-
-function SelectField({
-  label,
-  name,
-  options,
-  error,
-}: {
-  label: string;
-  name: string;
-  options: string[];
-  error?: string;
-}) {
-  const id = `f-${name}`;
-  return (
-    <div>
-      <label htmlFor={id} className="eyebrow text-ink-soft">
-        {label}
-      </label>
-      <div className="relative">
-        <select
-          id={id}
-          name={name}
-          defaultValue=""
-          className="w-full appearance-none bg-transparent border-b border-ink/20 focus:border-forest-deep outline-none py-1 pr-8 text-ink-soft text-sm transition-colors cursor-pointer"
-        >
-          <option value="" disabled>
-            Select…
-          </option>
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-ink-soft text-xs">
-          ▾
-        </span>
-      </div>
-      {error && <p className="mt-2 text-xs text-crimson">{error}</p>}
-    </div>
   );
 }

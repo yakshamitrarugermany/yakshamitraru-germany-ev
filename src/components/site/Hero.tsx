@@ -1,9 +1,4 @@
 "use client";
-import aboutAsset from "@/assets/about.jpg.asset.json";
-import heroAsset from "@/assets/hero.jpg.asset.json";
-import perf1 from "@/assets/perf1.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
-import perf3 from "@/assets/perf3.jpg.asset.json";
 import {
   AnimatePresence,
   motion,
@@ -33,31 +28,31 @@ const FEATURED_ARTISTS = [
   {
     name: "Apurva Beleyur",
     lines: ["Apurva", "Beleyur"],
-    image: heroAsset.url,
+    image: "/images/artists/apurva.jpeg",
     href: "/artists",
   },
   {
     name: "Shashidhar Nairy",
     lines: ["Shashidhar", "Nairy"],
-    image: perf1.url,
+    image: "/images/artists/shashi.jpeg",
     href: "/artists",
   },
   {
     name: "Sushma Ravindra",
     lines: ["Sushma", "Ravindra"],
-    image: perf2.url,
+    image: "/images/artists/sushma.jpg",
     href: "/artists",
   },
   {
     name: "Shreehari Hosamane",
     lines: ["Shreehari", "Hosamane"],
-    image: perf3.url,
+    image: "/images/artists/shreehari.jpeg",
     href: "/artists",
   },
   {
     name: "Prateek Hegde Bengle",
     lines: ["Prateek Hegde", "Bengle"],
-    image: aboutAsset.url,
+    image: "/images/artists/prateek.jpeg",
     href: "/artists",
   },
 ];
@@ -83,7 +78,7 @@ function HeroFeaturedArtists() {
           ease: [0.2, 0.7, 0.2, 1],
           delay: 0.2,
         }}
-        className="flex justify-center items-start w-full max-w-125 lg:max-w-none mx-auto gap-2 md:gap-20 lg:gap-22 xl:gap-20"
+        className="flex justify-center items-start w-full max-w-125 lg:max-w-none mx-auto gap-4 md:gap-20 lg:gap-22 xl:gap-20"
       >
         {FEATURED_ARTISTS.map((artist) => (
           <Link
@@ -256,7 +251,7 @@ export function Hero() {
                   href="/events"
                   className="group inline-flex items-center gap-3 rounded-full bg-saffron px-7 py-3.5 text-sm font-medium text-forest-deep transition-all duration-300 shadow-[0_10px_40px_-15px_color-mix(in_oklab,var(--saffron)_80%,transparent)] hover:shadow-[0_22px_60px_-18px_color-mix(in_oklab,var(--saffron)_95%,transparent)] hover:-translate-y-0.5 hover:bg-saffron/95"
                 >
-                  View Events
+                  Contact Us
                   <span
                     aria-hidden
                     className="transition-transform duration-300 group-hover:translate-x-1"

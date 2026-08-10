@@ -140,7 +140,14 @@ export function SiteFooter() {
                 <Youtube className="h-4 w-4" shrink-0 /> <span>Youtube</span>
               </a>
             </li>
-            <li>Yakshamitraru Germany e.V. - Germany</li>
+            <li>
+              <a
+                href="https://yakshamitrarugermany.com/"
+                className="flex items-center gap-2 hover:text-saffron"
+              >
+                <span>Yakshamitraru Germany e.V. - Germany</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
