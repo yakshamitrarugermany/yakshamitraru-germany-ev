@@ -1,19 +1,24 @@
 "use client";
 
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NAV = [
-  { label: "About Us", to: "/about" },
-  { label: "Our Journey", to: "/our-journey" },
-  { label: "Tradition", to: "/tradition" },
-  { label: "Events", to: "/events" },
-  { label: "Artists", to: "/artists" },
-  { label: "Learn", to: "/learn" },
-  { label: "Gallery", to: "/gallery" },
+  // { label: "About Us", to: "/about" },
+  // { label: "Our Journey", to: "/our-journey" },
+  // { label: "Tradition", to: "/tradition" },
+  // { label: "Events", to: "/events" },
+  // { label: "Artists", to: "/artists" },
+  // { label: "Learn", to: "/learn" },
+  // { label: "Gallery", to: "/gallery" },
   { label: "Contact", to: "/contact" },
 ] as const;
 
