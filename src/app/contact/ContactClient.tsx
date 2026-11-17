@@ -2,18 +2,18 @@
 import { BrandCard } from "@/components/site/BrandCard";
 import { FAQAccordion } from "@/components/site/FAQAccordion";
 
+import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import {
   FiFacebook as Facebook,
   FiInstagram as Instagram,
   FiYoutube as Youtube,
 } from "react-icons/fi";
-import type { ReactNode } from "react";
-import { EnquiryForm } from "@/components/site/EnquiryForm";
 
 const CONTACT = {
   email: "yakshamitrarugermany@gmail.com",
@@ -69,7 +69,19 @@ export default function ContactClient() {
             stage.
           </>
         }
-        lede="Theatres, festivals, universities and cultural institutions across Europe — share a few details and we will come back with programme options, technical rider and fees."
+        lede={
+          <>
+            Backed with 45+ successful events across Europe, including{" "}
+            <em className="italic">
+              France, Switzerland, the Netherlands, Switzerland, Poland, Spain
+              and Denmark,
+            </em>{" "}
+            Yakshagana brings not only eye-catching costumes and powerful
+            performance but also mesmerizing theatrical experience. <br />
+            <br /> Be it theatres, festivals, cultural institutions,
+            universities - We produce tailored production, made Just for You!
+          </>
+        }
         actions={
           <>
             <Button asChild variant="saffron" size="xl">
@@ -96,7 +108,7 @@ export default function ContactClient() {
           />
           <InfoCard
             icon={<Phone className="h-5 w-5" />}
-            label="Apoorva Beleyur"
+            label="Apurva Beleyur"
             value={CONTACT.phone}
             href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
           />
@@ -127,7 +139,11 @@ export default function ContactClient() {
             />
 
             <div className="mt-8">
-              <EnquiryForm variant="contact" emailTo={CONTACT.email} whatsappPhone={CONTACT.whatsapp} />
+              <EnquiryForm
+                variant="contact"
+                emailTo={CONTACT.email}
+                whatsappPhone={CONTACT.whatsapp}
+              />
             </div>
           </div>
           {/* Banner */}
@@ -137,9 +153,10 @@ export default function ContactClient() {
               className="p-6 md:p-8 lg:p-10 lg:flex lg:items-center lg:justify-between lg:gap-8"
             >
               <div className="lg:max-w-xl">
-                <div className="eyebrow text-saffron">Follow the ensemble</div>
+                <div className="eyebrow text-saffron">BLEND WITH THE TEAM</div>
                 <h3 className="heading-lg mt-3 text-cream">
-                  Behind the <em className="italic font-light">curtain.</em>
+                  Behind the curtain + Happy Moment ={" "}
+                  <em className="italic font-light">Our Productions</em>
                 </h3>
                 <p className="mt-3 text-cream/70 text-sm lg:text-base">
                   Rehearsal clips, tour diaries and premieres.
