@@ -30,7 +30,7 @@ export function SiteFooter() {
           <p className="mt-6 max-w-sm text-sm text-cream/60 leading-relaxed">
             A passionate group of Yakshagana enthusiasts dedicated to
             preserving, presenting, and promoting India&apos;s rich traditional
-            art form Yakshagana across Germany and Europe.
+            art form Yakshagana across Germany and Europe
           </p>
         </div>
 

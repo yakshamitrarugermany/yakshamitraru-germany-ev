@@ -258,18 +258,19 @@ export default function AboutPage() {
             <span>European Stage for Indian Art</span>
           </div>
           <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-3xl">
-            The Joy and the Passion motivate the team not only to introduce
-            Yakshagana to European audiences but also perform with pride.
-            <br />
-            <br />
-            The team travels across Europe and introduces Yakshagana to European
-            audiences.
-            <br />
-            <br />
-            German cities such as Frankfurt, Munich, Berlin, Cologne, Hamburg
-            and so on and France, Sweden, Poland, Netherlands, Switzerland,
-            Spain and Denmark have staged Yakshagana Performances between 2018
-            to 2025.
+            The joy and passion of Yakshamitraru Germany inspire the team not
+            only to introduce Yakshagana to European audiences but also to
+            perform it with immense pride. Since its inception, the team has
+            travelled extensively across Europe, sharing the rich cultural
+            heritage of Yakshagana through authentic performances.
+          </p>
+          <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-3xl">
+            Between 2018 and 2025, Yakshamitraru Germany has staged performances
+            in several German cities, including Frankfurt, Munich, Berlin,
+            Cologne, and Hamburg, as well as in countries such as France,
+            Sweden, Poland, the Netherlands, Switzerland, Spain, and Denmark,
+            bringing this timeless Indian art form to diverse audiences across
+            Europe.
           </p>
         </div>
       </Section>

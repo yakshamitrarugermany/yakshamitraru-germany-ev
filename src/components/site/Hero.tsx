@@ -1,7 +1,6 @@
 "use client";
 import {
   AnimatePresence,
-  type MotionValue,
   motion,
   useScroll,
   useTransform,
@@ -64,188 +63,51 @@ const STATS = [
   { icon: Sparkles, k: "45+", v: "Performances" },
   { icon: MapPin, k: "26", v: "Cities in Europe" },
   { icon: Users, k: "20+", v: "Artists" },
-  { icon: Calendar, k: "100+", v: "New Audience" },
+  { icon: Calendar, k: "Since 2018", v: "One Community" },
 ];
 
 function HeroFeaturedArtists() {
   return (
-    <div className="mt-10 w-full border-t border-cream/10 pt-2 md:pt-4 lg:pt-6">
-      {/* Tagline + artist row */}
-      <div className="flex flex-col w-full max-w-125 md:max-w-2xl lg:w-fit lg:max-w-none mx-auto lg:flex-row lg:items-center lg:justify-center lg:gap-6 xl:gap-8">
-        {/* Tagline: left-aligned above on mobile/tablet, vertical left on lg+ */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.1 }}
-          className="flex flex-row items-center justify-start gap-2 text-left w-full lg:w-auto lg:flex-col lg:items-center lg:shrink-0 lg:self-stretch lg:justify-center mb-1.5 md:mb-2.5 lg:mb-0"
-        >
-          {/* Short gold dash — horizontal before text on mobile/tablet, vertical after text on lg+ */}
-          <span
-            aria-hidden
-            className="block h-px w-5 lg:hidden shrink-0 rounded-full bg-[#B8863B] opacity-90"
-          />
-          <span className="font-serif text-xs sm:text-base lg:text-xl leading-tight tracking-tight text-[#FAF6EE] drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)] lg:[writing-mode:vertical-rl] lg:[text-orientation:mixed] lg:rotate-180">
-            MAKEers without MAKE-up
-          </span>
-          <span
-            aria-hidden
-            className="hidden lg:block lg:h-5 lg:w-px rounded-full bg-[#B8863B] opacity-90 lg:mx-auto"
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.7,
-            ease: [0.2, 0.7, 0.2, 1],
-            delay: 0.2,
-          }}
-          className="flex justify-between lg:justify-center items-start w-full lg:w-auto mx-auto gap-1 sm:gap-4 md:gap-6 lg:gap-12 xl:gap-20"
-        >
-          {FEATURED_ARTISTS.map((artist) => (
-            <Link
-              key={artist.name}
-              href={artist.href}
-              className="group flex flex-col items-center gap-2 lg:gap-3 flex-1 min-w-0 lg:flex-none lg:w-32 xl:w-34 lg:shrink-0"
-            >
-              <div className="relative w-12 h-12 sm:w-18 sm:h-18 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-34 xl:h-34 shrink-0 rounded-full overflow-hidden shadow-card transition-all duration-500 lg:group-hover:scale-[1.05] lg:group-hover:shadow-card-hover border border-cream/10 lg:group-hover:border-saffron/40">
-                <Image
-                  src={artist.image}
-                  alt={artist.name}
-                  fill
-                  className="object-cover transition-transform duration-700 lg:group-hover:scale-110"
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_4px_12px_rgba(0,0,0,0.4)]"
-                />
-              </div>
-              <span className="font-serif text-[10px] sm:text-sm md:text-base lg:text-xl xl:text-2xl text-cream/90 lg:text-cream/80 transition-colors lg:group-hover:text-saffron text-center text-balance leading-tight">
-                {artist.lines.map((part, i) => (
-                  <span key={i} className="block whitespace-nowrap">
-                    {part}
-                  </span>
-                ))}
-              </span>
-            </Link>
-          ))}
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-function HeroPerformerCarousel({
-  index,
-  y,
-  go,
-  setIndex,
-}: {
-  index: number;
-  y: MotionValue<number>;
-  go: (dir: 1 | -1) => void;
-  setIndex: (index: number) => void;
-}) {
-  return (
-    /* Right — performer carousel */
-    <div className="lg:col-span-6 xl:col-span-6 order-2 lg:order-2 relative flex flex-col gap-6 md:gap-8 w-full md:max-w-136 lg:max-w-none mx-auto">
+    <div className="mt-10 w-full border-t border-cream/10 pt-6">
       <motion.div
-        className="relative min-h-100 aspect-10/11 sm:min-h-125 sm:aspect-5/6 md:min-h-0 lg:aspect-4/5 w-full overflow-hidden rounded-2xl lg:rounded-[2rem] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] max-lg:transform-none! max-lg:translate-y-0!"
-        style={{ y }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.7,
+          ease: [0.2, 0.7, 0.2, 1],
+          delay: 0.2,
+        }}
+        className="flex justify-center items-start w-full max-w-125 lg:max-w-none mx-auto gap-4 md:gap-20 lg:gap-22 xl:gap-20"
       >
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={index}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.4, ease: "easeOut" }}
-            className="absolute inset-0 w-full h-full"
+        {FEATURED_ARTISTS.map((artist) => (
+          <Link
+            key={artist.name}
+            href="/"
+            className="group flex flex-col items-center gap-2 lg:gap-3 w-12 sm:w-15 md:w-18 lg:w-16 xl:w-20 shrink-0"
           >
-            <Image
-              src={SLIDES[index].src}
-              alt={SLIDES[index].alt}
-              fill
-              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 544px, 50vw"
-              className="object-cover object-[60%_center]"
-              priority
-            />
-          </motion.div>
-        </AnimatePresence>
-        {/* Dark maroon wash for legibility, stronger on the left edge */}
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-linear-to-r from-[#2a060b] via-[#2a060b]/30 to-transparent lg:from-[#2a060b] lg:via-transparent lg:to-transparent"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-linear-to-t from-[#2a060b]/70 via-transparent to-transparent"
-        />
-      </motion.div>
-
-      {/* Carousel controls */}
-      <button
-        onClick={() => go(-1)}
-        aria-label="Previous slide"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
-      <button
-        onClick={() => go(1)}
-        aria-label="Next slide"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
-
-      {/* Indicators */}
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-5 z-20 flex items-center gap-2">
-        {SLIDES.map((s, i) => (
-          <button
-            key={s.src}
-            onClick={() => setIndex(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            aria-current={i === index}
-            className="group grid h-6 place-items-center focus-visible:outline-none"
-          >
-            <span
-              className={`h-1 md:h-1.5 rounded-full transition-all duration-500 ${
-                i === index
-                  ? "w-8 bg-saffron"
-                  : "w-3 bg-cream/40 group-hover:bg-cream/70"
-              }`}
-            />
-          </button>
+            <div className="relative w-12 h-12 sm:w-18 sm:h-18 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-34 xl:h-34 rounded-full overflow-hidden shadow-card transition-all duration-500 lg:group-hover:scale-[1.05] lg:group-hover:shadow-card-hover border border-cream/10 lg:group-hover:border-saffron/40">
+              <Image
+                src={artist.image}
+                alt={artist.name}
+                fill
+                className="object-cover transition-transform duration-700 lg:group-hover:scale-110"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_4px_12px_rgba(0,0,0,0.4)]"
+              />
+            </div>
+            <span className="font-serif text-xs sm:text-base md:text-xl lg:text-xl xl:text-2xl text-cream/90 lg:text-cream/80 transition-colors lg:group-hover:text-saffron text-center leading-tight">
+              {artist.lines.map((part, i) => (
+                <span key={i} className="block whitespace-nowrap">
+                  {part}
+                </span>
+              ))}
+            </span>
+          </Link>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -335,100 +197,186 @@ export function Hero() {
         <div className="relative container-page pt-18 md:pt-22 pb-24 min-h-[92svh] md:min-h-[94svh]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Left — content */}
-            <div className="contents lg:block lg:col-span-6 xl:col-span-6 relative z-10 lg:order-1">
-              <div className="order-1 lg:order-0 relative z-10">
-                {renderHeroHeader()}
-              </div>
+            <div className="lg:col-span-6 xl:col-span-6 relative z-10 order-2 lg:order-1">
+              {renderHeroHeader()}
 
-              <div className="order-3 lg:order-0 relative z-10">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.7,
-                    ease: [0.2, 0.7, 0.2, 1],
-                    delay: 0.15,
-                  }}
-                  className="lg:mt-8 flex items-start gap-3 md:gap-4 text-saffron"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.7,
+                  ease: [0.2, 0.7, 0.2, 1],
+                  delay: 0.15,
+                }}
+                className="mt-8 flex items-start gap-3 md:gap-4 text-saffron"
+              >
+                <span className="mt-1 w-0.5 shrink-0 self-stretch rounded-full bg-saffron" />
+
+                <span className="font-serif text-2xl md:text-3xl tracking-wide leading-none">
+                  <span className="block">The Indian Heritage</span>
+                  <span className="block">Lives on European Stage.</span>
+                </span>
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.7,
+                  ease: [0.2, 0.7, 0.2, 1],
+                  delay: 0.3,
+                }}
+                className="mt-8 max-w-lg text-base italic text-cream/80 leading-relaxed"
+              >
+                India&apos;s traditional theatre{" "}
+                <span className="font-bold">Yakshagana</span> which consists of
+                Storytelling, unique dance music, vibrant make-up, costume and
+                dialogue.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.7,
+                  ease: [0.2, 0.7, 0.2, 1],
+                  delay: 0.45,
+                }}
+                className="mt-9 flex flex-wrap items-center gap-4"
+              >
+                <Link
+                  href="/contact"
+                  className="group inline-flex items-center gap-3 rounded-full bg-saffron px-7 py-3.5 text-sm font-medium text-forest-deep transition-all duration-300 shadow-[0_10px_40px_-15px_color-mix(in_oklab,var(--saffron)_80%,transparent)] hover:shadow-[0_22px_60px_-18px_color-mix(in_oklab,var(--saffron)_95%,transparent)] hover:-translate-y-0.5 hover:bg-saffron/95"
                 >
-                  <span className="mt-1 w-0.5 shrink-0 self-stretch rounded-full bg-saffron" />
-
-                  <span className="font-serif text-2xl md:text-3xl tracking-wide leading-none">
-                    <span className="block">The Indian Heritage</span>
-                    <span className="block">Lives on European Stage.</span>
+                  Contact Us
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  >
+                    →
                   </span>
-                </motion.div>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.7,
-                    ease: [0.2, 0.7, 0.2, 1],
-                    delay: 0.3,
-                  }}
-                  className="mt-8 max-w-lg text-base italic text-cream/80 leading-relaxed"
+                </Link>
+                <Link
+                  href="/contact#booking"
+                  className="inline-flex items-center gap-3 rounded-full border border-cream/30 bg-cream/4 px-7 py-3.5 text-sm text-cream backdrop-blur-md transition-colors hover:bg-cream/10 hover:border-cream/60"
                 >
-                  India&apos;s traditional theatre{" "}
-                  <span className="font-bold">Yakshagana</span> which consists
-                  of Storytelling, unique dance music, vibrant make-up, costume
-                  and dialogue.
-                </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.7,
-                    ease: [0.2, 0.7, 0.2, 1],
-                    delay: 0.45,
-                  }}
-                  className="mt-9 flex flex-wrap items-center gap-4"
-                >
-                  <Link
-                    href="/events"
-                    className="group inline-flex items-center gap-3 rounded-full bg-saffron px-7 py-3.5 text-sm font-medium text-forest-deep transition-all duration-300 shadow-[0_10px_40px_-15px_color-mix(in_oklab,var(--saffron)_80%,transparent)] hover:shadow-[0_22px_60px_-18px_color-mix(in_oklab,var(--saffron)_95%,transparent)] hover:-translate-y-0.5 hover:bg-saffron/95"
-                  >
-                    Contact Us
-                    <span
-                      aria-hidden
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
-                  </Link>
-                  <Link
-                    href="/contact#booking"
-                    className="inline-flex items-center gap-3 rounded-full border border-cream/30 bg-cream/4 px-7 py-3.5 text-sm text-cream backdrop-blur-md transition-colors hover:bg-cream/10 hover:border-cream/60"
-                  >
-                    Book a Performance
-                  </Link>
-                </motion.div>
-              </div>
+                  Book a Performance
+                </Link>
+              </motion.div>
             </div>
 
-            <HeroPerformerCarousel
-              index={index}
-              y={y}
-              go={go}
-              setIndex={setIndex}
-            />
+            {/* Right — performer carousel */}
+            <div className="lg:col-span-6 xl:col-span-6 order-1 lg:order-2 relative flex flex-col gap-6 md:gap-8">
+              <motion.div
+                className="relative min-h-100 aspect-10/11 sm:min-h-125 sm:aspect-5/6 lg:min-h-0 lg:aspect-4/5 w-full overflow-hidden rounded-2xl lg:rounded-[2rem] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
+                style={{ y }}
+              >
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.4, ease: "easeOut" }}
+                    className="absolute inset-0 w-full h-full"
+                  >
+                    <Image
+                      src={SLIDES[index].src}
+                      alt={SLIDES[index].alt}
+                      fill
+                      className="object-cover object-[60%_center]"
+                      priority
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                {/* Dark maroon wash for legibility, stronger on the left edge */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-linear-to-r from-[#2a060b] via-[#2a060b]/30 to-transparent lg:from-[#2a060b] lg:via-transparent lg:to-transparent"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-linear-to-t from-[#2a060b]/70 via-transparent to-transparent"
+                />
+              </motion.div>
+
+              {/* Carousel controls */}
+              <button
+                onClick={() => go(-1)}
+                aria-label="Previous slide"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={() => go(1)}
+                aria-label="Next slide"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:grid h-12 w-12 place-items-center rounded-full border border-cream/10 bg-black/20 text-cream/70 backdrop-blur-sm transition-all hover:bg-black/40 hover:text-cream hover:border-cream/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+
+              {/* Indicators */}
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-5 z-20 flex items-center gap-2">
+                {SLIDES.map((s, i) => (
+                  <button
+                    key={s.src}
+                    onClick={() => setIndex(i)}
+                    aria-label={`Go to slide ${i + 1}`}
+                    aria-current={i === index}
+                    className="group grid h-6 place-items-center focus-visible:outline-none"
+                  >
+                    <span
+                      className={`h-1 md:h-1.5 rounded-full transition-all duration-500 ${
+                        i === index
+                          ? "w-8 bg-saffron"
+                          : "w-3 bg-cream/40 group-hover:bg-cream/70"
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
           <HeroFeaturedArtists />
         </div>
       </div>
 
       {/* Stats bar — overlapping the hero section */}
-      <div className="relative z-30 container-page w-full box-border -mt-20 md:-mt-16 mb-16 md:mb-20">
+      <div className="relative z-30 container-page -mt-20 md:-mt-16 mb-16 md:mb-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.2 }}
-          className="w-full rounded-2xl border border-forest-deep/20 bg-forest-deep text-cream shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--forest-deep)_75%,transparent)] px-6 sm:px-8 md:px-10 py-7 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-6"
+          className="rounded-2xl border border-forest-deep/20 bg-forest-deep text-cream shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--forest-deep)_75%,transparent)] px-6 sm:px-8 md:px-10 py-7 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-6"
         >
           {STATS.map((s) => {
             const Icon = s.icon;
