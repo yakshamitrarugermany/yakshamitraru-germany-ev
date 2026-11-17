@@ -1,17 +1,11 @@
-import { AboutSection } from "@/components/site/AboutSection";
 import { BookSection } from "@/components/site/BookSection";
-import { FeaturedArtists } from "@/components/site/FeaturedArtists";
 import { Hero } from "@/components/site/Hero";
-import { Mission } from "@/components/site/Mission";
 
-import { UpcomingPerformance } from "@/components/site/UpcomingPerformance";
 import type { Metadata } from "next";
 
 import heroAsset from "@/assets/hero.jpg.asset.json";
-import { GalleryPreview } from "@/components/site/GalleryPreview";
-import { Newsletter } from "@/components/site/Newsletter";
 import { SectionSeparator } from "@/components/site/Section";
-import { Testimonials } from "@/components/site/Testimonials";
+import { UpcomingPerformanceDefault } from "@/components/site/UpcomingPerformanceDefualt";
 
 export const metadata: Metadata = {
   title: "Yakshamitraru Germany e.V. — Yakshagana across Europe",
@@ -33,20 +27,20 @@ export default function HomePage() {
     <>
       <main>
         <Hero />
-        <UpcomingPerformance />
-        {/* <UpcomingPerformanceDefault /> */}
-        <SectionSeparator />
-        <Testimonials />
+        {/* <UpcomingPerformance /> */}
+        <UpcomingPerformanceDefault />
+        {/* <SectionSeparator /> */}
+        {/* <Testimonials />
         <SectionSeparator />
         <AboutSection />
         <SectionSeparator />
         <FeaturedArtists />
         <SectionSeparator />
         <GalleryPreview />
-        <SectionSeparator />
-        <Mission />
+        <Mission /> */}
         <BookSection />
-        <Newsletter />
+        <SectionSeparator />
+        {/* <Newsletter /> */}
       </main>
     </>
   );

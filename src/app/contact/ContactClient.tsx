@@ -1,6 +1,5 @@
 "use client";
 import { BrandCard } from "@/components/site/BrandCard";
-import { FAQAccordion } from "@/components/site/FAQAccordion";
 
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { PageHero } from "@/components/site/PageHero";
@@ -190,7 +189,7 @@ export default function ContactClient() {
       </Section>
 
       {/* FAQ */}
-      <Section tone="muted" size="sm">
+      {/* <Section tone="muted" size="sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           <div className="lg:col-span-4">
             <SectionHeader
@@ -220,7 +219,7 @@ export default function ContactClient() {
             <FAQAccordion items={FAQS} variant="bold" />
           </div>
         </div>
-      </Section>
+      </Section> */}
     </>
   );
 }
