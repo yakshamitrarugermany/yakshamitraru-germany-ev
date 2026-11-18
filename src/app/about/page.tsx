@@ -268,8 +268,8 @@ export default function AboutPage() {
             <br />
             German cities such as Frankfurt, Munich, Berlin, Cologne, Hamburg
             and so on and France, Sweden, Poland, Netherlands, Switzerland,
-            Spain and Denmark have staged Yakshagana Performances between 2018
-            to 2025.
+            Spain, Denmark, and Finland have staged Yakshagana Performances
+            between 2018 to 2025.
           </p>
         </div>
       </Section>
@@ -330,51 +330,6 @@ export default function AboutPage() {
             </p>
           </BrandCard>
         </div>
-      </Section>
-
-      {/* 4. Our Journey — timeline */}
-      <Section tone="cream" className="pt-0">
-        <SectionHeader
-          eyebrow="Our Journey"
-          title={
-            <>
-              Ten years, <em className="italic font-light">one ensemble</em>.
-            </>
-          }
-          lede="From a Berlin living room to European stages — the milestones that shaped Yakshamitraru Germany."
-        />
-        <ol className="relative mt-16 grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10 md:gap-y-14">
-          <div
-            aria-hidden
-            className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-forest-deep/10 -translate-x-1/2"
-          />
-          {MILESTONES.map((m, i) => (
-            <li
-              key={m.year}
-              className={`relative ${
-                i % 2 === 0
-                  ? "md:pr-10 md:text-right"
-                  : "md:pl-10 md:col-start-2"
-              }`}
-            >
-              <div
-                aria-hidden
-                className={`hidden md:block absolute top-3 h-3 w-3 rounded-full bg-saffron ring-4 ring-cream ${
-                  i % 2 === 0 ? "-right-1.75" : "-left-1.75"
-                }`}
-              />
-              <div className="font-mono text-sm text-crimson tracking-wider">
-                {m.year}
-              </div>
-              <h3 className="mt-2 font-serif text-2xl md:text-3xl text-forest-deep leading-tight">
-                {m.title}
-              </h3>
-              <p className="mt-3 text-ink-soft leading-relaxed max-w-md md:ml-auto">
-                {m.body}
-              </p>
-            </li>
-          ))}
-        </ol>
       </Section>
 
       {/* 5. What We Do */}
@@ -443,51 +398,6 @@ export default function AboutPage() {
                 {v.body}
               </p>
             </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* 7. Leadership / Committee */}
-      <Section tone="cream">
-        <SectionHeader
-          eyebrow="Leadership"
-          title={
-            <>
-              The <em className="italic font-light">committee</em>.
-            </>
-          }
-          lede="Elected members of the executive committee of Yakshamitraru Germany e.V., steering the association's artistic and organisational life."
-        />
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {COMMITTEE.map((p) => (
-            <BrandCard
-              key={p.name}
-              variant="cream"
-              interactive
-              className="flex flex-col"
-            >
-              <div className="relative aspect-4/5 overflow-hidden bg-forest-deep media-zoom">
-                <Image
-                  src={p.image}
-                  alt={p.name}
-                  fill
-                  className="object-cover"
-                />
-                <div
-                  aria-hidden
-                  className="absolute inset-0 bg-linear-to-t from-forest-deep/50 via-transparent to-transparent"
-                />
-              </div>
-              <div className="p-6">
-                <div className="eyebrow text-crimson text-[10px]">{p.role}</div>
-                <h3 className="mt-2 font-serif text-2xl text-forest-deep leading-tight">
-                  {p.name}
-                </h3>
-                <p className="mt-3 text-sm text-ink-soft leading-relaxed">
-                  {p.bio}
-                </p>
-              </div>
-            </BrandCard>
           ))}
         </div>
       </Section>

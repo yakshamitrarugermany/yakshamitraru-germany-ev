@@ -40,8 +40,8 @@ type EventItem = {
 
 const EVENTS: EventItem[] = [
   {
-    slug: "devi-mahatme-berlin",
-    title: "Devi Mahatme — Premiere",
+    slug: "jambavati-kalyana-berlin",
+    title: "Jambavati Kalyana — Premiere",
     date: "Sat, 12 Sep 2026 · 19:30",
     iso: "2026-09-12",
     city: "Berlin",

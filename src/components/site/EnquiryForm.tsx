@@ -361,7 +361,7 @@ export function EnquiryForm({
             label: "Audience size",
             name: "audience",
             error: errors.audience,
-            options: ["Under 100", "100–300", "300–800", "800+"],
+            options: ["Under 50", "50–100", "100–150", "150+"],
           })}
 
         {/* Brief Field */}
@@ -391,8 +391,8 @@ export function EnquiryForm({
       >
         <p className={footnoteClass}>
           {isHome
-            ? "By submitting, your email client will open with the enquiry addressed to "
-            : "On submit, your email client opens with the enquiry addressed to "}
+            ? "By submitting, your email app will open with your message addressed to "
+            : "On submit, your email app opens with your message addressed to "}
           {emailTo}.
         </p>
 
@@ -414,7 +414,7 @@ export function EnquiryForm({
       {sent &&
         (isHome ? (
           <p className="mt-6 text-sm text-saffron">
-            Thank you — your email client should now be open. If not, write to{" "}
+            Thank you — your email app should now be open. If not, write to{" "}
             <a href={`mailto:${emailTo}`} className="underline">
               {emailTo}
             </a>
@@ -423,7 +423,7 @@ export function EnquiryForm({
         ) : (
           <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-saffron/10 p-5 rounded-xl border border-saffron/20">
             <p className="text-sm text-forest-deep max-w-lg">
-              Thank you — your email client should now be open. If not, write to{" "}
+              Thank you — your email app should now be open. If not, write to{" "}
               <a
                 href={`mailto:${emailTo}`}
                 className="underline font-medium hover:text-saffron transition-colors"
