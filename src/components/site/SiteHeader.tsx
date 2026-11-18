@@ -79,8 +79,11 @@ export function SiteHeader() {
             : "linear-gradient(to right, #3A231E 0%, #160D0B 50%, #3A231E 100%) backdrop-blur-lg"
         }`}
       >
-        <div className="container-page flex h-14 md:h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 lg:gap-2 xl:gap-3 group shrink-0">
+        <div className="container-page lg:px-4 xl:px-6 flex h-14 md:h-16 items-center justify-between gap-2 xl:gap-4">
+          <Link
+            href="/"
+            className="flex items-center gap-3 lg:gap-2 xl:gap-3 group shrink-0"
+          >
             <div className="relative flex items-center justify-center h-10 w-10 md:h-11 md:w-11 lg:h-9 lg:w-9 xl:h-11 xl:w-11 min-h-10 min-w-10 md:min-h-11 md:min-w-11 lg:min-h-9 lg:min-w-9 xl:min-h-11 xl:min-w-11 shrink-0 rounded-full bg-forest overflow-hidden">
               <Image
                 src="/images/logos/Yakshamitraru_e.V_Logo_Circle.png"
@@ -90,27 +93,27 @@ export function SiteHeader() {
               />
             </div>
             <span className="flex flex-col leading-tight">
-              <span
-                className={`font-serif text-[15px] md:text-[16px] lg:text-[15px] xl:text-[16px] tracking-tight transition-colors duration-500 ${scrolled ? "text-ink" : "text-cream"}`}
+              {/* <span
+                className={`font-serif text-[15px] md:text-[16px] lg:text-[14px] xl:text-[16px] tracking-tight transition-colors duration-500 ${scrolled ? "text-ink" : "text-cream"}`}
               >
-                Yakshamitraru
-              </span>
+                Yakshamitraru <br /> Germany e.V.
+              </span> */}
               <span
-                className={`eyebrow text-[9px] md:text-[10px] lg:text-[9px] xl:text-[10px] transition-colors duration-500 ${scrolled ? "text-ink/60" : "text-saffron/80"}`}
+                className={`eyebrow text-[9px] md:text-[10px] transition-colors duration-500 ${scrolled ? "text-ink/60" : "text-saffron/80"}`}
               >
-                Germany e.V.
+                Yakshamitraru <br /> Germany e.V.
               </span>
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-3 lg:gap-3.5 xl:gap-9">
+          <nav className="hidden lg:flex min-w-0 items-center gap-3 lg:gap-4 xl:gap-9">
             {NAV.map((item) => {
               const isActive = pathname === item.to;
               return (
                 <Link
                   key={item.to}
                   href={item.to}
-                  className={`text-[13px] lg:text-xs xl:text-sm whitespace-nowrap transition-colors duration-300 hover:text-saffron ${isActive ? "text-saffron" : scrolled ? "text-ink/80" : "text-cream/80"}`}
+                  className={`text-[13px] lg:text-[12.5px] xl:text-sm whitespace-nowrap transition-colors duration-300 hover:text-saffron ${isActive ? "text-saffron" : scrolled ? "text-ink/80" : "text-cream/80"}`}
                 >
                   {item.label}
                 </Link>
@@ -121,7 +124,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2 shrink-0">
             <Link
               href="/contact#booking"
-              className="hidden lg:inline-flex items-center gap-1.5 lg:gap-1.5 xl:gap-2 rounded-full bg-saffron px-4 lg:px-3.5 xl:px-5 py-2 xl:py-2.5 text-[13px] lg:text-xs xl:text-sm font-medium whitespace-nowrap text-forest-deep hover:bg-saffron/90 transition-colors shadow-[0_8px_24px_-12px_rgba(218,165,32,0.45)]"
+              className="hidden lg:inline-flex shrink-0 items-center gap-1.5 lg:gap-1.5 xl:gap-2 rounded-full bg-saffron px-4 lg:px-3.5 xl:px-5 py-2 xl:py-2.5 text-[13px] lg:text-[12.5px] xl:text-sm font-medium whitespace-nowrap text-forest-deep hover:bg-saffron/90 transition-colors shadow-[0_8px_24px_-12px_rgba(218,165,32,0.45)]"
             >
               Book a performance
               <span aria-hidden>→</span>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Ticket } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { SectionHeader } from "./Section";
@@ -96,13 +96,13 @@ export function UpcomingPerformance() {
           {/* Editorial detail column */}
           <div className="lg:col-span-4 mt-0">
             <h2 className="font-serif text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-forest-deep">
-              Devi Mahatme
+              Jambavati Kalyana
             </h2>
             <p className="mt-6 text-ink-soft leading-relaxed">
               A full-length prasanga staged for European audiences — crown, drum
               and song, from dusk into the night.
             </p>
-            <dl className="mt-8 space-y-3 text-sm border-t border-border pt-6">
+            {/* <dl className="mt-8 space-y-3 text-sm border-t border-border pt-6">
               <div className="flex items-center gap-3">
                 <Calendar className="h-4 w-4 text-forest" />
                 <dd>19:30 · Doors 18:45</dd>
@@ -111,7 +111,7 @@ export function UpcomingPerformance() {
                 <Ticket className="h-4 w-4 text-forest" />
                 <dd>From €24 · Concession available</dd>
               </div>
-            </dl>
+            </dl> */}
             <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <Button
                 asChild

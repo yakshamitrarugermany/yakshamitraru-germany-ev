@@ -26,11 +26,11 @@ const CONTACT = {
 const FAQS: { q: string; a: string }[] = [
   {
     q: "What kind of venues do you perform at?",
-    a: "Theatres, festivals, universities, embassies, museums and private hosts across Europe. We adapt from full night-long productions to 45-minute concert sets.",
+    a: "Theatres, festivals, universities, embassies, museums and private hosts across Europe.",
   },
   {
     q: "How much notice do you need to book?",
-    a: "For full productions we recommend at least three to four months. Concert sets and workshops can often be arranged with six to eight weeks of lead time.",
+    a: "The sooner the better! We recommend two to three months lead time. However, we can produce quite instantly as well.",
   },
   {
     q: "Do you provide the full technical setup?",
@@ -38,7 +38,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "In which languages do you perform?",
-    a: "Yakshagana is traditionally in Kannada. We offer English or German synopses, surtitles and pre-show introductions for European audiences.",
+    a: "Yakshagana is majorly performed in Kannada. We offer English or German productions (Audio will be in Kannada, but dialogues in English or German). We also provide translations of synopses, subtitles and pre-show introductions for European audiences.",
   },
   {
     q: "Can you tailor a programme for our event?",
@@ -46,7 +46,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "How are fees structured?",
-    a: "Fees depend on programme length, ensemble size and travel. We share a transparent quote after understanding your event.",
+    a: "Money is not the matter but the Art is! We share a transparent quote after understanding your event.",
   },
 ];
 
@@ -73,8 +73,8 @@ export default function ContactClient() {
           <>
             Backed with 45+ successful events across Europe, including{" "}
             <em className="italic">
-              France, Switzerland, the Netherlands, Switzerland, Poland, Spain
-              and Denmark,
+              France, Switzerland, the Netherlands, Switzerland, Poland, Spain,
+              Denmark, and Finland,
             </em>{" "}
             Yakshagana brings not only eye-catching costumes and powerful
             performance but also mesmerizing theatrical experience. <br />

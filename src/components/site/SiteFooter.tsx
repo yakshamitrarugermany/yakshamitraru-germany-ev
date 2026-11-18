@@ -145,7 +145,7 @@ export function SiteFooter() {
                 href="https://yakshamitrarugermany.com/"
                 className="flex items-center gap-2 hover:text-saffron"
               >
-                <span>Yakshamitraru Germany e.V. - Germany</span>
+                <span>Yakshamitraru Germany e.V.</span>
               </a>
             </li>
           </ul>
