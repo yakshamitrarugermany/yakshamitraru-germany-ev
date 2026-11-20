@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { MapPin } from "lucide-react";
+import { UPCOMING_EVENTS } from "@/data/events";
+import { Calendar, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { SectionHeader } from "./Section";
 
 export function UpcomingPerformance() {
+  const event = UPCOMING_EVENTS[0];
+  if (!event) return null;
+
   return (
     <section className="relative bg-cream section-sm">
       {/* Subtle gold accent — clipped in its own layer so the
@@ -40,8 +44,8 @@ export function UpcomingPerformance() {
           <div className="lg:col-span-8 relative group">
             <div className="media-zoom relative w-full aspect-4/3 md:aspect-16/10 rounded-3xl overflow-hidden shadow-card">
               <Image
-                src="/images/events/event1.jpg"
-                alt="Devi Mahatme — opening night"
+                src={event.image}
+                alt={event.title}
                 fill
                 className="object-cover"
               />
@@ -55,25 +59,22 @@ export function UpcomingPerformance() {
             <div className="absolute -top-4 -left-2 md:-top-6 md:-left-8 bg-cream border border-border rounded-xl md:rounded-2xl shadow-xl px-3 py-2 md:px-6 md:py-5 text-center z-10">
               {/* Desktop version */}
               <div className="hidden md:block eyebrow text-crimson text-[10px]">
-                Sep
+                Nov
               </div>
               <div className="hidden md:block font-serif text-5xl md:text-6xl leading-none text-forest-deep mt-1">
-                12
+                28
               </div>
               <div className="hidden md:block mt-2 eyebrow text-ink-soft/80 text-[9px]">
-                Saturday · 2026
+                {event.date}
               </div>
 
               {/* Mobile version */}
               <div className="md:hidden flex flex-col items-center justify-center font-sans text-forest-deep leading-tight">
-                <div className="text-[10px] font-medium uppercase tracking-widest text-crimson">
-                  Sat
-                </div>
-                <div className="text-[13px] font-bold tracking-wide mt-0.5 whitespace-nowrap">
-                  12 Sep 2026
+                <div className="text-[13px] font-bold tracking-wide whitespace-nowrap">
+                  {event.date}
                 </div>
                 <div className="text-[10px] font-medium tracking-wide text-ink-soft/90 mt-0.5 whitespace-nowrap">
-                  19:30 CET
+                  {event.time}
                 </div>
               </div>
             </div>
@@ -85,33 +86,31 @@ export function UpcomingPerformance() {
                 <MapPin className="h-4 w-4" />
               </span>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide md:normal-case md:font-normal md:tracking-normal md:text-sm truncate md:whitespace-normal">
-                <span className="md:hidden">Berlin</span>
-                <span className="hidden md:inline">
-                  Haus der Kulturen der Welt · Berlin
-                </span>
+                {event.location}
               </span>
             </div>
           </div>
 
           {/* Editorial detail column */}
           <div className="lg:col-span-4 mt-0">
-            <h2 className="font-serif text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-forest-deep">
-              Jambavati Kalyana
+            <div className="eyebrow text-crimson">{event.organizer}</div>
+            <h2 className="mt-3 font-serif text-[clamp(2rem,3.5vw,3rem)] leading-tight text-forest-deep">
+              {event.title}
             </h2>
-            <p className="mt-6 text-ink-soft leading-relaxed">
-              A full-length prasanga staged for European audiences — crown, drum
-              and song, from dusk into the night.
-            </p>
-            {/* <dl className="mt-8 space-y-3 text-sm border-t border-border pt-6">
+            <dl className="mt-8 space-y-3 text-sm border-t border-border pt-6">
               <div className="flex items-center gap-3">
-                <Calendar className="h-4 w-4 text-forest" />
-                <dd>19:30 · Doors 18:45</dd>
+                <Calendar className="h-4 w-4 text-forest shrink-0" />
+                <dd>{event.date}</dd>
               </div>
               <div className="flex items-center gap-3">
-                <Ticket className="h-4 w-4 text-forest" />
-                <dd>From €24 · Concession available</dd>
+                <Clock className="h-4 w-4 text-forest shrink-0" />
+                <dd>{event.time}</dd>
               </div>
-            </dl> */}
+              <div className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 text-forest shrink-0" />
+                <dd>{event.location}</dd>
+              </div>
+            </dl>
             <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <Button
                 asChild

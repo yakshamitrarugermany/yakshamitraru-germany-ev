@@ -1,11 +1,11 @@
+import heroAsset from "@/assets/hero.jpg.asset.json";
 import type { Metadata } from "next";
 import ArtistsClient from "./ArtistsClient";
-import heroAsset from "@/assets/hero.jpg.asset.json";
 
 export const metadata: Metadata = {
   title: "Artists & Ensemble — Yakshamitraru Germany e.V.",
   description:
-    "Meet the artists of Yakshamitraru Germany e.V. — vesha, bhagavata, chende and maddale performers bringing Yakshagana to European stages.",
+    "Meet the artists of Yakshamitraru Germany e.V. — vesha, bhagavata, chande and maddale performers bringing Yakshagana to European stages.",
   openGraph: {
     title: "Artists & Ensemble — Yakshamitraru Germany e.V.",
     description:

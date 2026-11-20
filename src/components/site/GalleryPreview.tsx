@@ -34,7 +34,7 @@ export function GalleryPreview() {
             image: "/images/gallery/photo1.jpg",
             alt: "Yakshagana performer in full crown and costume",
             character: "Kamsa",
-            artist: "Prashanth",
+            artist: "Mummela",
             year: "2023",
           },
           {
@@ -55,7 +55,7 @@ export function GalleryPreview() {
             image: "/images/gallery/photo4.jpg",
             alt: "Veshadari in dramatic stage light",
             character: "Rakshasa",
-            artist: "Suhas",
+            artist: "Mummela",
             year: "2025",
           },
         ].map((item, i) => (

@@ -1,12 +1,14 @@
 "use client";
-import { TESTIMONIALS } from "@/data/testimonials";
+import { HOME_TESTIMONIAL_IDS, TESTIMONIALS } from "@/data/testimonials";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { BrandCard } from "./BrandCard";
 import { Section, SectionHeader } from "./Section";
 
-const HOME_TESTIMONIALS = TESTIMONIALS.slice(0, 3);
+const HOME_TESTIMONIALS = HOME_TESTIMONIAL_IDS.map((id) =>
+  TESTIMONIALS.find((t) => t.id === id),
+).filter((t): t is NonNullable<typeof t> => Boolean(t));
 
 export function Testimonials() {
   return (
@@ -47,25 +49,45 @@ export function Testimonials() {
               }}
               className="shrink-0 w-[85%] sm:w-[45%] md:w-auto snap-start h-auto flex flex-col"
             >
-              <BrandCard
-                variant="outline"
-                interactive
-                className="relative p-6 md:p-8 flex flex-col h-full w-full flex-1"
+              <Link
+                href={`/testimonials#${q.id}`}
+                className="group flex flex-col h-full w-full flex-1 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B8863B]"
               >
-                <blockquote className="font-serif text-lg md:text-xl leading-relaxed text-forest-deep text-balance">
-                  <span className="text-saffron font-medium">“</span>
-                  {q.text}
-                  <span className="text-saffron font-medium">”</span>
-                </blockquote>
-                <div className="mt-6 md:mt-auto pt-5 border-t border-border">
-                  <div className="font-medium text-foreground text-sm md:text-base">
-                    {q.name}
+                <BrandCard
+                  variant="outline"
+                  interactive
+                  className="relative p-6 md:p-8 flex flex-col h-full w-full flex-1"
+                >
+                  <blockquote
+                    lang={q.lang}
+                    style={
+                      q.lang === "kn"
+                        ? {
+                            fontFamily:
+                              'var(--font-cormorant), "Noto Serif Kannada", "Noto Sans Kannada", "Tunga", "Nirmala UI", serif',
+                          }
+                        : undefined
+                    }
+                    className="font-serif text-lg md:text-xl leading-relaxed text-forest-deep text-balance line-clamp-4 hyphens-auto"
+                  >
+                    <span className="text-saffron font-medium">“</span>
+                    {q.text.replace(/\n\n/g, " ")}
+                    <span className="text-saffron font-medium">”</span>
+                  </blockquote>
+                  <div className="mt-6 md:mt-auto pt-5 border-t border-border">
+                    <div className="font-medium text-foreground text-sm md:text-base">
+                      {q.name}
+                    </div>
+                    <div className="mt-0.5 text-[11px] md:text-xs text-ink-soft">
+                      {[q.role, q.city ?? q.country].filter(Boolean).join(" · ")}
+                    </div>
+                    <div className="mt-3 inline-flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#7A1F2B] group-hover:text-[#B8863B] group-focus-visible:text-[#B8863B] group-focus-visible:underline underline-offset-4 transition-colors">
+                      Read full review
+                      <span aria-hidden="true">→</span>
+                    </div>
                   </div>
-                  <div className="mt-0.5 text-[11px] md:text-xs text-ink-soft">
-                    {q.title ?? q.role} · {q.city}
-                  </div>
-                </div>
-              </BrandCard>
+                </BrandCard>
+              </Link>
             </motion.div>
           ))}
         </div>
