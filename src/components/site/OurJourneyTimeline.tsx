@@ -16,7 +16,7 @@ const MILESTONES = [
   {
     year: "2018",
     title: "First performance",
-    body: 'Ajeeth Prabhu Thallur and Apurva Beleyur presented "Babruvahana Kalaga" at Rhein Main Kannada Sangha e.V. in Frankfurt, marking the beginning of their journey.',
+    body: 'Apurva Beleyur and a fellow artist presented "Babruvahana Kalaga" at Rhein Main Kannada Sangha e.V. in Frankfurt, marking the beginning of their journey.',
     icon: Drama,
   },
   {

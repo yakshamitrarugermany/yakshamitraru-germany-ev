@@ -1,229 +1,25 @@
 "use client";
-import aboutAsset from "@/assets/about.jpg.asset.json";
-import perf1 from "@/assets/perf1.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
-import perf3 from "@/assets/perf3.jpg.asset.json";
 import { BookSection } from "@/components/site/BookSection";
 import { BrandCard } from "@/components/site/BrandCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { EventCard } from "@/components/site/EventCard";
-import { FilterSelect } from "@/components/site/FilterSelect";
-
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
-import { Stat } from "@/components/site/Stat";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowUpRight,
-  Calendar,
-  Clock,
-  Filter,
-  MapPin,
-  Search,
-} from "lucide-react";
+import { PAST_EVENTS, UPCOMING_EVENTS, type EventItem } from "@/data/events";
+import { ArrowUpRight, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-
-type EventItem = {
-  title: string;
-  date: string;
-  iso: string;
-  city: string;
-  country: string;
-  venue: string;
-  image: string;
-  format: "Full production" | "Concert set" | "Workshop";
-  status: "upcoming" | "past";
-  slug: string;
-};
-
-const EVENTS: EventItem[] = [
-  {
-    slug: "jambavati-kalyana-berlin",
-    title: "Jambavati Kalyana — Premiere",
-    date: "Sat, 12 Sep 2026 · 19:30",
-    iso: "2026-09-12",
-    city: "Berlin",
-    country: "Germany",
-    venue: "Haus der Kulturen der Welt",
-    image: perf1.url,
-    format: "Full production",
-    status: "upcoming",
-  },
-  {
-    slug: "ornament-and-origin",
-    title: "Ornament & Origin",
-    date: "Fri, 03 Oct 2026 · 20:00",
-    iso: "2026-10-03",
-    city: "Zürich",
-    country: "Switzerland",
-    venue: "Kunsthaus Zürich",
-    image: perf2.url,
-    format: "Concert set",
-    status: "upcoming",
-  },
-  {
-    slug: "himmela-concert",
-    title: "Himmela — Concert set",
-    date: "Sun, 26 Oct 2026 · 18:00",
-    iso: "2026-10-26",
-    city: "Amsterdam",
-    country: "Netherlands",
-    venue: "Muziekgebouw",
-    image: perf3.url,
-    format: "Concert set",
-    status: "upcoming",
-  },
-  {
-    slug: "krishna-sandhana",
-    title: "Krishna Sandhana",
-    date: "Sat, 14 Nov 2026 · 19:00",
-    iso: "2026-11-14",
-    city: "München",
-    country: "Germany",
-    venue: "Muffatwerk",
-    image: aboutAsset.url,
-    format: "Full production",
-    status: "upcoming",
-  },
-  {
-    slug: "rhythm-of-the-chende",
-    title: "Rhythm of the Chende — Workshop",
-    date: "Sat, 28 Nov 2026 · 14:00",
-    iso: "2026-11-28",
-    city: "Paris",
-    country: "France",
-    venue: "Musée Guimet",
-    image: perf1.url,
-    format: "Workshop",
-    status: "upcoming",
-  },
-  {
-    slug: "abhimanyu-kalaga",
-    title: "Abhimanyu Kalaga",
-    date: "Sat, 12 Dec 2026 · 20:00",
-    iso: "2026-12-12",
-    city: "Wien",
-    country: "Austria",
-    venue: "MuseumsQuartier Halle E",
-    image: perf2.url,
-    format: "Full production",
-    status: "upcoming",
-  },
-  {
-    slug: "sudhanva-vijaya",
-    title: "Sudhanva Vijaya",
-    date: "Sat, 22 Mar 2025 · 19:30",
-    iso: "2025-03-22",
-    city: "Hamburg",
-    country: "Germany",
-    venue: "Kampnagel",
-    image: perf3.url,
-    format: "Full production",
-    status: "past",
-  },
-  {
-    slug: "panchavati-chamber",
-    title: "Panchavati — Chamber set",
-    date: "Fri, 06 Jun 2025 · 20:00",
-    iso: "2025-06-06",
-    city: "Brussels",
-    country: "Belgium",
-    venue: "BOZAR",
-    image: perf1.url,
-    format: "Concert set",
-    status: "past",
-  },
-  {
-    slug: "karna-parva",
-    title: "Karna Parva",
-    date: "Sat, 18 Oct 2025 · 19:00",
-    iso: "2025-10-18",
-    city: "Frankfurt",
-    country: "Germany",
-    venue: "Mousonturm",
-    image: perf2.url,
-    format: "Full production",
-    status: "past",
-  },
-  {
-    slug: "bhasmasura-mohini",
-    title: "Bhasmasura Mohini",
-    date: "Sun, 23 Nov 2025 · 18:00",
-    iso: "2025-11-23",
-    city: "Köln",
-    country: "Germany",
-    venue: "Comedia Theater",
-    image: aboutAsset.url,
-    format: "Full production",
-    status: "past",
-  },
-  {
-    slug: "ritual-to-stage",
-    title: "Ritual to Stage — Workshop",
-    date: "Sat, 07 Feb 2026 · 14:00",
-    iso: "2026-02-07",
-    city: "Stuttgart",
-    country: "Germany",
-    venue: "Theater Rampe",
-    image: perf3.url,
-    format: "Workshop",
-    status: "past",
-  },
-];
-
-const FORMATS = [
-  "All formats",
-  "Full production",
-  "Concert set",
-  "Workshop",
-] as const;
-const COUNTRIES = [
-  "All countries",
-  "Germany",
-  "Switzerland",
-  "Netherlands",
-  "France",
-  "Austria",
-  "Belgium",
-] as const;
 
 export default function EventsClient() {
-  const [query, setQuery] = useState("");
-  const [format, setFormat] = useState<(typeof FORMATS)[number]>("All formats");
-  const [country, setCountry] =
-    useState<(typeof COUNTRIES)[number]>("All countries");
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return EVENTS.filter((e) => {
-      if (format !== "All formats" && e.format !== format) return false;
-      if (country !== "All countries" && e.country !== country) return false;
-      if (!q) return true;
-      return [e.title, e.city, e.country, e.venue].some((f) =>
-        f.toLowerCase().includes(q),
-      );
-    });
-  }, [query, format, country]);
-
-  const upcoming = filtered.filter((e) => e.status === "upcoming");
-  const past = filtered.filter((e) => e.status === "past");
+  const upcoming = UPCOMING_EVENTS;
+  const past = PAST_EVENTS;
   const [featured, ...restUpcoming] = upcoming;
 
   return (
     <>
       <main>
         <EventsHero />
-        <SearchFilters
-          query={query}
-          setQuery={setQuery}
-          format={format}
-          setFormat={setFormat}
-          country={country}
-          setCountry={setCountry}
-          total={filtered.length}
-        />
 
         <Section tone="cream" id="upcoming">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12 md:mb-16">
@@ -236,14 +32,11 @@ export default function EventsClient() {
               }
               lede="Programmed with theatres, museums and festival partners across Europe."
             />
-            <div className="eyebrow text-forest-deep/60">
-              {upcoming.length} date{upcoming.length === 1 ? "" : "s"}
-            </div>
           </div>
           {upcoming.length === 0 ? (
             <EmptyState
-              title="No upcoming dates match these filters."
-              description="Try clearing filters or a different search term."
+              title="No upcoming dates announced yet."
+              description="Check back soon for new performance dates."
             />
           ) : (
             <>
@@ -252,9 +45,14 @@ export default function EventsClient() {
                 <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                   {restUpcoming.map((e) => (
                     <EventCard
-                      key={e.title + e.iso}
+                      key={e.slug}
                       href={`/events/${e.slug}`}
-                      {...e}
+                      title={e.title}
+                      date={`${e.date} · ${e.time}`}
+                      city={e.location}
+                      venue={e.organizer}
+                      image={e.image}
+                      status={e.status}
                     />
                   ))}
                 </div>
@@ -276,19 +74,16 @@ export default function EventsClient() {
               }
               lede="A record of previous tours — from chamber sets in museums to full productions on European main stages."
             />
-            <div className="eyebrow text-forest-deep/60">
-              {past.length} date{past.length === 1 ? "" : "s"}
-            </div>
           </div>
           {past.length === 0 ? (
             <EmptyState
-              title="No past dates match these filters."
-              description="Try clearing filters or a different search term."
+              title="No past dates listed."
+              description="Previous performances will appear here."
             />
           ) : (
             <ol className="divide-y divide-forest-deep/10 border-y border-forest-deep/10">
               {past.map((e) => (
-                <PastRow key={e.title + e.iso} event={e} />
+                <PastRow key={e.slug} event={e} />
               ))}
             </ol>
           )}
@@ -307,81 +102,17 @@ function EventsHero() {
       eyebrow="Events & Tour"
       title={
         <>
-          Where the <em className="italic font-light text-saffron">chende</em>
+          Where the <em className="italic font-light text-saffron">chande</em>
           <br />
           meets Europe.
         </>
       }
       lede="Every performance is programmed with a European host — a theatre, a museum, a festival. Browse the season, revisit the archive, or map our tour across the continent."
-      meta={
-        <>
-          <Stat n={6} label="Upcoming dates" />
-          <Stat n={7} label="Countries" />
-          <Stat n={5} label="Past productions" />
-        </>
-      }
     />
   );
 }
 
-function SearchFilters({
-  query,
-  setQuery,
-  format,
-  setFormat,
-  country,
-  setCountry,
-  total,
-}: {
-  query: string;
-  setQuery: (v: string) => void;
-  format: (typeof FORMATS)[number];
-  setFormat: (v: (typeof FORMATS)[number]) => void;
-  country: (typeof COUNTRIES)[number];
-  setCountry: (v: (typeof COUNTRIES)[number]) => void;
-  total: number;
-}) {
-  return (
-    <section className="sticky top-16 md:top-20 z-40 bg-cream/90 backdrop-blur-xl border-b border-forest-deep/10">
-      <div className="container-page py-4 md:py-5">
-        <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
-          <label className="relative flex items-center flex-1 min-w-0">
-            <Search className="absolute left-0 h-4 w-4 text-forest-deep/50" />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by title, city or venue…"
-              className="w-full bg-transparent border-0 border-b border-forest-deep/15 pl-7 pr-4 py-3 text-base text-forest-deep placeholder:text-forest-deep/40 focus:outline-none focus:border-forest-deep transition-colors"
-            />
-          </label>
-          <div className="flex items-center gap-2 md:gap-3">
-            <FilterSelect
-              icon={<Filter className="h-4 w-4" />}
-              value={format}
-              onChange={(v) => setFormat(v as typeof format)}
-              options={FORMATS as readonly string[]}
-            />
-            <FilterSelect
-              icon={<MapPin className="h-4 w-4" />}
-              value={country}
-              onChange={(v) => setCountry(v as typeof country)}
-              options={COUNTRIES as readonly string[]}
-            />
-            <div className="hidden lg:flex items-center gap-2 text-xs text-forest-deep/60 pl-4 border-l border-forest-deep/10">
-              <Calendar className="h-4 w-4 text-saffron" />
-              <span className="tabular-nums font-mono">{total}</span>
-              <span>result{total === 1 ? "" : "s"}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function FeaturedEvent({ event }: { event: EventItem }) {
-  const [dayLine, timeLine] = event.date.split(" · ");
   return (
     <article className="group grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-stretch">
       <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-forest-deep media-zoom">
@@ -399,7 +130,7 @@ function FeaturedEvent({ event }: { event: EventItem }) {
         />
         <div className="absolute top-5 left-5 md:top-6 md:left-6 inline-flex items-center gap-2 rounded-full bg-cream/12 backdrop-blur-md border border-cream/20 px-3 py-1.5 text-[10px] tracking-[0.28em] uppercase text-cream">
           <span className="h-1.5 w-1.5 rounded-full bg-saffron soft-pulse" />
-          Next up · {event.format}
+          Next up
         </div>
         <div className="absolute bottom-5 left-5 md:bottom-8 md:left-8 flex items-center gap-4 text-cream">
           <div className="grid place-items-center h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-cream text-forest-deep shadow-2xl">
@@ -415,18 +146,18 @@ function FeaturedEvent({ event }: { event: EventItem }) {
             </div>
           </div>
           <div className="min-w-0">
-            <div className="eyebrow text-saffron">{dayLine}</div>
-            {timeLine && (
+            <div className="eyebrow text-saffron">{event.date}</div>
+            {event.time && (
               <div className="mt-1 text-sm text-cream/80 flex items-center gap-1.5">
                 <Clock className="h-3.5 w-3.5" />
-                {timeLine}
+                {event.time}
               </div>
             )}
           </div>
         </div>
       </div>
       <div className="lg:col-span-5 flex flex-col justify-center">
-        <div className="eyebrow text-crimson">Featured performance</div>
+        <div className="eyebrow text-crimson">{event.organizer}</div>
         <Link
           href={`/events/${event.slug}`}
           className="hover:opacity-80 transition-opacity"
@@ -437,17 +168,8 @@ function FeaturedEvent({ event }: { event: EventItem }) {
         </Link>
         <div className="mt-6 flex items-center gap-2 text-forest-deep/70">
           <MapPin className="h-4 w-4 text-saffron shrink-0" />
-          <span className="font-serif text-lg">{event.venue}</span>
-          <span className="text-forest-deep/30">·</span>
-          <span className="text-sm">
-            {event.city}, {event.country}
-          </span>
+          <span className="font-serif text-lg">{event.location}</span>
         </div>
-        <p className="mt-6 text-forest-deep/75 leading-relaxed max-w-lg">
-          A signature evening from the {new Date(event.iso).getFullYear()}{" "}
-          season — programmed with our European host partner and staged for a
-          continental audience.
-        </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild variant="forest" size="lg">
             <Link href="/contact#booking">
@@ -464,9 +186,8 @@ function FeaturedEvent({ event }: { event: EventItem }) {
 }
 
 function PastRow({ event }: { event: EventItem }) {
-  const d = new Date(event.iso);
   return (
-    <li className="group grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1fr_1fr_auto] items-center gap-4 md:gap-8 py-5 md:py-7">
+    <li className="group grid grid-cols-1 md:grid-cols-[auto_1fr_1fr_auto] items-center gap-4 md:gap-8 py-5 md:py-7">
       <Link
         href={`/events/${event.slug}`}
         className="relative hidden md:block h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-forest-deep/10"
@@ -480,43 +201,31 @@ function PastRow({ event }: { event: EventItem }) {
       </Link>
       <div className="min-w-0">
         <div className="font-mono text-xs text-forest-deep/50 tabular-nums">
-          {d.toLocaleString("en-GB", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          })}
+          {event.date} · {event.time}
         </div>
         <Link href={`/events/${event.slug}`}>
           <div className="mt-1 font-serif text-xl md:text-2xl text-forest-deep hover:text-saffron leading-tight truncate transition-colors">
             {event.title}
           </div>
         </Link>
-      </div>
-      <div className="hidden md:block min-w-0 text-sm text-forest-deep/70">
-        <div className="truncate">{event.venue}</div>
-        <div className="text-xs text-forest-deep/50 mt-1">
-          {event.city}, {event.country}
+        <div className="md:hidden text-xs text-forest-deep/60 mt-1">
+          {event.organizer} · {event.location}
         </div>
       </div>
-      <div className="eyebrow text-forest-deep/40 text-[10px] whitespace-nowrap">
-        {event.format}
+      <div className="hidden md:block min-w-0 text-sm text-forest-deep/70">
+        <div className="truncate">{event.organizer}</div>
+        <div className="text-xs text-forest-deep/50 mt-1">{event.location}</div>
+      </div>
+      <div className="hidden md:block eyebrow text-forest-deep/40 text-[10px] whitespace-nowrap">
+        Past
       </div>
     </li>
   );
 }
 
 const CITY_COORDS: Record<string, { x: number; y: number }> = {
-  Berlin: { x: 545, y: 210 },
-  Zürich: { x: 470, y: 340 },
-  Amsterdam: { x: 445, y: 200 },
-  München: { x: 520, y: 310 },
-  Paris: { x: 405, y: 290 },
-  Wien: { x: 585, y: 305 },
-  Hamburg: { x: 505, y: 180 },
-  Brussels: { x: 425, y: 245 },
-  Frankfurt: { x: 485, y: 265 },
-  Köln: { x: 465, y: 240 },
-  Stuttgart: { x: 490, y: 300 },
+  "Bonn-Lengsdorf": { x: 465, y: 245 },
+  Helsinki: { x: 605, y: 155 },
 };
 
 function TourMap({ events }: { events: EventItem[] }) {
@@ -540,13 +249,13 @@ function TourMap({ events }: { events: EventItem[] }) {
             them.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm text-cream/80 min-w-0">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-cream/80 min-w-0">
           {points.slice(0, 6).map((p) => (
-            <div key={p.title + p.iso} className="flex items-baseline gap-3">
+            <div key={p.slug} className="flex items-baseline gap-3">
               <span className="h-1.5 w-1.5 rounded-full bg-saffron shrink-0 -translate-y-0.5" />
               <span className="font-serif text-cream truncate">{p.city}</span>
               <span className="ml-auto font-mono text-xs text-cream/50 tabular-nums">
-                {p.iso.slice(5).replace("-", "/")}
+                {p.date}
               </span>
             </div>
           ))}
@@ -596,7 +305,7 @@ function TourMap({ events }: { events: EventItem[] }) {
               strokeWidth="0.8"
             />
             {points.map((p) => (
-              <g key={p.title + p.iso}>
+              <g key={p.slug}>
                 <circle
                   cx={p.coords.x}
                   cy={p.coords.y}
@@ -621,11 +330,6 @@ function TourMap({ events }: { events: EventItem[] }) {
               </g>
             ))}
           </svg>
-          {points.length === 0 && (
-            <div className="absolute inset-0 grid place-items-center text-cream/60 text-sm">
-              No dates match the current filters.
-            </div>
-          )}
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-cream/60">

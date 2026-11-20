@@ -6,6 +6,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { ARTISTS } from "@/data/artists";
 import { Calendar, MapPin, Sparkles, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,39 +24,6 @@ const SLIDES = [
   },
   { src: "/images/hero/hero4.jpg", alt: "Veshadari in dramatic stage light" },
   { src: "/images/hero/hero5.jpg", alt: "Backstage moment before curtain" },
-];
-
-const FEATURED_ARTISTS = [
-  {
-    name: "Apurva Beleyur",
-    lines: ["Apurva", "Beleyur"],
-    image: "/images/artists/apurva.jpeg",
-    href: "/artists",
-  },
-  {
-    name: "Shashidhar Nairy",
-    lines: ["Shashidhar", "Nairy"],
-    image: "/images/artists/shashi.jpeg",
-    href: "/artists",
-  },
-  {
-    name: "Sushma Ravindra",
-    lines: ["Sushma", "Ravindra"],
-    image: "/images/artists/sushma.jpg",
-    href: "/artists",
-  },
-  {
-    name: "Shreehari Hosamane",
-    lines: ["Shreehari", "Hosamane"],
-    image: "/images/artists/shreehari.jpeg",
-    href: "/artists",
-  },
-  {
-    name: "Prateek Hegde Bengle",
-    lines: ["Prateek Hegde", "Bengle"],
-    image: "/images/artists/prateek.jpeg",
-    href: "/artists",
-  },
 ];
 
 const ROTATE_MS = 3000;
@@ -105,7 +73,7 @@ function HeroFeaturedArtists() {
           }}
           className="flex justify-between lg:justify-center items-start w-full lg:w-auto mx-auto gap-1 sm:gap-4 md:gap-6 lg:gap-12 xl:gap-20"
         >
-          {FEATURED_ARTISTS.map((artist) => (
+          {ARTISTS.map((artist) => (
             <Link
               key={artist.name}
               href={artist.href}
@@ -113,7 +81,7 @@ function HeroFeaturedArtists() {
             >
               <div className="relative w-12 h-12 sm:w-18 sm:h-18 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-34 xl:h-34 shrink-0 rounded-full overflow-hidden shadow-card transition-all duration-500 lg:group-hover:scale-[1.05] lg:group-hover:shadow-card-hover border border-cream/10 lg:group-hover:border-saffron/40">
                 <Image
-                  src={artist.image}
+                  src={artist.heroImage}
                   alt={artist.name}
                   fill
                   className="object-cover transition-transform duration-700 lg:group-hover:scale-110"

@@ -41,17 +41,17 @@ export default function OurJourneyPage() {
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
               Driven by a deep desire to reconnect with his artistic roots,
-              Apurva Beleyur initiated the discussion with Ajeeth Prabhu
-              Thallur, whose lifelong passion for Yakshagana inspired them to
-              present their first performance together in 2018.
+              Apurva Beleyur initiated the discussion with a fellow enthusiast
+              whose lifelong passion for Yakshagana inspired them to present
+              their first performance together in 2018.
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
               Their debut performance took place during the Kannada Rajyothsava
               celebrations organised by Rhein Main Kannada Sangha e.V. in
-              Frankfurt. While Ajeeth Prabhu Thallur led the traditional costume
-              preparation and make-up, Apurva Beleyur introduced Yakshagana to
-              the organisers and secured a dedicated 45-minute performance slot
-              on the main stage.
+              Frankfurt. While the traditional costume preparation and make-up
+              were carefully arranged backstage, Apurva Beleyur introduced
+              Yakshagana to the organisers and secured a dedicated 45-minute
+              performance slot on the main stage.
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
               Together they presented the Yakshagana play &quot;Babruvahana
@@ -92,8 +92,8 @@ export default function OurJourneyPage() {
         <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center relative z-10">
           <div className="lg:col-span-7">
             <p className="text-base md:text-lg text-cream/80 leading-relaxed max-w-2xl">
-              Inspired by the overwhelming response, Apurva and Ajeeth continued
-              performing together at cultural events across Germany.
+              Inspired by the overwhelming response, the founding artists
+              continued performing together at cultural events across Germany.
             </p>
             <p className="mt-4 text-base md:text-lg text-cream/80 leading-relaxed max-w-2xl">
               As interest in Yakshagana steadily grew, more artists joined their

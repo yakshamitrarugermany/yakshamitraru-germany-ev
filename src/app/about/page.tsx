@@ -53,7 +53,7 @@ const ACTIVITIES = [
   {
     icon: GraduationCap,
     title: "Workshops",
-    body: "Hands-on residencies in vesha, chende and bhagavata for children and adults, in German and English.",
+    body: "Hands-on residencies in vesha, chande and bhagavata for children and adults, in German and English.",
   },
   {
     icon: Users,

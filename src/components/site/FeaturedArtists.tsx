@@ -1,20 +1,8 @@
-import about from "@/assets/about.jpg.asset.json";
-import hero from "@/assets/hero.jpg.asset.json";
-import perf1 from "@/assets/perf1.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
-import perf3 from "@/assets/perf3.jpg.asset.json";
 import { Button } from "@/components/ui/button";
+import { ARTISTS } from "@/data/artists";
 import Link from "next/link";
 import { ArtistCard } from "./ArtistCard";
 import { Section, SectionHeader } from "./Section";
-
-const ARTISTS = [
-  { name: "Apurva Beleyur", role: "Mummela", image: hero.url },
-  { name: "Shashidhar Nairy", role: "Mummela", image: perf1.url },
-  { name: "Sushma Ravindra", role: "Mummela", image: perf2.url },
-  { name: "Shreehari Hosamane", role: "Mummela", image: perf3.url },
-  { name: "Prateek Hegde Bengle", role: "Mummela", image: about.url },
-];
 
 export function FeaturedArtists() {
   return (
