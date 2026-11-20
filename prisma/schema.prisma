@@ -1,0 +1,193 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum EventType {
+  PERFORMANCE
+  WORKSHOP
+  CLASS_SESSION
+  OTHER
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MediaType {
+  PHOTO
+  VIDEO
+}
+
+enum EmbedProvider {
+  YOUTUBE
+  VIMEO
+}
+
+enum ClassFormat {
+  ONLINE
+  OFFLINE
+  HYBRID
+}
+
+enum InquiryType {
+  EVENT_BOOKING
+  GENERAL
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  role          Role      @default(ADMIN)
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  events        Event[]
+  media         Media[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model Event {
+  id                 String     @id @default(cuid())
+  title              String
+  slug               String     @unique
+  description        String
+  eventType          EventType  @default(PERFORMANCE)
+  startDate          DateTime
+  endDate            DateTime?
+  venueName          String?
+  address            String?
+  city               String?
+  country            String     @default("Germany")
+  bookingRequired    Boolean    @default(false)
+  status             PostStatus @default(DRAFT)
+  coverImageUrl      String?
+  coverImagePublicId String?
+  createdById        String
+  createdBy          User       @relation(fields: [createdById], references: [id])
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  media              Media[]
+  inquiries          Inquiry[]
+
+  @@index([status, startDate])
+}
+
+model Media {
+  id                 String         @id @default(cuid())
+  type               MediaType
+  title              String?
+  description        String?
+  cloudinaryUrl      String?
+  cloudinaryPublicId String?
+  embedUrl           String?
+  embedProvider      EmbedProvider?
+  eventId            String?
+  event              Event?         @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  uploadedById       String
+  uploadedBy         User           @relation(fields: [uploadedById], references: [id])
+  featured           Boolean        @default(false)
+  sortOrder          Int            @default(0)
+  createdAt          DateTime       @default(now())
+
+  @@index([type, featured])
+}
+
+model ClassInfo {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  format      ClassFormat
+  schedule    String
+  level       String?
+  location    String?
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Inquiry {
+  id           String        @id @default(cuid())
+  type         InquiryType
+  name         String
+  email        String
+  phone        String?
+  message      String
+  eventId      String?
+  event        Event?        @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  status       InquiryStatus @default(NEW)
+  consentGiven Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+
+  @@index([status, createdAt])
+}
