@@ -24,12 +24,12 @@ const ELEMENTS = [
   },
   {
     icon: Paintbrush,
-    title: "Makeup (Bannada Vesha)",
+    title: "Makeup (Banna)",
     body: "Elaborate facial makeup applied over hours. The colors and patterns signify the character's nature — from divine heroes to fierce demons.",
   },
   {
     icon: Crown,
-    title: "Costumes",
+    title: "Costumes (Vesha)",
     body: "Spectacular headdresses, intricate ornaments, and heavy, colorful garments that enlarge the performer's presence to god-like proportions.",
   },
   {
@@ -51,7 +51,7 @@ export default function TraditionPage() {
             A 400-Year-Old <em className="italic font-light">Theatre</em>.
           </>
         }
-        lede="Yakshagana is a traditional theatre form from coastal Karnataka, India, combining dance, music, spoken word, and spectacular costumes to tell stories from the Hindu epics."
+        lede="Yakshagana is a traditional theatre form from Karnataka, India, combining dance, music, spoken word, and spectacular costumes to tell stories from the Hindu epics."
       />
 
       {/* 2. Origins */}

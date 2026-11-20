@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import aboutAsset from "@/assets/about.jpg.asset.json";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
 import { Section, SectionHeader } from "./Section";
 
 export function AboutSection() {
@@ -13,10 +13,10 @@ export function AboutSection() {
             eyebrow="Who We Are"
             title={
               <>
-                About <span className="italic">Us.</span>
+                The<span className="italic"> Story </span>Behind the Stage.
               </>
             }
-            lede="A dedicated community preserving and promoting the art of Yakshagana in Europe."
+            lede="A dedicated community presenting and promoting the art of Yakshagana in Europe."
           />
           <Button asChild variant="forest" size="pill" className="mt-6 md:mt-8">
             <Link href="/about">Learn More About Us</Link>
@@ -34,17 +34,24 @@ export function AboutSection() {
           </div>
           <div className="prose prose-lg text-ink-soft leading-relaxed max-w-none">
             <p>
-              Yakshamitraru Germany e.V. is a registered German cultural association founded by passionate artists and enthusiasts. Our mission is to preserve the rich heritage of Yakshagana while fostering cultural exchange across borders.
+              Yakshamitraru Germany e.V. is a registered cultural association
+              founded by passionate artists and enthusiasts. Our mission is to
+              preserve the rich heritage of Yakshagana while fostering cultural
+              exchange across borders.
             </p>
             <p className="mt-6">
-              We bring together a diverse ensemble of performers, musicians, and volunteers to stage authentic full-length prasangas (performances) for European audiences. By building a strong local community, we ensure that this centuries-old tradition continues to thrive far from its roots in coastal Karnataka.
+              We bring together a diverse ensemble of performers to stage
+              authentic full-length prasangas (performances) for European
+              audiences. By building a strong local community, we ensure that
+              this centuries-old tradition continues to thrive far from its
+              roots in Karnataka, India.
             </p>
           </div>
 
           <dl className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-6 border-t border-border pt-8">
             {[
               { k: "Registered", v: "e.V. Germany" },
-              { k: "Ensemble", v: "16+ Artists" },
+              { k: "Ensemble", v: "20+ Artists" },
               { k: "Languages", v: "KN · EN · DE" },
             ].map((m) => (
               <div key={m.k}>

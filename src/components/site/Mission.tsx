@@ -26,7 +26,7 @@ export function Mission() {
                 <span className="italic">theatre of the night.</span>
               </>
             }
-            lede="Crown, drum and story — carried from a Karnataka coast into European nights."
+            lede="Crown, drum and story — carried from Karnataka into European nights."
           />
           <Button asChild variant="forest" size="pill" className="mt-6">
             <Link href="/tradition">Explore Yakshagana</Link>
@@ -86,7 +86,7 @@ export function Mission() {
                   <span className="italic">theatre of the night.</span>
                 </>
               }
-              lede="Crown, drum and story — carried from a Karnataka coast into European nights."
+              lede="Crown, drum and story — carried from Karnataka into European nights."
             />
             <Button asChild variant="forest" size="pill" className="mt-8">
               <Link href="/tradition">Explore Yakshagana</Link>
@@ -94,18 +94,17 @@ export function Mission() {
           </div>
 
           <p className="text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
-            Yakshagana is a traditional folk theatre form from coastal
-            Karnataka, India. It seamlessly combines dynamic dance, live music,
-            spontaneous dialogue, and vibrant costumes to bring ancient epic
-            stories to life. A single performance creates a mesmerizing
-            experience that transports audiences into a world of myth and divine
-            drama.
+            Yakshagana is a traditional folk theatre form from Karnataka, India.
+            It seamlessly combines dynamic dance, music, spontaneous dialogue,
+            and vibrant costumes to bring ancient epic stories to life. A single
+            performance creates a mesmerizing experience that transports
+            audiences into a world of myth and divine drama.
           </p>
 
           <dl className="mt-10 md:mt-12 grid grid-cols-3 gap-4 sm:gap-6 border-t border-border pt-6 md:pt-8">
             {[
               { k: "Origins", v: "16th Century" },
-              { k: "Elements", v: "Dance · Music" },
+              { k: "Elements", v: "Dance · Music · Dialogue" },
               { k: "Stories", v: "Indian Epics" },
             ].map((m) => (
               <div key={m.k}>

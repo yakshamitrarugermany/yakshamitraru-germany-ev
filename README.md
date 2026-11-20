@@ -1,6 +1,6 @@
 # Yakshamitraru Germany e.V. Website
 
-Official website for **Yakshamitraru Germany e.V.**, a cultural organization dedicated to preserving, promoting, and presenting the traditional Indian art form **Yakshagana** across Germany and Europe.
+Official website for **Yakshamitraru Germany e.V.**, a cultural organization dedicated to promoting, and presenting the traditional Indian art form **Yakshagana** across Germany and Europe.
 
 The website provides a digital platform to showcase Yakshagana performances, artists, events, cultural history, and the journey of Yakshamitraru Germany e.V.
 
@@ -419,5 +419,6 @@ Website:
 ```
 yakshamitrarugermany.com
 ```
-"" 
-"" 
+
+""
+""

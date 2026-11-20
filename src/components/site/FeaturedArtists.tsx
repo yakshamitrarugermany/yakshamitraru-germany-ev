@@ -21,13 +21,13 @@ export function FeaturedArtists() {
     <Section tone="cream" id="artists" className="relative overflow-hidden">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-8 md:mb-14">
         <SectionHeader
-          eyebrow="The Ensemble"
+          eyebrow="The Team"
           title={
             <>
-              Meet the <span className="italic">Performers.</span>
+              The<span className="italic"> faces </span>of YAKSHAMITRARU.
             </>
           }
-          lede="Meet the dedicated artists carrying the Yakshagana tradition to European audiences."
+          lede="The team that sparked Yakshagana wave in Europe."
         />
         <Button
           asChild
