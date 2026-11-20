@@ -2,6 +2,7 @@
 import { EnquiryForm } from "./EnquiryForm";
 
 const CONTACT_EMAIL = "yakshamitrarugermany@gmail.com";
+const CONTACT_PHONE = "+49 176 3469 0281";
 
 export function BookSection() {
   return (
@@ -47,13 +48,19 @@ export function BookSection() {
                   {CONTACT_EMAIL}
                 </a>
               </dd>
+              <dd className="mt-2 font-serif text-xl text-cream">
+                <a
+                  href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
+                  className="hover:text-saffron"
+                >
+                  Apurva Beleyur: {CONTACT_PHONE}
+                </a>
+              </dd>
             </div>
             <div>
               <dt className="eyebrow text-saffron/80">Registered seat</dt>
-              <dd className="mt-2 text-cream/80">
-                Yakshamitraru Germany e.V.
-                <br />
-                Germany
+              <dd className="mt-2 text-base text-cream/80">
+                Yakshamitraru Germany e.V. - Germany
               </dd>
             </div>
           </dl>

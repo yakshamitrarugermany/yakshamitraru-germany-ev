@@ -103,8 +103,7 @@ export default function LearnPage() {
           eyebrow="Why Join Us"
           title={
             <>
-              A bridge to{" "}
-              <em className="italic font-light">coastal Karnataka</em>.
+              A bridge to <em className="italic font-light">Karnataka</em>.
             </>
           }
           align="center"

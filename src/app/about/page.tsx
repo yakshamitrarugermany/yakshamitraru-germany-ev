@@ -1,8 +1,5 @@
 import aboutAsset from "@/assets/about.jpg.asset.json";
 import heroAsset from "@/assets/hero.jpg.asset.json";
-import perf1 from "@/assets/perf1.jpg.asset.json";
-import perf2 from "@/assets/perf2.jpg.asset.json";
-import perf3 from "@/assets/perf3.jpg.asset.json";
 import { BrandCard } from "@/components/site/BrandCard";
 
 import { PageHero } from "@/components/site/PageHero";
@@ -29,7 +26,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About — Yakshamitraru Germany e.V.",
   description:
-    "The story, mission and ensemble behind Yakshamitraru Germany e.V. — a registered cultural organisation preserving and promoting Yakshagana across Germany and Europe.",
+    "The story, mission and ensemble behind Yakshamitraru Germany e.V. — a registered cultural organisation presenting  and promoting Yakshagana across Germany and Europe.",
   openGraph: {
     title: "About Yakshamitraru Germany e.V.",
     description:
@@ -41,39 +38,6 @@ export const metadata: Metadata = {
     images: [aboutAsset.url],
   },
 };
-
-const MILESTONES = [
-  {
-    year: "2016",
-    title: "Foundation in Berlin",
-    body: "A small circle of Kannada artists in Berlin begin monthly Yakshagana readings and rehearsals.",
-  },
-  {
-    year: "2018",
-    title: "Registered as e.V.",
-    body: "Yakshamitraru Germany is formally registered as a cultural association under German law.",
-  },
-  {
-    year: "2019",
-    title: "First European tour",
-    body: "Full-length performances staged in Berlin, München and Frankfurt with a 12-artist ensemble.",
-  },
-  {
-    year: "2022",
-    title: "Beyond Germany",
-    body: "Debut performances in Zürich, Wien and Amsterdam, and the first residency workshop for European audiences.",
-  },
-  {
-    year: "2024",
-    title: "Institutional partnerships",
-    body: "Collaborations with museums, universities and cultural houses across five European countries.",
-  },
-  {
-    year: "2026",
-    title: "Looking ahead",
-    body: "A permanent training studio, a youth ensemble and a touring circuit across ten European capitals.",
-  },
-];
 
 const ACTIVITIES = [
   {
@@ -131,33 +95,6 @@ const VALUES = [
   },
 ];
 
-const COMMITTEE = [
-  {
-    name: "Ranganatha Bhat",
-    role: "President",
-    bio: "Founding member. Lead vesha artist and artistic director since 2018.",
-    image: perf1.url,
-  },
-  {
-    name: "Shrikanth Hegde",
-    role: "Vice President",
-    bio: "Bhagavata and vocalist. Oversees musical direction and repertoire.",
-    image: perf2.url,
-  },
-  {
-    name: "Vasudev Acharya",
-    role: "Secretary",
-    bio: "Chende artist. Coordinates rehearsals, tours and European bookings.",
-    image: perf3.url,
-  },
-  {
-    name: "Meera Kamath",
-    role: "Treasurer",
-    bio: "Stree vesha lead. Manages association finances and grant partnerships.",
-    image: aboutAsset.url,
-  },
-];
-
 const WHY = [
   {
     n: "01",
@@ -193,7 +130,7 @@ export default function AboutPage() {
             About <em className="italic font-light">Yakshamitraru</em> Germany.
           </>
         }
-        lede="A registered cultural association carrying Yakshagana — the four-hundred-year-old night theatre of coastal Karnataka — onto European stages, with faithful craft and considered presentation."
+        lede="A registered cultural association carrying Yakshagana — the four-hundred-year-old night theatre of Karnataka — onto European stages, with faithful craft and considered presentation."
         meta={
           <>
             <Stat n={2018} label="Founded" />
@@ -239,8 +176,8 @@ export default function AboutPage() {
             </blockquote>
             <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
               Yakshamitraru Germany e.V. was founded in 2018 by a small circle
-              of artists from coastal Karnataka living in Germany — determined
-              that Yakshagana would not fade in the diaspora, but flourish here.
+              of artists from Karnataka living in Germany — determined that
+              Yakshagana would not fade in the diaspora, but flourish here.
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
               Ten years on, we are a registered German cultural association with
@@ -417,7 +354,7 @@ export default function AboutPage() {
             <p className="mt-6 text-ink-soft leading-relaxed max-w-md">
               We are not a booking agency, a festival or a temple programme. We
               are a resident ensemble, built for European stages, faithful to a
-              coastal Karnataka tradition.
+              Karnataka tradition.
             </p>
           </div>
           <div className="lg:col-span-7 space-y-4">

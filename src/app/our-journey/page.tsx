@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Our Journey — Yakshamitraru Germany e.V.",
   description:
-    "The story of Yakshamitraru Germany e.V., from its beginnings to its growing role in preserving Yakshagana across Germany and Europe.",
+    "The story of Yakshamitraru Germany e.V., from its beginnings to its growing role in presenting and promoting Yakshagana across Germany and Europe.",
 };
 
 export default function OurJourneyPage() {
@@ -22,7 +22,7 @@ export default function OurJourneyPage() {
             Our <em className="italic font-light">Journey</em>.
           </>
         }
-        lede="From a shared passion to a thriving cultural movement preserving Yakshagana across Germany and Europe."
+        lede="From a shared passion to a thriving cultural movement presenting  Yakshagana across Germany and Europe."
       />
 
       <Section tone="cream">
@@ -41,9 +41,9 @@ export default function OurJourneyPage() {
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
               Driven by a deep desire to reconnect with his artistic roots,
-              Apurva Beleyur joined hands with Ajeeth Prabhu Thallur, whose
-              lifelong passion for Yakshagana inspired them to present their
-              first performance together in 2018.
+              Apurva Beleyur initiated the discussion with Ajeeth Prabhu
+              Thallur, whose lifelong passion for Yakshagana inspired them to
+              present their first performance together in 2018.
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
               Their debut performance took place during the Kannada Rajyothsava
@@ -69,7 +69,7 @@ export default function OurJourneyPage() {
               </h3>
               <p className="mt-4 text-cream/75 leading-relaxed">
                 What began as a single performance became the foundation of a
-                growing community committed to preserving and sharing
+                growing community committed to presenting and sharing
                 Yakshagana.
               </p>
             </BrandCard>
@@ -136,7 +136,7 @@ export default function OurJourneyPage() {
         <div className="rounded-sm border border-cream/15 bg-cream/10 p-8 md:p-12 text-center">
           <p className="font-serif text-[clamp(1.35rem,2.2vw,1.8rem)] leading-relaxed text-cream">
             &quot;What began as the dream of two passionate artists has grown
-            into a vibrant cultural movement dedicated to preserving,
+            into a vibrant cultural movement dedicated to presenting,
             celebrating, and sharing the timeless tradition of Yakshagana with
             audiences across Germany and Europe.&quot;
           </p>

@@ -29,8 +29,8 @@ export function SiteFooter() {
           </Link>
           <p className="mt-6 max-w-sm text-sm text-cream/60 leading-relaxed">
             A passionate group of Yakshagana enthusiasts dedicated to
-            preserving, presenting, and promoting India&apos;s rich traditional
-            art form Yakshagana across Germany and Europe.
+            presenting, and promoting India&apos;s rich traditional art form
+            Yakshagana across Germany and Europe.
           </p>
         </div>
 
@@ -147,6 +147,9 @@ export function SiteFooter() {
               >
                 <span>Yakshamitraru Germany e.V.</span>
               </a>
+              <em className="italic font-light text-xs">
+                &quot;The Spark that created Yakshagana wave in Europe.&quot;
+              </em>
             </li>
           </ul>
         </div>

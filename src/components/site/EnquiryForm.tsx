@@ -129,7 +129,7 @@ export function EnquiryForm({
   const errorClass = isHome
     ? "mt-2 text-xs text-saffron"
     : "mt-2 text-xs text-crimson";
-  const requiredClass = isHome ? "" : " text-crimson";
+  const requiredClass = isHome ? " text-saffron" : " text-crimson";
   const footnoteClass = isHome
     ? "text-xs text-cream/50 max-w-sm"
     : "text-xs text-ink-soft max-w-sm";
@@ -160,7 +160,7 @@ export function EnquiryForm({
       <div className={className}>
         <label htmlFor={id} className={labelClass}>
           {label}
-          {required && !isHome && <span className={requiredClass}> *</span>}
+          {required && <span className={requiredClass}> *</span>}
         </label>
         <input
           id={id}
@@ -206,11 +206,11 @@ export function EnquiryForm({
             defaultValue=""
             className={`${inputBaseClass} ${isHome ? "py-3" : "py-2"} pr-8 appearance-none cursor-pointer`}
           >
-            <option value="" disabled>
+            <option value="" disabled className={isHome ? "text-ink" : undefined}>
               Select…
             </option>
             {options.map((o) => (
-              <option key={o} value={o}>
+              <option key={o} value={o} className={isHome ? "text-ink" : undefined}>
                 {o}
               </option>
             ))}
@@ -243,51 +243,38 @@ export function EnquiryForm({
           error: errors.name,
         })}
 
-        {/* Conditional rendering depending on variant exactly as requested */}
-        {!isHome &&
-          renderField({
-            label: "Email",
-            name: "email",
-            type: "email",
-            required: true,
-            error: errors.email,
-          })}
+        {renderField({
+          label: "Email",
+          name: "email",
+          type: "email",
+          required: true,
+          error: errors.email,
+        })}
 
-        {isHome &&
-          renderField({
-            label: "Organisation (optional)",
-            name: "organization",
-            error: errors.organization,
-          })}
-        {isHome &&
-          renderField({
-            label: "Email",
-            name: "email",
-            type: "email",
-            required: true,
-            error: errors.email,
-          })}
+        {renderField({
+          label: "Phone",
+          name: "phone",
+          type: "tel",
+          required: true,
+          error: errors.phone,
+        })}
 
-        {!isHome &&
-          renderField({
-            label: "Phone (optional)",
-            name: "phone",
-            error: errors.phone,
-          })}
-        {!isHome &&
-          renderSelect({
-            label: "Event type",
-            name: "eventType",
-            error: errors.eventType,
-            options: [
-              "Full production",
-              "Concert set",
-              "Workshop / lecture",
-              "Festival slot",
-              "Private event",
-              "Other",
-            ],
-          })}
+        {renderSelect({
+          label: "Event type",
+          name: "eventType",
+          error: errors.eventType,
+          options: [
+            "Full production",
+            "Festival slot",
+            "Private event",
+            "Indian Embassy Event",
+            "Deutsch Indische Verein",
+            "University event",
+            "Concert set",
+            "Workshop / lecture",
+            "Other",
+          ],
+        })}
 
         {renderField({
           label: "City / Venue",
@@ -296,7 +283,7 @@ export function EnquiryForm({
         })}
 
         {/* Preferred Date Field */}
-        <div className={isHome ? "md:col-span-2" : ""}>
+        <div>
           <div className="flex items-center justify-between gap-4 mb-2">
             <label className={labelClass}>Preferred date</label>
             <div className="flex items-center gap-3">
@@ -350,35 +337,30 @@ export function EnquiryForm({
           )}
         </div>
 
-        {!isHome &&
-          renderField({
-            label: "Organisation (optional)",
-            name: "organization",
-            error: errors.organization,
-          })}
-        {!isHome &&
-          renderSelect({
-            label: "Audience size",
-            name: "audience",
-            error: errors.audience,
-            options: ["Under 50", "50–100", "100–150", "150+"],
-          })}
+        {renderField({
+          label: "Organisation (optional)",
+          name: "organization",
+          error: errors.organization,
+        })}
+
+        {renderSelect({
+          label: "Audience size",
+          name: "audience",
+          error: errors.audience,
+          options: ["Under 50", "50–100", "100–150", "150+"],
+        })}
 
         {/* Brief Field */}
         <div className="md:col-span-2">
           <label htmlFor={`f-message-${variant}`} className={labelClass}>
-            Brief {!isHome && <span className={requiredClass}>*</span>}
+            Brief <span className={requiredClass}>*</span>
           </label>
           <textarea
             id={`f-message-${variant}`}
             name="message"
             rows={5}
             required
-            placeholder={
-              isHome
-                ? "Tell us about the event, audience, format and any programme ideas."
-                : "Briefly describe your event, requirements, or enquiry..."
-            }
+            placeholder="Briefly describe your event, requirements, or enquiry..."
             aria-invalid={errors.message ? true : undefined}
             className={textareaClass}
           />
@@ -390,9 +372,7 @@ export function EnquiryForm({
         className={`mt-10 flex flex-wrap items-center justify-between gap-4`}
       >
         <p className={footnoteClass}>
-          {isHome
-            ? "By submitting, your email app will open with your message addressed to "
-            : "On submit, your email app opens with your message addressed to "}
+          On submit, your email app opens with your message addressed to{" "}
           {emailTo}.
         </p>
 
