@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Coming Soon — Yakshamitraru Germany e.V.",
+  title: "Yakshamitraru Germany | Coming soon",
   description:
-    "Yakshamitraru Germany e.V. — Preserving and presenting Yakshagana across Germany and Europe.",
+    "Yakshamitraru Germany, a Yakshagana performance group. Our website is coming soon.",
 };
 
 const CONTACT = {
