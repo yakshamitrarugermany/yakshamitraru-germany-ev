@@ -52,6 +52,33 @@ enum InquiryStatus {
   CLOSED
 }
 
+enum TestimonialStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum DisplayNameMode {
+  FULL
+  FIRST
+}
+
+model Testimonial {
+  id              String            @id @default(cuid())
+  name            String
+  displayNameMode DisplayNameMode   @default(FIRST)
+  email           String
+  role            String?
+  event           String?
+  city            String?
+  text            String
+  consentGiven    Boolean
+  status          TestimonialStatus @default(PENDING)
+  createdAt       DateTime          @default(now())
+
+  @@index([status, createdAt])
+}
+
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
