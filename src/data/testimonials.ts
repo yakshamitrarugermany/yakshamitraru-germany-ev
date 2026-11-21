@@ -1,9 +1,11 @@
 export type TestimonialRole =
   | "Host"
   | "Audience"
+  | "Audience member"
   | "Organiser"
   | "Fellow artist"
-  | "Other";
+  | "Other"
+  | (string & {});
 
 export type TestimonialLang = "en" | "kn" | "de";
 
@@ -14,7 +16,7 @@ export interface Testimonial {
   title?: string;
   event?: string;
   city?: string;
-  country: string;
+  country?: string;
   date?: string;
   text: string;
   lang: TestimonialLang;

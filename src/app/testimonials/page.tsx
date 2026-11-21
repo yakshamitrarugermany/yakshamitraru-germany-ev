@@ -2,10 +2,10 @@ import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { TestimonialsList } from "@/components/site/TestimonialCard";
 import { Button } from "@/components/ui/button";
-import { TESTIMONIALS } from "@/data/testimonials";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { TESTIMONIALS, type Testimonial } from "@/data/testimonials";
+import { prisma } from "@/lib/prisma";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { TestimonialForm } from "./TestimonialForm";
 
 export const metadata: Metadata = {
   title: "Testimonials",
@@ -13,7 +13,65 @@ export const metadata: Metadata = {
     "Reflections and reviews from audiences, theatre hosts, festival organisers and fellow artists across Europe on Yakshamitraru Germany e.V. performances.",
 };
 
-export default function TestimonialsPage() {
+function formatDisplayName(
+  name: string,
+  displayNameMode: "FULL" | "FIRST",
+): string {
+  const trimmed = name.trim();
+  if (displayNameMode === "FIRST") {
+    return trimmed.split(/\s+/)[0] || trimmed;
+  }
+  return trimmed;
+}
+
+async function getApprovedTestimonials(): Promise<Testimonial[]> {
+  if (
+    !process.env.DATABASE_URL ||
+    process.env.DATABASE_URL === "PASTE_TRANSACTION_POOLER_URL_HERE"
+  ) {
+    return TESTIMONIALS;
+  }
+
+  try {
+    // Select ONLY public fields — never select email
+    const dbRows = await prisma.testimonial.findMany({
+      where: { status: "APPROVED" },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        name: true,
+        displayNameMode: true,
+        role: true,
+        event: true,
+        city: true,
+        text: true,
+        createdAt: true,
+      },
+    });
+
+    const mappedDbRows: Testimonial[] = dbRows.map((row) => ({
+      id: row.id,
+      name: formatDisplayName(row.name, row.displayNameMode),
+      role: row.role || "Audience",
+      event: row.event || undefined,
+      city: row.city || undefined,
+      text: row.text,
+      lang: /[\u0C80-\u0CFF]/.test(row.text) ? "kn" : "en",
+    }));
+
+    return [...mappedDbRows, ...TESTIMONIALS];
+  } catch (err) {
+    console.error(
+      "Failed to fetch approved testimonials from database, falling back to static data:",
+      err,
+    );
+    return TESTIMONIALS;
+  }
+}
+
+export default async function TestimonialsPage() {
+  const testimonials = await getApprovedTestimonials();
+
   return (
     <>
       <PageHero
@@ -33,7 +91,7 @@ export default function TestimonialsPage() {
       />
 
       <Section tone="cream">
-        <TestimonialsList items={TESTIMONIALS} />
+        <TestimonialsList items={testimonials} />
       </Section>
 
       <Section
@@ -51,28 +109,7 @@ export default function TestimonialsPage() {
           }
           lede="Were you in the audience or did you host a Yakshamitraru performance? Leave your reflections below."
         />
-      </Section>
-
-      <Section tone="forest" size="sm">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-cream/85 hover:text-saffron transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to home
-          </Link>
-
-          <Button asChild variant="saffron" size="xl">
-            <Link
-              href="/contact#booking"
-              className="inline-flex items-center gap-2"
-            >
-              Book a performance
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+        <TestimonialForm />
       </Section>
     </>
   );
