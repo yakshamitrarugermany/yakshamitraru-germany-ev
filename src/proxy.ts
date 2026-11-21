@@ -2,7 +2,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
-  return NextResponse.rewrite(new URL("/coming-soon", request.url));
+  const response = NextResponse.rewrite(new URL("/coming-soon", request.url));
+
+  if (request.nextUrl.pathname !== "/") {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+
+  return response;
 }
 
 export const config = {
