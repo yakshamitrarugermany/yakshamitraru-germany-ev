@@ -1,93 +1,170 @@
 "use client";
+
 import { BookSection } from "@/components/site/BookSection";
 import { BrandCard } from "@/components/site/BrandCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { EventCard } from "@/components/site/EventCard";
+import { FilterSelect } from "@/components/site/FilterSelect";
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
-import { PAST_EVENTS, UPCOMING_EVENTS, type EventItem } from "@/data/events";
-import { ArrowUpRight, Clock, MapPin } from "lucide-react";
+import type { EventItem } from "@/data/events";
+import type { EventType } from "@/generated/prisma/enums";
+import { EVENT_TYPE_LABELS, EVENT_TYPE_VALUES } from "@/lib/events-utils";
+import type { PublicEventsWhen } from "@/lib/public-events";
+import { ArrowUpRight, Calendar, Clock, Filter, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function EventsClient() {
-  const upcoming = UPCOMING_EVENTS;
-  const past = PAST_EVENTS;
-  const [featured, ...restUpcoming] = upcoming;
+const WHEN_OPTIONS = ["Upcoming", "Past"] as const;
+const ALL_TYPES_LABEL = "All types";
+const TYPE_OPTIONS = [
+  ALL_TYPES_LABEL,
+  ...EVENT_TYPE_VALUES.map((value) => EVENT_TYPE_LABELS[value]),
+] as const;
+
+const LABEL_TO_EVENT_TYPE = Object.fromEntries(
+  EVENT_TYPE_VALUES.map((value) => [EVENT_TYPE_LABELS[value], value]),
+) as Record<string, EventType>;
+
+interface EventsClientProps {
+  events: EventItem[];
+  when: PublicEventsWhen;
+  type?: EventType;
+}
+
+export default function EventsClient({
+  events,
+  when,
+  type,
+}: EventsClientProps) {
+  const router = useRouter();
+  const [featured, ...restUpcoming] = when === "upcoming" ? events : [];
+
+  const whenLabel = when === "past" ? "Past" : "Upcoming";
+  const typeLabel = type ? EVENT_TYPE_LABELS[type] : ALL_TYPES_LABEL;
+
+  function updateFilters(nextWhen: PublicEventsWhen, nextType?: EventType) {
+    const params = new URLSearchParams();
+    if (nextWhen === "past") {
+      params.set("when", "past");
+    } else {
+      params.set("when", "upcoming");
+    }
+    if (nextType) {
+      params.set("type", nextType);
+    }
+    const qs = params.toString();
+    router.push(qs ? `/events?${qs}` : "/events", { scroll: false });
+  }
+
+  const filterControls = (
+    <div className="flex flex-wrap items-center gap-3">
+      <FilterSelect
+        label="Filter by timeframe"
+        icon={<Calendar className="h-4 w-4" />}
+        variant="filled"
+        value={whenLabel}
+        options={WHEN_OPTIONS}
+        onChange={(label) => {
+          updateFilters(label === "Past" ? "past" : "upcoming", type);
+        }}
+      />
+      <FilterSelect
+        label="Filter by event type"
+        icon={<Filter className="h-4 w-4" />}
+        variant="filled"
+        value={typeLabel}
+        options={TYPE_OPTIONS}
+        onChange={(label) => {
+          updateFilters(
+            when,
+            label === ALL_TYPES_LABEL ? undefined : LABEL_TO_EVENT_TYPE[label],
+          );
+        }}
+      />
+    </div>
+  );
 
   return (
     <>
       <main>
         <EventsHero />
 
-        <Section tone="cream" id="upcoming">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12 md:mb-16">
-            <SectionHeader
-              eyebrow="Upcoming"
-              title={
+        {when === "upcoming" ? (
+          <>
+            <Section tone="cream" id="upcoming">
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12 md:mb-16">
+                <SectionHeader
+                  eyebrow="Upcoming"
+                  title={
+                    <>
+                      Season <span className="italic">2026</span>
+                    </>
+                  }
+                  lede="Programmed with theatres, museums and festival partners across Europe."
+                />
+                {filterControls}
+              </div>
+              {events.length === 0 ? (
+                <EmptyState
+                  title="No upcoming dates announced yet."
+                  description="Check back soon for new performance dates."
+                />
+              ) : (
                 <>
-                  Season <span className="italic">2026</span>
+                  {featured && <FeaturedEvent event={featured} />}
+                  {restUpcoming.length > 0 && (
+                    <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                      {restUpcoming.map((e) => (
+                        <EventCard
+                          key={e.slug}
+                          href={`/events/${e.slug}`}
+                          title={e.title}
+                          date={`${e.date} · ${e.time}`}
+                          city={e.location}
+                          venue={e.organizer}
+                          image={e.image}
+                          status={e.status}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </>
-              }
-              lede="Programmed with theatres, museums and festival partners across Europe."
-            />
-          </div>
-          {upcoming.length === 0 ? (
-            <EmptyState
-              title="No upcoming dates announced yet."
-              description="Check back soon for new performance dates."
-            />
-          ) : (
-            <>
-              {featured && <FeaturedEvent event={featured} />}
-              {restUpcoming.length > 0 && (
-                <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                  {restUpcoming.map((e) => (
-                    <EventCard
-                      key={e.slug}
-                      href={`/events/${e.slug}`}
-                      title={e.title}
-                      date={`${e.date} · ${e.time}`}
-                      city={e.location}
-                      venue={e.organizer}
-                      image={e.image}
-                      status={e.status}
-                    />
-                  ))}
-                </div>
               )}
-            </>
-          )}
-        </Section>
+            </Section>
 
-        <TourMap events={upcoming} />
-
-        <Section tone="muted" id="past">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12 md:mb-16">
-            <SectionHeader
-              eyebrow="Archive"
-              title={
-                <>
-                  Past <span className="italic">productions</span>
-                </>
-              }
-              lede="A record of previous tours — from chamber sets in museums to full productions on European main stages."
-            />
-          </div>
-          {past.length === 0 ? (
-            <EmptyState
-              title="No past dates listed."
-              description="Previous performances will appear here."
-            />
-          ) : (
-            <ol className="divide-y divide-forest-deep/10 border-y border-forest-deep/10">
-              {past.map((e) => (
-                <PastRow key={e.slug} event={e} />
-              ))}
-            </ol>
-          )}
-        </Section>
+            <TourMap events={events} />
+          </>
+        ) : (
+          <Section tone="muted" id="past">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12 md:mb-16">
+              <SectionHeader
+                eyebrow="Archive"
+                title={
+                  <>
+                    Past <span className="italic">productions</span>
+                  </>
+                }
+                lede="A record of previous tours — from chamber sets in museums to full productions on European main stages."
+              />
+              {filterControls}
+            </div>
+            {events.length === 0 ? (
+              <EmptyState
+                title="No past dates listed."
+                description="Previous performances will appear here."
+              />
+            ) : (
+              <ol className="divide-y divide-forest-deep/10 border-y border-forest-deep/10">
+                {events.map((e) => (
+                  <PastRow key={e.slug} event={e} />
+                ))}
+              </ol>
+            )}
+          </Section>
+        )}
 
         <BookSection />
       </main>

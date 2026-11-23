@@ -3,7 +3,8 @@ import { BrandCard } from "@/components/site/BrandCard";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
 import { ARTISTS } from "@/data/artists";
-import { EVENTS, type EventItem } from "@/data/events";
+import type { EventItem } from "@/data/events";
+import { getPublicEventBySlug } from "@/lib/public-events";
 import { ArrowLeft, Calendar, Clock, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -16,7 +17,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
-  const e = EVENTS.find((item) => item.slug === resolvedParams.slug) ?? EVENTS[0];
+  const e = await getPublicEventBySlug(resolvedParams.slug);
+  if (!e) {
+    return {
+      title: "Event Not Found — Yakshamitraru Germany e.V.",
+    };
+  }
   const title = `${e.title} — ${e.location} · Yakshamitraru Germany e.V.`;
   const description = `${e.organizer}. ${e.date} (${e.time}) at ${e.location}.`;
   return {
@@ -41,8 +47,7 @@ export default async function EventDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const resolvedParams = await params;
-  const event =
-    EVENTS.find((item) => item.slug === resolvedParams.slug) ?? EVENTS[0];
+  const event = await getPublicEventBySlug(resolvedParams.slug);
   if (!event) notFound();
 
   return (
