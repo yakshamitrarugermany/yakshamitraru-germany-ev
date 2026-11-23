@@ -204,17 +204,22 @@ model ClassInfo {
 }
 
 model Inquiry {
-  id           String        @id @default(cuid())
-  type         InquiryType
-  name         String
-  email        String
-  phone        String?
-  message      String
-  eventId      String?
-  event        Event?        @relation(fields: [eventId], references: [id], onDelete: SetNull)
-  status       InquiryStatus @default(NEW)
-  consentGiven Boolean       @default(false)
-  createdAt    DateTime      @default(now())
+  id                 String        @id @default(cuid())
+  type               InquiryType
+  name               String
+  email              String
+  phone              String?
+  organization       String?
+  city               String?
+  requestedEventType String?
+  preferredDate      String?
+  expectedAudience   String?
+  message            String
+  eventId            String?
+  event              Event?        @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  status             InquiryStatus @default(NEW)
+  consentGiven       Boolean       @default(false)
+  createdAt          DateTime      @default(now())
 
   @@index([status, createdAt])
 }
