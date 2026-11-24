@@ -305,7 +305,7 @@ export function Hero() {
           className="pointer-events-none absolute -bottom-40 -left-40 h-130 w-130 gold-radial opacity-15"
         />
 
-        <div className="relative container-page pt-18 md:pt-22 pb-24 min-h-[92svh] md:min-h-[94svh]">
+        <div className="relative container-page pt-4 md:pt-6 pb-24 min-h-[92svh] md:min-h-[94svh]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Left — content */}
             <div className="contents lg:block lg:col-span-6 xl:col-span-6 relative z-10 lg:order-1">
