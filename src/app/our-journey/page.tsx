@@ -53,7 +53,7 @@ export default function OurJourneyPage() {
             <em className="italic font-light">Europe</em>.
           </>
         }
-        lede="A registered cultural association carrying Yakshagana — the four-hundred-year-old night theatre of Karnataka — onto European stages, with faithful craft and considered presentation. From a shared passion to a thriving cultural movement presenting Yakshagana across Germany and Europe."
+        lede="A registered cultural association in Germany carrying Yakshagana — the four-hundred-year-old night theatre of Karnataka — onto European stages, with faithful craft and considered presentation. From a shared passion to a thriving cultural movement presenting Yakshagana across Germany and Europe."
         meta={
           <>
             <Stat n={2018} label="Founded" />

@@ -3,42 +3,63 @@
 import { BrandCard } from "@/components/site/BrandCard";
 import type { Testimonial } from "@/data/testimonials";
 import { Calendar, MapPin, Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+
+function extractHashTargetId(rawHash: string): string | null {
+  if (!rawHash || rawHash.length <= 1) return null;
+  // Next.js 16 segment cache can concatenate a cached hash with a newly navigated
+  // hash (e.g. "#first-id#second-id"), so always read the last non-empty segment.
+  const segments = rawHash.split("#").filter(Boolean);
+  if (segments.length === 0) return null;
+  const latestSegment = segments[segments.length - 1];
+  try {
+    return decodeURIComponent(latestSegment);
+  } catch {
+    return latestSegment;
+  }
+}
 
 export function TestimonialCard({
   item,
-  forceExpanded = false,
+  expanded = false,
   highlighted = false,
+  onToggleExpand,
 }: {
   item: Testimonial;
-  forceExpanded?: boolean;
+  expanded?: boolean;
   highlighted?: boolean;
+  onToggleExpand?: () => void;
 }) {
   const paragraphs = item.text.split("\n\n");
   const isLong = item.text.length > 360 || paragraphs.length > 2;
-  const [expanded, setExpanded] = useState(forceExpanded);
-
-  useEffect(() => {
-    if (forceExpanded) {
-      setExpanded(true);
-    }
-  }, [forceExpanded]);
+  const isActive = expanded;
 
   const locationText = [item.city, item.country].filter(Boolean).join(", ");
   const isKannada = item.lang === "kn";
+
+  const borderAndSurfaceClass = isActive
+    ? "border-2 border-[#B8863B] hover:border-[#B8863B] bg-[#FCF7EC]"
+    : "border border-forest-deep/10 hover:border-[#B8863B]/60 bg-[#FFFDF8]";
+
+  const bodySurfaceClass = isActive ? "bg-[#FCF7EC]" : "bg-[#FFFDF8]";
+  const authorSurfaceClass = isActive ? "bg-[#EDE3CE]" : "bg-[#F1EBDD]";
 
   return (
     <BrandCard
       id={item.id}
       variant="cream"
       interactive
-      className={`scroll-mt-28 mb-6 md:mb-8 break-inside-avoid p-6 sm:p-8 md:p-9 flex flex-col justify-between border border-forest-deep/10 shadow-[0_24px_60px_-35px_rgba(47,82,51,0.18)] transition-all duration-500 ${
+      data-expanded={isActive ? "true" : "false"}
+      className={`scroll-mt-28 mb-6 md:mb-8 break-inside-avoid flex flex-col justify-between shadow-[0_24px_60px_-35px_rgba(47,82,51,0.18)] transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out ${borderAndSurfaceClass} ${
         highlighted
           ? "ring-2 ring-[#B8863B] ring-offset-2 ring-offset-[#FAF6EE]"
           : "ring-0 ring-transparent"
       }`}
     >
-      <div>
+      <div
+        className={`px-6 pt-6 pb-7 sm:px-8 sm:pt-8 sm:pb-7 md:px-9 md:pt-9 md:pb-7 transition-colors duration-200 ease-out ${bodySurfaceClass}`}
+      >
         <div className="flex items-start justify-between gap-4">
           <span
             aria-hidden="true"
@@ -75,16 +96,18 @@ export function TestimonialCard({
         {isLong && (
           <button
             type="button"
-            onClick={() => setExpanded((prev) => !prev)}
+            onClick={onToggleExpand}
             aria-expanded={expanded}
-            className="mt-3 inline-flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#7A1F2B] hover:text-[#B8863B] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B8863B]"
+            className="mt-3 inline-flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#7A1F2B] hover:text-[#B8863B] transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B8863B]"
           >
             {expanded ? "Show less" : "Read more"}
           </button>
         )}
       </div>
 
-      <footer className="mt-7 pt-5 border-t border-border flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+      <footer
+        className={`px-6 pt-5 pb-6 sm:px-8 sm:pt-5 sm:pb-8 md:px-9 md:pt-5 md:pb-9 border-t border-border flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 transition-colors duration-200 ease-out ${authorSurfaceClass}`}
+      >
         <div className="min-w-0 flex-1">
           <div className="font-serif text-lg md:text-xl font-medium text-[#7A1F2B]">
             {item.name}
@@ -128,45 +151,113 @@ export function TestimonialCard({
 }
 
 export function TestimonialsList({ items }: { items: Testimonial[] }) {
-  const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({});
+  const pathname = usePathname();
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
 
   useEffect(() => {
-    let highlightTimer: number | null = null;
-    let scrollTimer: number | null = null;
+    let handledTargetId: string | null = null;
+    let rafCheckId: number | null = null;
 
-    const handleHash = () => {
+    const applyHashFromLocation = () => {
       const rawHash = window.location.hash;
-      if (!rawHash || rawHash.length <= 1) return;
-      const targetId = decodeURIComponent(rawHash.slice(1));
+      const targetId = extractHashTargetId(rawHash);
+      if (!targetId) return;
+
       const matched = items.some((item) => item.id === targetId);
       if (!matched) return;
 
-      setExpandedIds((prev) => ({ ...prev, [targetId]: true }));
+      if (rawHash.indexOf("#", 1) !== -1) {
+        const normalizedUrl = `${window.location.pathname}${window.location.search}#${encodeURIComponent(targetId)}`;
+        window.history.replaceState(window.history.state, "", normalizedUrl);
+      }
+
+      if (handledTargetId === targetId) return;
+      handledTargetId = targetId;
+
+      setExpandedId(targetId);
       setHighlightedId(targetId);
-
-      if (scrollTimer) window.clearTimeout(scrollTimer);
-      scrollTimer = window.setTimeout(() => {
-        const el = document.getElementById(targetId);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 60);
-
-      if (highlightTimer) window.clearTimeout(highlightTimer);
-      highlightTimer = window.setTimeout(() => {
-        setHighlightedId((current) => (current === targetId ? null : current));
-      }, 2000);
+      setPendingScrollId(targetId);
     };
 
-    handleHash();
-    window.addEventListener("hashchange", handleHash);
+    const handleExternalHashEvent = () => {
+      handledTargetId = null;
+      applyHashFromLocation();
+    };
+
+    applyHashFromLocation();
+    // Re-check on the next animation frame in case client-side routing updates
+    // window.location.hash immediately after mount.
+    rafCheckId = window.requestAnimationFrame(() => {
+      applyHashFromLocation();
+    });
+
+    window.addEventListener("hashchange", handleExternalHashEvent);
+    window.addEventListener("popstate", handleExternalHashEvent);
     return () => {
-      window.removeEventListener("hashchange", handleHash);
-      if (highlightTimer) window.clearTimeout(highlightTimer);
-      if (scrollTimer) window.clearTimeout(scrollTimer);
+      window.removeEventListener("hashchange", handleExternalHashEvent);
+      window.removeEventListener("popstate", handleExternalHashEvent);
+      if (rafCheckId) window.cancelAnimationFrame(rafCheckId);
     };
-  }, [items]);
+  }, [items, pathname]);
+
+  useEffect(() => {
+    if (!highlightedId) return;
+
+    const timerId = window.setTimeout(() => {
+      setHighlightedId((current) =>
+        current === highlightedId ? null : current,
+      );
+    }, 2000);
+
+    return () => window.clearTimeout(timerId);
+  }, [highlightedId]);
+
+  useEffect(() => {
+    if (!pendingScrollId || expandedId !== pendingScrollId) return;
+
+    let raf1: number | null = null;
+    let raf2: number | null = null;
+    let settleTimer: number | null = null;
+
+    const scrollToTarget = (behavior: ScrollBehavior) => {
+      const el = document.getElementById(pendingScrollId);
+      if (!el) return;
+      el.scrollIntoView({ behavior, block: "start" });
+    };
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    raf1 = window.requestAnimationFrame(() => {
+      raf2 = window.requestAnimationFrame(() => {
+        scrollToTarget(prefersReducedMotion ? "instant" : "smooth");
+        settleTimer = window.setTimeout(() => {
+          const el = document.getElementById(pendingScrollId);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < 0 || rect.top > window.innerHeight * 0.5) {
+              scrollToTarget("instant");
+            }
+          }
+          setPendingScrollId(null);
+        }, 650);
+      });
+    });
+
+    return () => {
+      if (raf1) window.cancelAnimationFrame(raf1);
+      if (raf2) window.cancelAnimationFrame(raf2);
+      if (settleTimer) window.clearTimeout(settleTimer);
+    };
+  }, [pendingScrollId, expandedId]);
+
+  const handleToggleExpand = (id: string) => {
+    setHighlightedId(null);
+    setExpandedId((current) => (current === id ? null : id));
+  };
 
   return (
     <div className="columns-1 md:columns-2 gap-6 md:gap-8">
@@ -174,8 +265,9 @@ export function TestimonialsList({ items }: { items: Testimonial[] }) {
         <TestimonialCard
           key={item.id}
           item={item}
-          forceExpanded={Boolean(expandedIds[item.id])}
+          expanded={expandedId === item.id}
           highlighted={highlightedId === item.id}
+          onToggleExpand={() => handleToggleExpand(item.id)}
         />
       ))}
     </div>
