@@ -5,7 +5,8 @@ import {
 import { Button } from "@/components/ui/button";
 import type { PostStatus } from "@/generated/prisma/enums";
 import {
-  formatBerlinDateTime,
+  formatCalendarDateShort,
+  getBerlinTodayCalendarDate,
   POST_STATUS_LABELS,
   POST_STATUS_VALUES,
 } from "@/lib/events-utils";
@@ -19,8 +20,16 @@ export const metadata: Metadata = {
   title: "Events",
 };
 
+type AdminEventsWhenFilter = "ALL" | "upcoming" | "past";
+
+const WHEN_TABS: Array<{ value: AdminEventsWhenFilter; label: string }> = [
+  { value: "ALL", label: "All dates" },
+  { value: "upcoming", label: "Upcoming" },
+  { value: "past", label: "Past" },
+];
+
 const STATUS_TABS: Array<{ value: PostStatus | "ALL"; label: string }> = [
-  { value: "ALL", label: "All" },
+  { value: "ALL", label: "All statuses" },
   ...POST_STATUS_VALUES.map((status) => ({
     value: status,
     label: POST_STATUS_LABELS[status],
@@ -35,23 +44,53 @@ function parseStatusFilter(raw?: string | string[]): PostStatus | "ALL" {
   return "ALL";
 }
 
+function parseWhenFilter(raw?: string | string[]): AdminEventsWhenFilter {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (value === "upcoming" || value === "past") {
+    return value;
+  }
+  return "ALL";
+}
+
+function buildFilterHref(
+  when: AdminEventsWhenFilter,
+  status: PostStatus | "ALL",
+): string {
+  const params = new URLSearchParams();
+  if (when !== "ALL") params.set("when", when);
+  if (status !== "ALL") params.set("status", status);
+  const qs = params.toString();
+  return qs ? `/admin/events?${qs}` : "/admin/events";
+}
+
 export default async function AdminEventsPage({
   searchParams,
 }: {
   searchParams: Promise<{
+    when?: string | string[];
     status?: string | string[];
     saved?: string | string[];
   }>;
 }) {
   const resolved = await searchParams;
+  const activeWhen = parseWhenFilter(resolved.when);
   const activeStatus = parseStatusFilter(resolved.status);
   const savedFlag = Array.isArray(resolved.saved)
     ? resolved.saved[0]
     : resolved.saved;
 
+  const todayBerlinDate = getBerlinTodayCalendarDate();
+
   const dbEvents = await prisma.event.findMany({
-    where: activeStatus === "ALL" ? undefined : { status: activeStatus },
-    orderBy: { startDate: "desc" },
+    where: {
+      ...(activeStatus === "ALL" ? {} : { status: activeStatus }),
+      ...(activeWhen === "upcoming"
+        ? { startDate: { gte: todayBerlinDate } }
+        : activeWhen === "past"
+          ? { startDate: { lt: todayBerlinDate } }
+          : {}),
+    },
+    orderBy: { startDate: activeWhen === "upcoming" ? "asc" : "desc" },
     select: {
       id: true,
       title: true,
@@ -68,7 +107,7 @@ export default async function AdminEventsPage({
     title: event.title,
     slug: event.slug,
     eventType: event.eventType,
-    startDateLabel: formatBerlinDateTime(event.startDate),
+    startDateLabel: formatCalendarDateShort(event.startDate),
     city: event.city,
     status: event.status,
   }));
@@ -106,37 +145,62 @@ export default async function AdminEventsPage({
         </div>
       )}
 
-      {/* Status filter */}
-      <nav
-        aria-label="Filter events by status"
-        className="flex flex-wrap items-center gap-2"
-      >
-        {STATUS_TABS.map((tab) => {
-          const isActive = activeStatus === tab.value;
-          const href =
-            tab.value === "ALL"
-              ? "/admin/events"
-              : `/admin/events?status=${tab.value}`;
+      {/* Upcoming / Past & Status filters */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <nav
+          aria-label="Filter events by timeframe"
+          className="flex flex-wrap items-center gap-2"
+        >
+          {WHEN_TABS.map((tab) => {
+            const isActive = activeWhen === tab.value;
+            return (
+              <Link
+                key={tab.value}
+                href={buildFilterHref(tab.value, activeStatus)}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
+                  isActive
+                    ? "border-saffron bg-saffron/20 text-forest-deep"
+                    : "border-border bg-card text-ink-soft hover:border-forest-deep/40 hover:text-forest-deep",
+                )}
+              >
+                {tab.label}
+              </Link>
+            );
+          })}
+        </nav>
 
-          return (
-            <Link
-              key={tab.value}
-              href={href}
-              aria-current={isActive ? "page" : undefined}
-              className={cn(
-                "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
-                isActive
-                  ? "border-forest-deep bg-forest-deep text-cream"
-                  : "border-border bg-card text-ink-soft hover:border-forest-deep/40 hover:text-forest-deep",
-              )}
-            >
-              {tab.label}
-            </Link>
-          );
-        })}
-      </nav>
+        <nav
+          aria-label="Filter events by status"
+          className="flex flex-wrap items-center gap-2"
+        >
+          {STATUS_TABS.map((tab) => {
+            const isActive = activeStatus === tab.value;
+            return (
+              <Link
+                key={tab.value}
+                href={buildFilterHref(activeWhen, tab.value)}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
+                  isActive
+                    ? "border-forest-deep bg-forest-deep text-cream"
+                    : "border-border bg-card text-ink-soft hover:border-forest-deep/40 hover:text-forest-deep",
+                )}
+              >
+                {tab.label}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
 
-      <AdminEventsTable events={rows} activeStatus={activeStatus} />
+      <AdminEventsTable
+        events={rows}
+        activeStatus={activeStatus}
+        activeWhen={activeWhen}
+      />
     </section>
   );
 }

@@ -30,6 +30,9 @@ export const POST_STATUS_LABELS: Record<PostStatus, string> = {
 
 export const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+export const MAX_EVENT_ARTISTS = 30;
+export const MAX_EVENT_ARTIST_NAME_LENGTH = 80;
+
 export function slugifyEventTitle(title: string): string {
   return title
     .replace(/ä/gi, "ae")
@@ -43,42 +46,21 @@ export function slugifyEventTitle(title: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-interface DateParts {
-  year: number;
-  month: number;
-  day: number;
-  hour: number;
-  minute: number;
-  second: number;
-}
+export function normalizeArtistList(rawArtists: readonly string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
 
-const berlinPartsFormatter = new Intl.DateTimeFormat("en-GB", {
-  timeZone: BERLIN_TIME_ZONE,
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hourCycle: "h23",
-});
-
-export function getBerlinDateParts(date: Date): DateParts {
-  const parts = berlinPartsFormatter.formatToParts(date);
-  const map: Record<string, number> = {};
-  for (const part of parts) {
-    if (part.type !== "literal") {
-      map[part.type] = Number(part.value);
-    }
+  for (const item of rawArtists) {
+    const trimmed = item.trim();
+    if (!trimmed) continue;
+    const key = trimmed.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(trimmed);
+    if (result.length >= MAX_EVENT_ARTISTS) break;
   }
-  return {
-    year: map.year,
-    month: map.month,
-    day: map.day,
-    hour: map.hour === 24 ? 0 : map.hour,
-    minute: map.minute,
-    second: map.second,
-  };
+
+  return result;
 }
 
 function pad2(n: number): string {
@@ -86,71 +68,102 @@ function pad2(n: number): string {
 }
 
 /**
- * Converts a UTC Date to a `datetime-local` input string ("YYYY-MM-DDTHH:mm")
- * expressed in Europe/Berlin local time.
+ * Parses a calendar date input ("YYYY-MM-DD") into a UTC midnight Date suitable
+ * for Prisma `@db.Date` without any local timezone shifting.
  */
-export function utcDateToBerlinInput(date: Date): string {
-  const p = getBerlinDateParts(date);
-  return `${p.year}-${pad2(p.month)}-${pad2(p.day)}T${pad2(p.hour)}:${pad2(p.minute)}`;
-}
-
-/**
- * Interprets a `datetime-local` input string ("YYYY-MM-DDTHH:mm") as wall-clock
- * time in Europe/Berlin and returns the corresponding UTC Date.
- */
-export function berlinInputToUtcDate(value: string): Date | null {
-  const match =
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(value.trim());
+export function parseCalendarDateToUtcDate(value: string): Date | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
   if (!match) return null;
 
   const year = Number(match[1]);
   const month = Number(match[2]);
   const day = Number(match[3]);
-  const hour = Number(match[4]);
-  const minute = Number(match[5]);
-  const second = match[6] ? Number(match[6]) : 0;
 
-  // Validate calendar bounds (e.g. reject 2026-02-31)
-  const check = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+  const date = new Date(Date.UTC(year, month - 1, day));
   if (
-    Number.isNaN(check.getTime()) ||
-    check.getUTCFullYear() !== year ||
-    check.getUTCMonth() !== month - 1 ||
-    check.getUTCDate() !== day ||
-    check.getUTCHours() !== hour ||
-    check.getUTCMinutes() !== minute
+    Number.isNaN(date.getTime()) ||
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
   ) {
     return null;
   }
 
-  let utcMs = Date.UTC(year, month - 1, day, hour, minute, second);
-  for (let i = 0; i < 2; i++) {
-    const berlinParts = getBerlinDateParts(new Date(utcMs));
-    const berlinAsUtcMs = Date.UTC(
-      berlinParts.year,
-      berlinParts.month - 1,
-      berlinParts.day,
-      berlinParts.hour,
-      berlinParts.minute,
-      berlinParts.second,
-    );
-    const offsetMs = berlinAsUtcMs - utcMs;
-    utcMs = Date.UTC(year, month - 1, day, hour, minute, second) - offsetMs;
-  }
-
-  const result = new Date(utcMs);
-  return Number.isNaN(result.getTime()) ? null : result;
+  return date;
 }
 
 /**
- * Returns the UTC Date representing 00:00:00 of today in Europe/Berlin.
+ * Formats a Prisma `@db.Date` value as "YYYY-MM-DD" using UTC components
+ * so the calendar date never shifts across timezones.
  */
-export function getBerlinTodayStartUtc(now: Date = new Date()): Date {
-  const p = getBerlinDateParts(now);
-  return (
-    berlinInputToUtcDate(`${p.year}-${pad2(p.month)}-${pad2(p.day)}T00:00`) ??
-    new Date(Date.UTC(p.year, p.month - 1, p.day, 0, 0, 0))
-  );
+export function calendarDateToInput(date: Date): string {
+  return `${date.getUTCFullYear()}-${pad2(date.getUTCMonth() + 1)}-${pad2(date.getUTCDate())}`;
+}
+
+const berlinDatePartsFormatter = new Intl.DateTimeFormat("en-GB", {
+  timeZone: BERLIN_TIME_ZONE,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+/**
+ * Returns today's calendar date string ("YYYY-MM-DD") in Europe/Berlin.
+ */
+export function getBerlinTodayDateString(now: Date = new Date()): string {
+  const parts = berlinDatePartsFormatter.formatToParts(now);
+  const map: Record<string, string> = {};
+  for (const part of parts) {
+    if (part.type !== "literal") {
+      map[part.type] = part.value;
+    }
+  }
+  return `${map.year}-${map.month}-${map.day}`;
+}
+
+/**
+ * Returns today's Europe/Berlin calendar date as a UTC midnight Date
+ * for direct comparison against `@db.Date` columns.
+ */
+export function getBerlinTodayCalendarDate(now: Date = new Date()): Date {
+  return parseCalendarDateToUtcDate(getBerlinTodayDateString(now))!;
+}
+
+const shortCalendarDateFormatter = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "UTC",
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+});
+
+/**
+ * Formats a `@db.Date` value for admin tables (e.g. "28 Nov 2026"), no time.
+ */
+export function formatCalendarDateShort(date: Date): string {
+  return shortCalendarDateFormatter.format(date);
+}
+
+const publicCalendarDateFormatter = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "UTC",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
+/**
+ * Formats a `@db.Date` value for public cards, detail pages, and metadata
+ * (e.g. "28 November 2026"), without time.
+ */
+export function formatCalendarDatePublic(date: Date): string {
+  return publicCalendarDateFormatter.format(date);
+}
+
+/**
+ * Returns a midday-UTC ISO string for a `@db.Date` value so calendar badge
+ * components reading UTC date parts stay exact across all timezones.
+ */
+export function formatCalendarDateIso(date: Date): string {
+  return `${calendarDateToInput(date)}T12:00:00Z`;
 }
 
 const adminDateTimeFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -163,56 +176,9 @@ const adminDateTimeFormatter = new Intl.DateTimeFormat("en-GB", {
   hourCycle: "h23",
 });
 
+/**
+ * Formats a full timestamp (e.g. Inquiry.createdAt) in Europe/Berlin.
+ */
 export function formatBerlinDateTime(date: Date): string {
   return adminDateTimeFormatter.format(date);
-}
-
-const publicDateFormatter = new Intl.DateTimeFormat("en-GB", {
-  timeZone: BERLIN_TIME_ZONE,
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
-
-const publicTimeFormatter = new Intl.DateTimeFormat("en-GB", {
-  timeZone: BERLIN_TIME_ZONE,
-  hour: "2-digit",
-  minute: "2-digit",
-  hourCycle: "h23",
-});
-
-export function formatBerlinPublicDate(date: Date): string {
-  return publicDateFormatter.format(date);
-}
-
-export function formatBerlinPublicTime(
-  startDate: Date,
-  endDate?: Date | null,
-): string {
-  const startTime = publicTimeFormatter.format(startDate);
-  if (!endDate) return startTime;
-
-  const startParts = getBerlinDateParts(startDate);
-  const endParts = getBerlinDateParts(endDate);
-  const endTime = publicTimeFormatter.format(endDate);
-
-  if (
-    startParts.year === endParts.year &&
-    startParts.month === endParts.month &&
-    startParts.day === endParts.day
-  ) {
-    return startTime === endTime ? startTime : `${startTime} – ${endTime}`;
-  }
-
-  return `${startTime} – ${publicDateFormatter.format(endDate)}, ${endTime}`;
-}
-
-/**
- * Returns a midday-UTC ISO string for the event's Europe/Berlin calendar date
- * so calendar badge components rendering `new Date(iso).getDate()` stay exact
- * across all timezones.
- */
-export function formatBerlinCalendarIso(date: Date): string {
-  const p = getBerlinDateParts(date);
-  return `${p.year}-${pad2(p.month)}-${pad2(p.day)}T12:00:00Z`;
 }

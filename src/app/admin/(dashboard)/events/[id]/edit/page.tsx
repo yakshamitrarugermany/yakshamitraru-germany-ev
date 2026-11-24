@@ -1,5 +1,5 @@
 import { AdminEventForm } from "@/components/admin/AdminEventForm";
-import { utcDateToBerlinInput } from "@/lib/events-utils";
+import { calendarDateToInput } from "@/lib/events-utils";
 import { prisma } from "@/lib/prisma";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
@@ -22,11 +22,13 @@ export default async function EditAdminEventPage({
     select: {
       id: true,
       title: true,
+      yakshaganaTitle: true,
+      organisedBy: true,
+      artists: true,
       slug: true,
       description: true,
       eventType: true,
       startDate: true,
-      endDate: true,
       venueName: true,
       address: true,
       city: true,
@@ -61,12 +63,14 @@ export default async function EditAdminEventPage({
         eventId={event.id}
         defaultValues={{
           title: event.title,
+          yakshaganaTitle: event.yakshaganaTitle ?? "",
+          organisedBy: event.organisedBy ?? "",
+          artists: event.artists ?? [],
           slug: event.slug,
           slugManuallyEdited: true,
           description: event.description,
           eventType: event.eventType,
-          startDate: utcDateToBerlinInput(event.startDate),
-          endDate: event.endDate ? utcDateToBerlinInput(event.endDate) : "",
+          startDate: calendarDateToInput(event.startDate),
           venueName: event.venueName ?? "",
           address: event.address ?? "",
           city: event.city ?? "",
