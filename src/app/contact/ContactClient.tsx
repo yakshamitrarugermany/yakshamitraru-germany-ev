@@ -2,7 +2,7 @@
 import { BrandCard } from "@/components/site/BrandCard";
 import { FAQAccordion } from "@/components/site/FAQAccordion";
 
-import { EnquiryForm } from "@/components/site/EnquiryForm";
+import { EnquiryForm, type LinkedEventPreview } from "@/components/site/EnquiryForm";
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
@@ -50,7 +50,11 @@ const FAQS: { q: string; a: string }[] = [
   },
 ];
 
-export default function ContactClient() {
+export default function ContactClient({
+  linkedEvent = null,
+}: {
+  linkedEvent?: LinkedEventPreview | null;
+}) {
   const whatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
     "Hello Yakshamitraru — I'd like to enquire about a performance.",
   )}`;
@@ -143,6 +147,7 @@ export default function ContactClient() {
                 variant="contact"
                 emailTo={CONTACT.email}
                 whatsappPhone={CONTACT.whatsapp}
+                linkedEvent={linkedEvent}
               />
             </div>
           </div>
