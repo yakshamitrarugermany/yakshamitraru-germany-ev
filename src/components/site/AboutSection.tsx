@@ -36,8 +36,8 @@ export function AboutSection() {
             <p>
               Yakshamitraru Germany e.V. is a registered cultural association
               founded by passionate artists and enthusiasts. Our mission is to
-              preserve the rich heritage of Yakshagana while fostering cultural
-              exchange across borders.
+              present and promote the rich heritage of Yakshagana while
+              fostering cultural exchange across borders.
             </p>
             <p className="mt-6">
               We bring together a diverse ensemble of performers to stage

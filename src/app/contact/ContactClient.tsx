@@ -2,7 +2,10 @@
 import { BrandCard } from "@/components/site/BrandCard";
 import { FAQAccordion } from "@/components/site/FAQAccordion";
 
-import { EnquiryForm, type LinkedEventPreview } from "@/components/site/EnquiryForm";
+import {
+  EnquiryForm,
+  type LinkedEventPreview,
+} from "@/components/site/EnquiryForm";
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
@@ -56,7 +59,7 @@ export default function ContactClient({
   linkedEvent?: LinkedEventPreview | null;
 }) {
   const whatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
-    "Hello Yakshamitraru — I'd like to enquire about a performance. Could please let me know the good time to talk to you?",
+    "Hello Yakshamitraru — I'd like to enquire about a performance. Could you please let me know the good time to talk to you?",
   )}`;
   const askQuestionWhatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
     "Hello Yakshamitraru Germany,\n\nI have a question regarding...",

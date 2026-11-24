@@ -7,7 +7,7 @@ import {
 } from "@/data/testimonials";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { BrandCard } from "./BrandCard";
 import { Section, SectionHeader } from "./Section";
@@ -55,15 +55,33 @@ const TESTIMONIAL_GROUPS = buildTestimonialGroups(
 
 export function Testimonials() {
   const [groupIndex, setGroupIndex] = useState(0);
+  const [isInView, setIsInView] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const cardsContainerRef = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
   const isPaused = isHovered || isFocused;
+  const shouldRotate = isInView && !isPaused;
   const visibleTestimonials = TESTIMONIAL_GROUPS[groupIndex] ?? [];
 
   useEffect(() => {
-    if (TESTIMONIAL_GROUPS.length <= 1 || isPaused) return;
+    const target = cardsContainerRef.current;
+    if (!target || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(Boolean(entry?.isIntersecting));
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (TESTIMONIAL_GROUPS.length <= 1 || !shouldRotate) return;
 
     const intervalId = window.setInterval(() => {
       if (document.visibilityState === "visible") {
@@ -72,7 +90,7 @@ export function Testimonials() {
     }, ROTATION_INTERVAL_MS);
 
     return () => window.clearInterval(intervalId);
-  }, [isPaused]);
+  }, [shouldRotate]);
 
   const gridColsClass =
     visibleTestimonials.length === 1
@@ -160,6 +178,7 @@ export function Testimonials() {
       </div>
 
       <motion.div
+        ref={cardsContainerRef}
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -192,7 +211,7 @@ export function Testimonials() {
                 perspective: "1400px",
                 transformStyle: "preserve-3d",
               }}
-              className="shrink-0 w-[85%] sm:w-[45%] md:w-auto min-w-0 snap-start grid min-h-[340px] md:min-h-[388px]"
+              className="shrink-0 w-[85%] sm:w-[45%] md:w-auto min-w-0 snap-start grid min-h-85 md:min-h-97"
             >
               <AnimatePresence mode="sync" initial={false}>
                 <motion.div

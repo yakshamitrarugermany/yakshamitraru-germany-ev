@@ -105,7 +105,7 @@ export function EuropeBanner() {
 
       <div className="relative container-page px-2 sm:px-6 py-2 sm:py-2.5 md:py-3 flex flex-col items-center justify-center">
         {/* Flattened infinity loop stage: left loop frames "Yakshagana", centre crossing frames smaller "in", right loop frames "EUROPE" */}
-        <div className="relative mx-auto w-full max-w-[344px] sm:max-w-[460px] md:max-w-[500px] lg:max-w-[560px] xl:max-w-[620px] aspect-[1000/240] flex items-center justify-center">
+        <div className="relative mx-auto w-full max-w-86 sm:max-w-115 md:max-w-125 lg:max-w-140 xl:max-w-155 aspect-1000/240 flex items-center justify-center">
           <svg
             aria-hidden="true"
             viewBox="0 0 1000 240"
