@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { showAdminErrorToast } from "@/lib/admin-toast";
 import {
   EVENT_TYPE_LABELS,
   EVENT_TYPE_VALUES,
@@ -59,7 +60,6 @@ export function AdminEventForm({
   defaultValues,
 }: AdminEventFormProps) {
   const router = useRouter();
-  const [serverError, setServerError] = useState<string | null>(null);
   const [artistDraft, setArtistDraft] = useState("");
   const [artistInputError, setArtistInputError] = useState<string | null>(null);
 
@@ -173,8 +173,6 @@ export function AdminEventForm({
   }
 
   async function onSubmit(values: EventFormValues) {
-    setServerError(null);
-
     // If user typed an artist name and immediately clicked Submit without Enter/comma
     let submitValues = values;
     if (artistDraft.trim()) {
@@ -210,9 +208,11 @@ export function AdminEventForm({
         return;
       }
 
+      let hasFieldErrors = false;
       if (result.fieldErrors) {
         for (const [field, message] of Object.entries(result.fieldErrors)) {
           if (message) {
+            hasFieldErrors = true;
             setError(field as keyof EventFormValues, {
               type: "server",
               message,
@@ -220,9 +220,15 @@ export function AdminEventForm({
           }
         }
       }
-      setServerError(result.error);
+
+      if (!hasFieldErrors) {
+        showAdminErrorToast(result.error, "admin-event-save-error");
+      }
     } catch {
-      setServerError("Something went wrong while saving. Please try again.");
+      showAdminErrorToast(
+        "Something went wrong while saving. Please try again.",
+        "admin-event-save-error",
+      );
     }
   }
 
@@ -239,15 +245,6 @@ export function AdminEventForm({
       noValidate
       className="rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-sm space-y-8"
     >
-      {serverError && (
-        <div
-          role="alert"
-          className="rounded-md border border-crimson/30 bg-crimson/5 px-4 py-3 text-sm text-crimson"
-        >
-          {serverError}
-        </div>
-      )}
-
       {/* Core details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="md:col-span-2">

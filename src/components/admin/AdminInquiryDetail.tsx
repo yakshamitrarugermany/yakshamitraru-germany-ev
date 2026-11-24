@@ -23,13 +23,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { InquiryStatus, InquiryType } from "@/generated/prisma/enums";
+import { showAdminErrorToast, showAdminSuccessToast } from "@/lib/admin-toast";
 import {
   INQUIRY_STATUS_LABELS,
   INQUIRY_STATUS_VALUES,
   INQUIRY_TYPE_LABELS,
   stripHeaderLineBreaks,
 } from "@/lib/inquiries-utils";
-import { cn } from "@/lib/utils";
 import { Loader2, Mail, MessageCircle, Phone, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -69,10 +69,6 @@ export function AdminInquiryDetail({
   const [savingStatus, setSavingStatus] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [feedback, setFeedback] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
 
   const safeSubject = `Re: Your ${INQUIRY_TYPE_LABELS[inquiry.type].toLowerCase()} inquiry — Yakshamitraru Germany e.V.`;
   const replyHref = `mailto:${encodeURIComponent(inquiry.email)}?subject=${encodeURIComponent(
@@ -84,26 +80,25 @@ export function AdminInquiryDetail({
     const prevStatus = status;
     setStatus(nextStatus);
     setSavingStatus(true);
-    setFeedback(null);
 
     try {
       const result = await updateInquiryStatusAction(inquiry.id, nextStatus);
       if (result.success) {
-        setFeedback({
-          type: "success",
-          message: `Status updated to ${INQUIRY_STATUS_LABELS[nextStatus]}.`,
-        });
+        showAdminSuccessToast(
+          `Status updated to ${INQUIRY_STATUS_LABELS[nextStatus]}.`,
+          "admin-inquiry-status",
+        );
         router.refresh();
       } else {
         setStatus(prevStatus);
-        setFeedback({ type: "error", message: result.error });
+        showAdminErrorToast(result.error, "admin-inquiry-status-error");
       }
     } catch {
       setStatus(prevStatus);
-      setFeedback({
-        type: "error",
-        message: "Could not update the status right now. Please try again.",
-      });
+      showAdminErrorToast(
+        "Could not update the status right now. Please try again.",
+        "admin-inquiry-status-error",
+      );
     } finally {
       setSavingStatus(false);
     }
@@ -111,7 +106,6 @@ export function AdminInquiryDetail({
 
   async function handleConfirmDelete() {
     setDeleting(true);
-    setFeedback(null);
 
     try {
       const result = await deleteInquiryAction(inquiry.id);
@@ -120,34 +114,20 @@ export function AdminInquiryDetail({
         router.push("/admin/inquiries?deleted=1");
         router.refresh();
       } else {
-        setFeedback({ type: "error", message: result.error });
+        showAdminErrorToast(result.error, "admin-inquiry-delete-error");
         setDeleting(false);
       }
     } catch {
-      setFeedback({
-        type: "error",
-        message: "Could not delete the inquiry right now. Please try again.",
-      });
+      showAdminErrorToast(
+        "Could not delete the inquiry right now. Please try again.",
+        "admin-inquiry-delete-error",
+      );
       setDeleting(false);
     }
   }
 
   return (
     <div className="space-y-6">
-      {feedback && (
-        <div
-          role={feedback.type === "error" ? "alert" : "status"}
-          className={cn(
-            "rounded-md border px-4 py-3 text-sm",
-            feedback.type === "error"
-              ? "border-crimson/30 bg-crimson/5 text-crimson"
-              : "border-forest-deep/20 bg-forest-deep/5 text-forest-deep",
-          )}
-        >
-          {feedback.message}
-        </div>
-      )}
-
       {/* Action bar */}
       <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 flex flex-wrap items-center justify-between gap-4 shadow-xs">
         <div className="flex flex-wrap items-center gap-3">

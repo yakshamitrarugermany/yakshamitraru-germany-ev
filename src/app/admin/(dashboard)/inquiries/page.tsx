@@ -1,3 +1,4 @@
+import { AdminFlashToast } from "@/components/admin/AdminFlashToast";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -124,12 +125,11 @@ export default async function AdminInquiriesPage({
       </div>
 
       {deletedFlag === "1" && (
-        <div
-          role="status"
-          className="rounded-md border border-forest-deep/20 bg-forest-deep/5 px-4 py-3 text-sm text-forest-deep"
-        >
-          Inquiry permanently deleted.
-        </div>
+        <AdminFlashToast
+          message="Inquiry permanently deleted."
+          toastId="admin-inquiry-deleted"
+          clearParam="deleted"
+        />
       )}
 
       {/* Status & Type filters */}
