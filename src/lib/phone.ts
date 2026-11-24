@@ -145,13 +145,16 @@ export function parseAndValidatePhone(
 
 export interface FormattedPhoneDisplay {
   display: string;
+  e164: string | null;
   telHref: string | null;
+  whatsappDigits: string | null;
 }
 
 /**
  * Formats a stored phone string for human display (international format) and
- * provides an E.164 `tel:` href. Falls back to the exact stored string if
- * an older row cannot be parsed.
+ * provides E.164 `tel:` and WhatsApp digits helpers. Numbers saved without an
+ * international prefix fall back to DE as the default country; if parsing still
+ * fails, returns the exact stored string with null action fields.
  */
 export function formatPhoneForDisplay(
   storedPhone: string | null | undefined,
@@ -160,16 +163,43 @@ export function formatPhoneForDisplay(
     return null;
   }
 
-  const parsed = parsePhoneNumberFromString(storedPhone.trim());
-  if (!parsed) {
+  const result = parseAndValidatePhone(storedPhone, DEFAULT_PHONE_COUNTRY);
+  if (!result.valid) {
     return {
       display: storedPhone,
+      e164: null,
       telHref: null,
+      whatsappDigits: null,
     };
   }
 
+  const parsed = parsePhoneNumberFromString(result.e164);
+  const display = parsed ? parsed.formatInternational() : result.e164;
+
   return {
-    display: parsed.formatInternational(),
-    telHref: `tel:${parsed.number}`,
+    display,
+    e164: result.e164,
+    telHref: `tel:${result.e164}`,
+    whatsappDigits: result.e164.replace(/\D/g, ""),
   };
+}
+
+/**
+ * Builds a WhatsApp click-to-chat URL with a short, editable greeting.
+ * Never includes inquiry message text or email addresses.
+ */
+export function buildWhatsAppInquiryHref(
+  whatsappDigits: string,
+  visitorName: string,
+): string {
+  const cleanDigits = whatsappDigits.replace(/\D/g, "");
+  const firstName = visitorName
+    .replace(/[\r\n]+/g, " ")
+    .trim()
+    .split(/\s+/)[0];
+  const greeting = firstName
+    ? `Hello ${firstName}, thank you for your enquiry to Yakshamitraru Germany.`
+    : "Hello, thank you for your enquiry to Yakshamitraru Germany.";
+
+  return `https://wa.me/${cleanDigits}?text=${encodeURIComponent(greeting)}`;
 }
