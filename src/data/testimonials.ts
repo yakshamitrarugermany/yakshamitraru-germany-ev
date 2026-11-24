@@ -23,7 +23,7 @@ export interface Testimonial {
 }
 
 export const HOME_TESTIMONIAL_IDS = [
-  "janardhan-krishnappa",
+  "anoosha-n-shastry",
   "shany-mathew",
   "chethan",
 ];

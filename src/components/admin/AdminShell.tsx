@@ -209,7 +209,7 @@ export function AdminShell({ user, children }: AdminShellProps) {
           </div>
 
           <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-            <span className="text-sm font-medium text-foreground truncate max-w-[140px] sm:max-w-[220px]">
+            <span className="text-sm font-medium text-foreground truncate max-w-35 sm:max-w-55">
               {user.name}
             </span>
             <Button
