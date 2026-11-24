@@ -1,6 +1,7 @@
 import heroAsset from "@/assets/hero.jpg.asset.json";
 import {
   getPublicEvents,
+  hasPublicPastEvents,
   parseEventTypeParam,
   parseWhenParam,
 } from "@/lib/public-events";
@@ -37,6 +38,17 @@ export default async function EventsPage({
   const type = parseEventTypeParam(resolvedSearchParams.type);
 
   const events = await getPublicEvents({ when, type });
+  const hasPastEvents =
+    when === "upcoming" && events.length === 0
+      ? await hasPublicPastEvents()
+      : false;
 
-  return <EventsClient events={events} when={when} type={type} />;
+  return (
+    <EventsClient
+      events={events}
+      when={when}
+      type={type}
+      hasPastEvents={hasPastEvents}
+    />
+  );
 }

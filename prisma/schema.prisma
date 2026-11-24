@@ -147,11 +147,13 @@ model Verification {
 model Event {
   id                 String     @id @default(cuid())
   title              String
+  yakshaganaTitle    String?
+  organisedBy        String?
+  artists            String[]   @default([])
   slug               String     @unique
   description        String
   eventType          EventType  @default(PERFORMANCE)
-  startDate          DateTime
-  endDate            DateTime?
+  startDate          DateTime   @db.Date
   venueName          String?
   address            String?
   city               String?

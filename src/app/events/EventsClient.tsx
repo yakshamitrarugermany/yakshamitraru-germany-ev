@@ -11,11 +11,10 @@ import {
   SectionSeparator,
 } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
-import type { EventItem } from "@/data/events";
 import type { EventType } from "@/generated/prisma/enums";
 import { EVENT_TYPE_LABELS, EVENT_TYPE_VALUES } from "@/lib/events-utils";
-import type { PublicEventsWhen } from "@/lib/public-events";
-import { ArrowUpRight, Calendar, Clock, Filter, MapPin } from "lucide-react";
+import type { PublicEventItem, PublicEventsWhen } from "@/lib/public-events";
+import { ArrowUpRight, Calendar, Filter, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,15 +31,17 @@ const LABEL_TO_EVENT_TYPE = Object.fromEntries(
 ) as Record<string, EventType>;
 
 interface EventsClientProps {
-  events: EventItem[];
+  events: PublicEventItem[];
   when: PublicEventsWhen;
   type?: EventType;
+  hasPastEvents?: boolean;
 }
 
 export default function EventsClient({
   events,
   when,
   type,
+  hasPastEvents = false,
 }: EventsClientProps) {
   const router = useRouter();
   const [featured, ...restUpcoming] = when === "upcoming" ? events : [];
@@ -111,10 +112,20 @@ export default function EventsClient({
                 {filterControls}
               </div>
               {events.length === 0 ? (
-                <EmptyState
-                  title="No upcoming dates announced yet."
-                  description="Check back soon for new performance dates."
-                />
+                hasPastEvents ? (
+                  <EmptyState
+                    title="No upcoming events right now. Have a look at our past performances."
+                    action={
+                      <Button asChild variant="forest" size="lg">
+                        <Link href="/events?when=past">
+                          View past performances
+                        </Link>
+                      </Button>
+                    }
+                  />
+                ) : (
+                  <EmptyState title="Events will be announced soon." />
+                )
               ) : (
                 <>
                   {featured && <FeaturedEvent event={featured} />}
@@ -125,9 +136,9 @@ export default function EventsClient({
                           key={e.slug}
                           href={`/events/${e.slug}`}
                           title={e.title}
-                          date={`${e.date} · ${e.time}`}
+                          date={e.date}
                           city={e.location}
-                          venue={e.organizer}
+                          venue={e.organizer || undefined}
                           image={e.image}
                           status={e.status}
                         />
@@ -192,7 +203,7 @@ function EventsHero() {
   );
 }
 
-function FeaturedEvent({ event }: { event: EventItem }) {
+function FeaturedEvent({ event }: { event: PublicEventItem }) {
   return (
     <article className="group grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-stretch">
       <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-forest-deep media-zoom">
@@ -228,17 +239,13 @@ function FeaturedEvent({ event }: { event: EventItem }) {
           </div>
           <div className="min-w-0">
             <div className="eyebrow text-saffron">{event.date}</div>
-            {event.time && (
-              <div className="mt-1 text-sm text-cream/80 flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5" />
-                {event.time}
-              </div>
-            )}
           </div>
         </div>
       </div>
       <div className="lg:col-span-5 flex flex-col justify-center">
-        <div className="eyebrow text-crimson">{event.organizer}</div>
+        {event.organizer && (
+          <div className="eyebrow text-crimson">{event.organizer}</div>
+        )}
         <Link
           href={`/events/${event.slug}`}
           className="hover:opacity-80 transition-opacity"
@@ -247,6 +254,11 @@ function FeaturedEvent({ event }: { event: EventItem }) {
             {event.title}
           </h3>
         </Link>
+        {event.yakshaganaTitle && (
+          <p className="mt-3 font-serif italic text-xl text-forest-deep/75">
+            {event.yakshaganaTitle}
+          </p>
+        )}
         <div className="mt-6 flex items-center gap-2 text-forest-deep/70">
           <MapPin className="h-4 w-4 text-saffron shrink-0" />
           <span className="font-serif text-lg">{event.location}</span>
@@ -266,7 +278,7 @@ function FeaturedEvent({ event }: { event: EventItem }) {
   );
 }
 
-function PastRow({ event }: { event: EventItem }) {
+function PastRow({ event }: { event: PublicEventItem }) {
   return (
     <li className="group grid grid-cols-1 md:grid-cols-[auto_1fr_1fr_auto] items-center gap-4 md:gap-8 py-5 md:py-7">
       <Link
@@ -282,19 +294,24 @@ function PastRow({ event }: { event: EventItem }) {
       </Link>
       <div className="min-w-0">
         <div className="font-mono text-xs text-forest-deep/50 tabular-nums">
-          {event.date} · {event.time}
+          {event.date}
         </div>
         <Link href={`/events/${event.slug}`}>
           <div className="mt-1 font-serif text-xl md:text-2xl text-forest-deep hover:text-saffron leading-tight truncate transition-colors">
             {event.title}
           </div>
         </Link>
+        {event.yakshaganaTitle && (
+          <div className="font-serif italic text-sm text-forest-deep/65 truncate mt-0.5">
+            {event.yakshaganaTitle}
+          </div>
+        )}
         <div className="md:hidden text-xs text-forest-deep/60 mt-1">
-          {event.organizer} · {event.location}
+          {[event.organizer, event.location].filter(Boolean).join(" · ")}
         </div>
       </div>
       <div className="hidden md:block min-w-0 text-sm text-forest-deep/70">
-        <div className="truncate">{event.organizer}</div>
+        {event.organizer && <div className="truncate">{event.organizer}</div>}
         <div className="text-xs text-forest-deep/50 mt-1">{event.location}</div>
       </div>
       <div className="hidden md:block eyebrow text-forest-deep/40 text-[10px] whitespace-nowrap">
@@ -309,7 +326,7 @@ const CITY_COORDS: Record<string, { x: number; y: number }> = {
   Helsinki: { x: 605, y: 155 },
 };
 
-function TourMap({ events }: { events: EventItem[] }) {
+function TourMap({ events }: { events: PublicEventItem[] }) {
   const points = events
     .map((e) => ({ ...e, coords: CITY_COORDS[e.city] }))
     .filter((e) => e.coords);

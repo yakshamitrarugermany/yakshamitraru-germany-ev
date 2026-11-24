@@ -1,7 +1,10 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { berlinInputToUtcDate } from "@/lib/events-utils";
+import {
+  normalizeArtistList,
+  parseCalendarDateToUtcDate,
+} from "@/lib/events-utils";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
@@ -88,24 +91,17 @@ export async function createEventAction(
   }
 
   const data = parsed.data;
-  const startUtc = berlinInputToUtcDate(data.startDate);
-  const endUtc = data.endDate ? berlinInputToUtcDate(data.endDate) : null;
+  const startDate = parseCalendarDateToUtcDate(data.startDate);
 
-  if (!startUtc) {
+  if (!startDate) {
     return {
       success: false,
-      error: "Please enter a valid start date and time.",
-      fieldErrors: { startDate: "Please enter a valid start date and time" },
+      error: "Please enter a valid event date.",
+      fieldErrors: { startDate: "Please enter a valid event date" },
     };
   }
 
-  if (data.endDate && !endUtc) {
-    return {
-      success: false,
-      error: "Please enter a valid end date and time.",
-      fieldErrors: { endDate: "Please enter a valid end date and time" },
-    };
-  }
+  const artists = normalizeArtistList(data.artists);
 
   try {
     let finalSlug = data.slug;
@@ -119,7 +115,7 @@ export async function createEventAction(
           success: false,
           error: "Please check the highlighted fields and try again.",
           fieldErrors: {
-            slug: "This slug is already taken. Please choose a different slug.",
+            slug: "This page link is already taken. Please choose a different one.",
           },
         };
       }
@@ -130,11 +126,13 @@ export async function createEventAction(
     const created = await prisma.event.create({
       data: {
         title: data.title,
+        yakshaganaTitle: data.yakshaganaTitle || null,
+        organisedBy: data.organisedBy || null,
+        artists,
         slug: finalSlug,
         description: data.description,
         eventType: data.eventType,
-        startDate: startUtc,
-        endDate: endUtc,
+        startDate,
         venueName: data.venueName || null,
         address: data.address || null,
         city: data.city || null,
@@ -157,11 +155,11 @@ export async function createEventAction(
         success: false,
         error: "Please check the highlighted fields and try again.",
         fieldErrors: {
-          slug: "This slug is already taken. Please choose a different slug.",
+          slug: "This page link is already taken. Please choose a different one.",
         },
       };
     }
-    console.error("Failed to create event:", err);
+    console.error("Failed to create event:", err instanceof Error ? err.name : "UnknownError");
     return {
       success: false,
       error: "Could not save the event right now. Please try again.",
@@ -200,24 +198,17 @@ export async function updateEventAction(
   }
 
   const data = parsed.data;
-  const startUtc = berlinInputToUtcDate(data.startDate);
-  const endUtc = data.endDate ? berlinInputToUtcDate(data.endDate) : null;
+  const startDate = parseCalendarDateToUtcDate(data.startDate);
 
-  if (!startUtc) {
+  if (!startDate) {
     return {
       success: false,
-      error: "Please enter a valid start date and time.",
-      fieldErrors: { startDate: "Please enter a valid start date and time" },
+      error: "Please enter a valid event date.",
+      fieldErrors: { startDate: "Please enter a valid event date" },
     };
   }
 
-  if (data.endDate && !endUtc) {
-    return {
-      success: false,
-      error: "Please enter a valid end date and time.",
-      fieldErrors: { endDate: "Please enter a valid end date and time" },
-    };
-  }
+  const artists = normalizeArtistList(data.artists);
 
   try {
     let finalSlug = data.slug;
@@ -231,7 +222,7 @@ export async function updateEventAction(
           success: false,
           error: "Please check the highlighted fields and try again.",
           fieldErrors: {
-            slug: "This slug is already taken. Please choose a different slug.",
+            slug: "This page link is already taken. Please choose a different one.",
           },
         };
       }
@@ -243,11 +234,13 @@ export async function updateEventAction(
       where: { id: eventId },
       data: {
         title: data.title,
+        yakshaganaTitle: data.yakshaganaTitle || null,
+        organisedBy: data.organisedBy || null,
+        artists,
         slug: finalSlug,
         description: data.description,
         eventType: data.eventType,
-        startDate: startUtc,
-        endDate: endUtc,
+        startDate,
         venueName: data.venueName || null,
         address: data.address || null,
         city: data.city || null,
@@ -273,11 +266,11 @@ export async function updateEventAction(
         success: false,
         error: "Please check the highlighted fields and try again.",
         fieldErrors: {
-          slug: "This slug is already taken. Please choose a different slug.",
+          slug: "This page link is already taken. Please choose a different one.",
         },
       };
     }
-    console.error("Failed to update event:", err);
+    console.error("Failed to update event:", err instanceof Error ? err.name : "UnknownError");
     return {
       success: false,
       error: "Could not update the event right now. Please try again.",
@@ -318,7 +311,7 @@ export async function deleteEventAction(
 
     return { success: true, id: existing.id, slug: existing.slug };
   } catch (err) {
-    console.error("Failed to delete event:", err);
+    console.error("Failed to delete event:", err instanceof Error ? err.name : "UnknownError");
     return {
       success: false,
       error: "Could not delete the event right now. Please try again.",

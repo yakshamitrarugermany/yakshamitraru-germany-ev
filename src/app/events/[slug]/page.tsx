@@ -2,10 +2,11 @@ import { BookSection } from "@/components/site/BookSection";
 import { BrandCard } from "@/components/site/BrandCard";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
-import { ARTISTS } from "@/data/artists";
-import type { EventItem } from "@/data/events";
-import { getPublicEventBySlug } from "@/lib/public-events";
-import { ArrowLeft, Calendar, Clock, MapPin } from "lucide-react";
+import {
+  getPublicEventBySlug,
+  type PublicEventItem,
+} from "@/lib/public-events";
+import { ArrowLeft, Calendar, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,7 +27,12 @@ export async function generateMetadata({
     };
   }
   const title = `${e.title} — ${e.location} · Yakshamitraru Germany e.V.`;
-  const description = `${e.organizer}. ${e.date} (${e.time}) at ${e.location}.`;
+  const parts = [
+    e.yakshaganaTitle,
+    e.organisedBy ? `Organised by ${e.organisedBy}` : null,
+    `${e.date} at ${e.location}`,
+  ].filter(Boolean);
+  const description = `${parts.join(". ")}.`;
   return {
     title,
     description,
@@ -57,15 +63,18 @@ export default async function EventDetailPage({
       <main>
         <EventHero event={event} />
         <DateVenue event={event} />
-        <ArtistsSection />
+        {event.artists && event.artists.length > 0 && (
+          <ArtistsSection artists={event.artists} />
+        )}
         <BookSection />
       </main>
     </>
   );
 }
 
-function EventHero({ event }: { event: EventItem }) {
+function EventHero({ event }: { event: PublicEventItem }) {
   const d = new Date(event.iso);
+  const eyebrowText = event.organisedBy || event.organizer;
   return (
     <section className="relative min-h-[80svh] w-full overflow-hidden bg-forest-deep text-cream">
       <div className="absolute inset-0">
@@ -104,13 +113,20 @@ function EventHero({ event }: { event: EventItem }) {
             </div>
           </div>
           <div className="max-w-4xl">
-            <div className="flex flex-wrap items-center gap-3 text-saffron">
-              <span className="hairline bg-saffron hairline-grow" />
-              <span className="eyebrow">{event.organizer}</span>
-            </div>
+            {eyebrowText && (
+              <div className="flex flex-wrap items-center gap-3 text-saffron">
+                <span className="hairline bg-saffron hairline-grow" />
+                <span className="eyebrow">{eyebrowText}</span>
+              </div>
+            )}
             <h1 className="mt-6 font-serif text-[clamp(2.25rem,5.5vw,4.5rem)] leading-none text-cream text-balance drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
               {event.title}
             </h1>
+            {event.yakshaganaTitle && (
+              <p className="mt-4 font-serif italic text-xl md:text-2xl text-saffron/90">
+                {event.yakshaganaTitle}
+              </p>
+            )}
 
             {event.status === "upcoming" && (
               <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -122,8 +138,10 @@ function EventHero({ event }: { event: EventItem }) {
 
             <dl className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-10 border-t border-cream/15 pt-8 max-w-4xl">
               <MetaItem k="Date" v={event.date} />
-              <MetaItem k="Time" v={event.time} />
               <MetaItem k="Location" v={event.location} />
+              {event.organisedBy && (
+                <MetaItem k="Organised by" v={event.organisedBy} />
+              )}
             </dl>
           </div>
         </div>
@@ -141,7 +159,7 @@ function MetaItem({ k, v }: { k: string; v: string }) {
   );
 }
 
-function DateVenue({ event }: { event: EventItem }) {
+function DateVenue({ event }: { event: PublicEventItem }) {
   return (
     <Section tone="cream">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
@@ -153,12 +171,16 @@ function DateVenue({ event }: { event: EventItem }) {
             <div className="min-w-0">
               <div className="eyebrow text-forest-deep/60">When</div>
               <h3 className="heading-lg mt-2 text-forest-deep">{event.date}</h3>
-              <div className="mt-3 text-sm text-forest-deep/70 flex items-center gap-2">
-                <Clock className="h-4 w-4 text-saffron" /> {event.time}
-              </div>
-              <div className="mt-2 text-sm text-forest-deep/70">
-                Organizer: {event.organizer}
-              </div>
+              {event.yakshaganaTitle && (
+                <div className="mt-3 text-sm text-forest-deep/75">
+                  Yakshagana: {event.yakshaganaTitle}
+                </div>
+              )}
+              {event.organisedBy && (
+                <div className="mt-2 text-sm text-forest-deep/70">
+                  Organised by: {event.organisedBy}
+                </div>
+              )}
             </div>
           </div>
         </BrandCard>
@@ -189,7 +211,7 @@ function DateVenue({ event }: { event: EventItem }) {
   );
 }
 
-function ArtistsSection() {
+function ArtistsSection({ artists }: { artists: string[] }) {
   return (
     <Section tone="cream" id="artists" className="pt-0">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12 md:mb-16">
@@ -197,35 +219,22 @@ function ArtistsSection() {
           eyebrow="On stage"
           title={
             <>
-              The <span className="italic">ensemble</span>
+              Artists who <span className="italic">performed</span>
             </>
           }
-          lede="Every artist on this bill is a member of Yakshamitraru Germany e.V."
         />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        {ARTISTS.map((a) => (
+        {artists.map((name) => (
           <BrandCard
-            key={a.name}
+            key={name}
             variant="outline"
-            interactive
             className="p-6 md:p-7 flex items-center gap-4"
           >
-            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-forest-deep">
-              <Image
-                src={a.image}
-                alt={a.name}
-                fill
-                className="object-cover"
-              />
-            </div>
             <div className="min-w-0">
               <div className="font-serif text-lg text-forest-deep truncate">
-                {a.name}
-              </div>
-              <div className="text-xs eyebrow text-forest-deep/60 mt-1">
-                {a.role}
+                {name}
               </div>
             </div>
           </BrandCard>

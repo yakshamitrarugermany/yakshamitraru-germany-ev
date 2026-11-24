@@ -41,6 +41,7 @@ export interface AdminEventRow {
 interface AdminEventsTableProps {
   events: AdminEventRow[];
   activeStatus: PostStatus | "ALL";
+  activeWhen?: "ALL" | "upcoming" | "past";
 }
 
 const statusBadgeStyles: Record<PostStatus, string> = {
@@ -52,6 +53,7 @@ const statusBadgeStyles: Record<PostStatus, string> = {
 export function AdminEventsTable({
   events,
   activeStatus,
+  activeWhen = "ALL",
 }: AdminEventsTableProps) {
   const router = useRouter();
   const [deleteTarget, setDeleteTarget] = useState<AdminEventRow | null>(null);
@@ -114,14 +116,14 @@ export function AdminEventsTable({
             <Calendar className="h-5 w-5" aria-hidden="true" />
           </div>
           <h3 className="mt-4 font-serif text-2xl text-forest-deep">
-            {activeStatus === "ALL"
+            {activeStatus === "ALL" && activeWhen === "ALL"
               ? "No events yet"
-              : `No ${POST_STATUS_LABELS[activeStatus].toLowerCase()} events`}
+              : "No matching events"}
           </h3>
           <p className="mt-2 mx-auto max-w-md text-sm text-ink-soft leading-relaxed">
-            {activeStatus === "ALL"
+            {activeStatus === "ALL" && activeWhen === "ALL"
               ? "Create your first event to start managing performances, workshops, and class sessions."
-              : "Switch the status filter or create a new event."}
+              : "Switch the timeframe or status filter, or create a new event."}
           </p>
           <div className="mt-6 flex justify-center">
             <Button asChild variant="forest">
@@ -137,9 +139,9 @@ export function AdminEventsTable({
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/40 hover:bg-muted/40">
-                <TableHead className="px-4 py-3">Title</TableHead>
+                <TableHead className="px-4 py-3">Event name</TableHead>
                 <TableHead className="px-4 py-3">Type</TableHead>
-                <TableHead className="px-4 py-3">Start date</TableHead>
+                <TableHead className="px-4 py-3">Date</TableHead>
                 <TableHead className="px-4 py-3">City</TableHead>
                 <TableHead className="px-4 py-3">Status</TableHead>
                 <TableHead className="px-4 py-3 text-right">Actions</TableHead>
