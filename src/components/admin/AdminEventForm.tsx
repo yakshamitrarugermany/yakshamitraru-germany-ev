@@ -483,6 +483,7 @@ export function AdminEventForm({
             <input
               id="event-start-date"
               type="date"
+              required
               aria-invalid={errors.startDate ? true : undefined}
               aria-describedby={
                 errors.startDate ? "event-start-date-error" : undefined

@@ -26,7 +26,11 @@ const ADMIN_NAV_ITEMS = [
   { label: "Media", href: "/admin/media", icon: ImageIcon },
   { label: "Classes", href: "/admin/classes", icon: GraduationCap },
   { label: "Inquiries", href: "/admin/inquiries", icon: Mail },
-  { label: "Testimonials", href: "/admin/testimonials", icon: MessageSquareQuote },
+  {
+    label: "Testimonials",
+    href: "/admin/testimonials",
+    icon: MessageSquareQuote,
+  },
 ] as const;
 
 interface AdminShellProps {
@@ -124,7 +128,7 @@ export function AdminShell({ user, children }: AdminShellProps) {
   );
 
   return (
-    <div className="min-h-dvh flex bg-background text-foreground">
+    <div className="min-h-dvh flex bg-background text-foreground [&_input::placeholder]:text-muted-foreground/70 [&_textarea::placeholder]:text-muted-foreground/70 [&_input[type=date]:invalid]:text-muted-foreground/70 [&_[data-slot=select-trigger][data-placeholder]]:text-muted-foreground/70">
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:w-64 lg:shrink-0 lg:flex-col bg-forest-deep text-cream border-r border-cream/10">
         {sidebarBrand}
@@ -133,7 +137,12 @@ export function AdminShell({ user, children }: AdminShellProps) {
 
       {/* Mobile slide-over sheet */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Admin navigation">
+        <div
+          className="fixed inset-0 z-50 lg:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Admin navigation"
+        >
           <div
             className="fixed inset-0 bg-ink/50 backdrop-blur-xs"
             aria-hidden="true"
@@ -154,7 +163,9 @@ export function AdminShell({ user, children }: AdminShellProps) {
                   <div className="font-serif text-base text-cream truncate">
                     Yakshamitraru
                   </div>
-                  <div className="eyebrow text-[10px] text-saffron/80">Admin</div>
+                  <div className="eyebrow text-[10px] text-saffron/80">
+                    Admin
+                  </div>
                 </div>
               </div>
               <Button

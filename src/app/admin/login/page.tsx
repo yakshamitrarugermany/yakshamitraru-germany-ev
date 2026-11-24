@@ -19,7 +19,7 @@ export default async function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-dvh flex items-center justify-center bg-background px-4 py-12">
+    <main className="min-h-dvh flex items-center justify-center bg-background px-4 py-12 [&_input::placeholder]:text-muted-foreground/70 [&_textarea::placeholder]:text-muted-foreground/70 [&_input[type=date]:invalid]:text-muted-foreground/70 [&_[data-slot=select-trigger][data-placeholder]]:text-muted-foreground/70">
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 sm:p-10 shadow-sm">
         <div className="flex flex-col items-center text-center mb-8">
           <div className="relative h-12 w-12 overflow-hidden rounded-full bg-forest mb-4">
