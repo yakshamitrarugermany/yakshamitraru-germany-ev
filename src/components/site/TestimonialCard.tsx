@@ -33,23 +33,33 @@ export function TestimonialCard({
 }) {
   const paragraphs = item.text.split("\n\n");
   const isLong = item.text.length > 360 || paragraphs.length > 2;
+  const isActive = expanded;
 
   const locationText = [item.city, item.country].filter(Boolean).join(", ");
   const isKannada = item.lang === "kn";
+
+  const borderAndSurfaceClass = isActive
+    ? "border-2 border-[#B8863B] hover:border-[#B8863B] bg-[#FCF7EC]"
+    : "border border-forest-deep/10 hover:border-[#B8863B]/60 bg-[#FFFDF8]";
+
+  const bodySurfaceClass = isActive ? "bg-[#FCF7EC]" : "bg-[#FFFDF8]";
+  const authorSurfaceClass = isActive ? "bg-[#EDE3CE]" : "bg-[#F1EBDD]";
 
   return (
     <BrandCard
       id={item.id}
       variant="cream"
       interactive
-      data-expanded={expanded ? "true" : "false"}
-      className={`scroll-mt-28 mb-6 md:mb-8 break-inside-avoid p-6 sm:p-8 md:p-9 flex flex-col justify-between border border-forest-deep/10 shadow-[0_24px_60px_-35px_rgba(47,82,51,0.18)] transition-all duration-500 ${
+      data-expanded={isActive ? "true" : "false"}
+      className={`scroll-mt-28 mb-6 md:mb-8 break-inside-avoid p-6 sm:p-8 md:p-9 flex flex-col justify-between shadow-[0_24px_60px_-35px_rgba(47,82,51,0.18)] transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out ${borderAndSurfaceClass} ${
         highlighted
           ? "ring-2 ring-[#B8863B] ring-offset-2 ring-offset-[#FAF6EE]"
           : "ring-0 ring-transparent"
       }`}
     >
-      <div>
+      <div
+        className={`px-6 pt-6 pb-7 sm:px-8 sm:pt-8 sm:pb-7 md:px-9 md:pt-9 md:pb-7 transition-colors duration-200 ease-out ${bodySurfaceClass}`}
+      >
         <div className="flex items-start justify-between gap-4">
           <span
             aria-hidden="true"
@@ -88,14 +98,16 @@ export function TestimonialCard({
             type="button"
             onClick={onToggleExpand}
             aria-expanded={expanded}
-            className="mt-3 inline-flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#7A1F2B] hover:text-[#B8863B] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B8863B]"
+            className="mt-3 inline-flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#7A1F2B] hover:text-[#B8863B] transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B8863B]"
           >
             {expanded ? "Show less" : "Read more"}
           </button>
         )}
       </div>
 
-      <footer className="mt-7 pt-5 border-t border-border flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+      <footer
+        className={`px-6 pt-5 pb-6 sm:px-8 sm:pt-5 sm:pb-8 md:px-9 md:pt-5 md:pb-9 border-t border-border flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 transition-colors duration-200 ease-out ${authorSurfaceClass}`}
+      >
         <div className="min-w-0 flex-1">
           <div className="font-serif text-lg md:text-xl font-medium text-[#7A1F2B]">
             {item.name}
@@ -175,6 +187,8 @@ export function TestimonialsList({ items }: { items: Testimonial[] }) {
     };
 
     applyHashFromLocation();
+    // Re-check on the next animation frame in case client-side routing updates
+    // window.location.hash immediately after mount.
     rafCheckId = window.requestAnimationFrame(() => {
       applyHashFromLocation();
     });
