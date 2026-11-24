@@ -7,6 +7,8 @@ import {
 import type { Metadata } from "next";
 import EventsClient from "./EventsClient";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Events & Tour Dates — Yakshamitraru Germany e.V.",
   description:

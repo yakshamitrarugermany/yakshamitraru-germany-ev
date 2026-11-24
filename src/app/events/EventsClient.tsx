@@ -218,10 +218,11 @@ function FeaturedEvent({ event }: { event: EventItem }) {
               <div className="font-mono text-[10px] uppercase text-crimson">
                 {new Date(event.iso).toLocaleString("en-GB", {
                   month: "short",
+                  timeZone: "UTC",
                 })}
               </div>
               <div className="font-serif text-3xl md:text-4xl mt-0.5">
-                {new Date(event.iso).getDate()}
+                {new Date(event.iso).getUTCDate()}
               </div>
             </div>
           </div>

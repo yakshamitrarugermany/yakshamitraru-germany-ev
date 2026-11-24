@@ -11,6 +11,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {
@@ -93,11 +95,11 @@ function EventHero({ event }: { event: EventItem }) {
           <div className="hidden lg:grid place-items-center h-32 w-32 rounded-3xl bg-cream text-forest-deep shadow-2xl">
             <div className="text-center leading-none">
               <div className="font-mono text-xs uppercase text-crimson tracking-widest">
-                {d.toLocaleString("en-GB", { month: "short" })}
+                {d.toLocaleString("en-GB", { month: "short", timeZone: "UTC" })}
               </div>
-              <div className="font-serif text-6xl mt-2">{d.getDate()}</div>
+              <div className="font-serif text-6xl mt-2">{d.getUTCDate()}</div>
               <div className="font-mono text-xs text-forest-deep/60 mt-2 tabular-nums">
-                {d.getFullYear()}
+                {d.getUTCFullYear()}
               </div>
             </div>
           </div>
