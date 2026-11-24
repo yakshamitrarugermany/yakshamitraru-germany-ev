@@ -1,5 +1,6 @@
 import { AboutSection } from "@/components/site/AboutSection";
 import { BookSection } from "@/components/site/BookSection";
+import { EuropeBanner } from "@/components/site/EuropeBanner";
 import { Hero } from "@/components/site/Hero";
 import { Mission } from "@/components/site/Mission";
 
@@ -31,6 +32,7 @@ export default function HomePage() {
   return (
     <>
       <main>
+        <EuropeBanner />
         <Hero />
         <Testimonials />
         {/* <UpcomingPerformanceDefault /> */}
