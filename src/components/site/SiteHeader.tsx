@@ -12,12 +12,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NAV = [
-  { label: "About Us", to: "/about" },
+  // { label: "About Us", to: "/about" },
   { label: "Our Journey", to: "/our-journey" },
   { label: "Tradition", to: "/tradition" },
   { label: "Events", to: "/events" },
   { label: "Artists", to: "/artists" },
-  { label: "Learn", to: "/learn" },
+  // { label: "Learn", to: "/learn" },
   { label: "Gallery", to: "/gallery" },
   { label: "Get In Touch", to: "/contact" },
 ] as const;

@@ -13,12 +13,12 @@ export function UpcomingPerformance() {
     <section className="relative bg-cream section-sm">
       {/* Subtle gold accent — clipped in its own layer so the
           floating date badge on the hero image is never cut off. */}
-      <div
+      {/* <div
         aria-hidden
         className="pointer-events-none absolute inset-0 overflow-hidden"
       >
         <div className="absolute -top-40 -left-40 h-130 w-130 gold-radial opacity-40" />
-      </div>
+      </div> */}
       <div className="relative container-page">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-8 mb-10 md:mb-14">
           <SectionHeader

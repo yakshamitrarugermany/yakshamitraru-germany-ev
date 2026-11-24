@@ -12,15 +12,17 @@ const HOME_TESTIMONIALS = HOME_TESTIMONIAL_IDS.map((id) =>
 
 export function Testimonials() {
   return (
-    <Section tone="cream" id="testimonials">
+    <Section tone="cream" id="testimonials" className="p-0">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-8 md:mb-14">
         <SectionHeader
           eyebrow="In their words"
           title={
             <>
-              Trusted by theatres,
-              <br />
-              <span className="italic">festivals and hosts.</span>
+              From our <span className="italic">Audience</span>
+              {/* <br /> */}
+              <p className="italic text-xl md:text-2xl lg:text-3xl">
+                Trusted by theatres, universities, hosts and festivals.
+              </p>
             </>
           }
         />
@@ -79,7 +81,9 @@ export function Testimonials() {
                       {q.name}
                     </div>
                     <div className="mt-0.5 text-[11px] md:text-xs text-ink-soft">
-                      {[q.role, q.city ?? q.country].filter(Boolean).join(" · ")}
+                      {[q.role, q.city ?? q.country]
+                        .filter(Boolean)
+                        .join(" · ")}
                     </div>
                     <div className="mt-3 inline-flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#7A1F2B] group-hover:text-[#B8863B] group-focus-visible:text-[#B8863B] group-focus-visible:underline underline-offset-4 transition-colors">
                       Read full review

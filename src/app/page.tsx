@@ -1,6 +1,5 @@
 import { AboutSection } from "@/components/site/AboutSection";
 import { BookSection } from "@/components/site/BookSection";
-import { FeaturedArtists } from "@/components/site/FeaturedArtists";
 import { Hero } from "@/components/site/Hero";
 import { Mission } from "@/components/site/Mission";
 
@@ -33,15 +32,15 @@ export default function HomePage() {
     <>
       <main>
         <Hero />
-        <UpcomingPerformance />
+        <Testimonials />
         {/* <UpcomingPerformanceDefault /> */}
         <SectionSeparator />
-        <Testimonials />
+        <UpcomingPerformance />
         <SectionSeparator />
         <AboutSection />
         <SectionSeparator />
-        <FeaturedArtists />
-        <SectionSeparator />
+        {/* <FeaturedArtists /> */}
+        {/* <SectionSeparator /> */}
         <GalleryPreview />
         <SectionSeparator />
         <Mission />

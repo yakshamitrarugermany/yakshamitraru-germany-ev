@@ -18,7 +18,7 @@ export default function ArtistsClient() {
         eyebrow="The Ensemble"
         title={
           <>
-            The artists of{" "}
+            The faces of{" "}
             <em className="italic font-light">Yakshamitraru Germany</em>.
           </>
         }
