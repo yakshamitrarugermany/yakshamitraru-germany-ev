@@ -19,7 +19,7 @@ export const ARTISTS: ArtistItem[] = [
     role: "Mummela",
     image: hero.url,
     heroImage: "/images/artists/apurva.jpeg",
-    lines: ["Apurva", "Beleyur"],
+    lines: ["Apurva Beleyur", "(Founder)"],
     href: "/artists",
   },
   {

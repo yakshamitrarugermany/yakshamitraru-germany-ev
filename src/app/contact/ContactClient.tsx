@@ -52,7 +52,7 @@ const FAQS: { q: string; a: string }[] = [
 
 export default function ContactClient() {
   const whatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
-    "Hello Yakshamitraru — I'd like to enquire about a performance.",
+    "Hello Yakshamitraru — I'd like to enquire about a performance. Could please let me know the good time to talk to you?",
   )}`;
   const askQuestionWhatsappHref = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
     "Hello Yakshamitraru Germany,\n\nI have a question regarding...",

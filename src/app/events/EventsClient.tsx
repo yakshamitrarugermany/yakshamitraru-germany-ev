@@ -1,12 +1,15 @@
 "use client";
 
-import { BookSection } from "@/components/site/BookSection";
 import { BrandCard } from "@/components/site/BrandCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { EventCard } from "@/components/site/EventCard";
 import { FilterSelect } from "@/components/site/FilterSelect";
 import { PageHero } from "@/components/site/PageHero";
-import { Section, SectionHeader } from "@/components/site/Section";
+import {
+  Section,
+  SectionHeader,
+  SectionSeparator,
+} from "@/components/site/Section";
 import { Button } from "@/components/ui/button";
 import type { EventItem } from "@/data/events";
 import type { EventType } from "@/generated/prisma/enums";
@@ -165,8 +168,7 @@ export default function EventsClient({
             )}
           </Section>
         )}
-
-        <BookSection />
+        <SectionSeparator />
       </main>
     </>
   );
@@ -179,7 +181,8 @@ function EventsHero() {
       eyebrow="Events & Tour"
       title={
         <>
-          Where the <em className="italic font-light text-saffron">chande</em>
+          Where the{" "}
+          <em className="italic font-light text-saffron">Yakshagana</em>
           <br />
           meets Europe.
         </>

@@ -1,4 +1,5 @@
 "use client";
+import { ARTISTS } from "@/data/artists";
 import {
   AnimatePresence,
   type MotionValue,
@@ -6,7 +7,6 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { ARTISTS } from "@/data/artists";
 import { Calendar, MapPin, Sparkles, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -93,7 +93,12 @@ function HeroFeaturedArtists() {
               </div>
               <span className="font-serif text-[10px] sm:text-sm md:text-base lg:text-xl xl:text-2xl text-cream/90 lg:text-cream/80 transition-colors lg:group-hover:text-saffron text-center text-balance leading-tight">
                 {artist.lines.map((part, i) => (
-                  <span key={i} className="block whitespace-nowrap">
+                  <span
+                    key={i}
+                    className={`block whitespace-nowrap ${
+                      part === "(Founder)" ? "italic text-saffron" : ""
+                    }`}
+                  >
                     {part}
                   </span>
                 ))}
@@ -390,7 +395,7 @@ export function Hero() {
       </div>
 
       {/* Stats bar — overlapping the hero section */}
-      <div className="relative z-30 container-page w-full box-border -mt-20 md:-mt-16 mb-16 md:mb-20">
+      <div className="relative z-30 container-page w-full box-border -mt-20 md:-mt-16 mb-2">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -42,8 +42,10 @@
   --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-space), ui-monospace, monospace;
-  --shadow-card: 0 50px 120px -40px color-mix(in oklab, var(--forest-deep) 60%, transparent);
-  --shadow-card-hover: 0 24px 60px -30px color-mix(in oklab, var(--forest-deep) 40%, transparent);
+  --shadow-card: 0 50px 120px -40px
+    color-mix(in oklab, var(--forest-deep) 60%, transparent);
+  --shadow-card-hover: 0 24px 60px -30px
+    color-mix(in oklab, var(--forest-deep) 40%, transparent);
 }
 
 :root {
@@ -95,18 +97,34 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-family: var(--font-serif);
     font-weight: 400;
     letter-spacing: -0.02em;
   }
 
   /* Sticky header (h-16 md:h-20) clears anchor jumps without covering titles. */
-  :where(section[id], [id="booking"], [id="upcoming"], [id="past"], [id="map"]) {
+  :where(
+    section[id],
+    [id="booking"],
+    [id="upcoming"],
+    [id="past"],
+    [id="map"]
+  ) {
     scroll-margin-top: 5rem;
   }
   @media (min-width: 768px) {
-    :where(section[id], [id="booking"], [id="upcoming"], [id="past"], [id="map"]) {
+    :where(
+      section[id],
+      [id="booking"],
+      [id="upcoming"],
+      [id="past"],
+      [id="map"]
+    ) {
       scroll-margin-top: 6rem;
     }
   }
@@ -119,7 +137,8 @@
   }
 
   /* Better image defaults. */
-  img, video {
+  img,
+  video {
     max-width: 100%;
     height: auto;
   }
@@ -153,17 +172,23 @@
   padding-block: 3.5rem;
 }
 @media (min-width: 768px) {
-  .section { padding-block: 7rem; }
+  .section {
+    padding-block: 5rem;
+  }
 }
 @media (min-width: 1280px) {
-  .section { padding-block: 9rem; }
+  .section {
+    padding-block: 7rem;
+  }
 }
 
 @utility section-sm {
   padding-block: 2.5rem;
 }
 @media (min-width: 768px) {
-  .section-sm { padding-block: 5rem; }
+  .section-sm {
+    padding-block: 5rem;
+  }
 }
 
 @utility display-1 {
@@ -210,7 +235,9 @@
 }
 
 @utility hover-lift {
-  transition: transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 400ms ease;
+  transition:
+    transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 400ms ease;
   &:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-card-hover);
@@ -219,17 +246,25 @@
 
 @utility media-zoom {
   overflow: hidden;
-  & > img, & > video {
+  & > img,
+  & > video {
     transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-  &:hover > img, &:hover > video {
+  &:hover > img,
+  &:hover > video {
     transform: scale(1.06);
   }
 }
 
 @keyframes ykm-reveal {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @utility reveal {
@@ -237,8 +272,16 @@
 }
 
 @keyframes ykm-reveal-slow {
-  from { opacity: 0; transform: translateY(28px); filter: blur(6px); }
-  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 @utility reveal-slow {
@@ -246,8 +289,14 @@
 }
 
 @keyframes ykm-hairline-grow {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.6; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.6;
+  }
 }
 
 @utility hairline-grow {
@@ -256,9 +305,18 @@
 }
 
 @keyframes ykm-scroll-cue {
-  0%   { transform: translateY(0); opacity: 0.4; }
-  50%  { transform: translateY(8px); opacity: 1; }
-  100% { transform: translateY(0); opacity: 0.4; }
+  0% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
 }
 
 @utility scroll-cue {
@@ -266,8 +324,15 @@
 }
 
 @keyframes ykm-soft-pulse {
-  0%, 100% { opacity: 0.9; transform: scale(1); }
-  50%      { opacity: 0.4; transform: scale(0.85); }
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
 }
 
 @utility soft-pulse {
@@ -310,12 +375,20 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  &::-webkit-scrollbar { display: none; }
-  & > * { scroll-snap-align: start; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  & > * {
+    scroll-snap-align: start;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .reveal-slow, .hairline-grow, .scroll-cue, .soft-pulse {
+  .reveal,
+  .reveal-slow,
+  .hairline-grow,
+  .scroll-cue,
+  .soft-pulse {
     animation: none !important;
   }
 }

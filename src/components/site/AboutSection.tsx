@@ -19,7 +19,7 @@ export function AboutSection() {
             lede="A dedicated community presenting and promoting the art of Yakshagana in Europe."
           />
           <Button asChild variant="forest" size="pill" className="mt-6 md:mt-8">
-            <Link href="/about">Learn More About Us</Link>
+            <Link href="/our-journey">Learn More About Us</Link>
           </Button>
         </div>
 

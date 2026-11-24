@@ -2,7 +2,13 @@ import { BrandCard } from "@/components/site/BrandCard";
 import { OurJourneyTimeline } from "@/components/site/OurJourneyTimeline";
 
 import { PageHero } from "@/components/site/PageHero";
-import { Section, SectionHeader } from "@/components/site/Section";
+import {
+  Section,
+  SectionHeader,
+  SectionSeparator,
+} from "@/components/site/Section";
+import { Stat } from "@/components/site/Stat";
+import { Compass, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,18 +17,51 @@ export const metadata: Metadata = {
     "The story of Yakshamitraru Germany e.V., from its beginnings to its growing role in presenting and promoting Yakshagana across Germany and Europe.",
 };
 
+const WHY = [
+  {
+    n: "01",
+    title: "The only registered Yakshagana e.V. in Germany",
+    body: "A formal cultural association — transparent, accountable and accessible to public and private partners.",
+  },
+  {
+    n: "02",
+    title: "A resident ensemble, not a booking agency",
+    body: "Every artist on stage belongs to Yakshamitraru Germany. One voice, one discipline, one aesthetic.",
+  },
+  {
+    n: "03",
+    title: "European-standard production",
+    body: "Lighting, sound and stage design built for European venues — without compromising traditional craft.",
+  },
+  {
+    n: "04",
+    title: "Bridging two cultures",
+    body: "Programmes designed in Kannada, English and German — welcoming both diaspora and first-time audiences.",
+  },
+];
+
 export default function OurJourneyPage() {
   return (
     <>
       <PageHero
         padY="tall"
-        eyebrow="Our Story"
+        eyebrow="About Yakshamitraru Germany"
         title={
           <>
-            Our <em className="italic font-light">Journey</em>.
+            The <em className="italic font-light">Spark</em> that created{" "}
+            <em className="italic font-light">Yakshagana wave</em> in{" "}
+            <em className="italic font-light">Europe</em>.
           </>
         }
-        lede="From a shared passion to a thriving cultural movement presenting  Yakshagana across Germany and Europe."
+        lede="A registered cultural association carrying Yakshagana — the four-hundred-year-old night theatre of Karnataka — onto European stages, with faithful craft and considered presentation. From a shared passion to a thriving cultural movement presenting Yakshagana across Germany and Europe."
+        meta={
+          <>
+            <Stat n={2018} label="Founded" />
+            <Stat n={"20+"} label="Artists" />
+            <Stat n={26} label="European cities" />
+            <Stat n={"e.V."} label="Registered association" />
+          </>
+        }
       />
 
       <Section tone="cream">
@@ -132,6 +171,121 @@ export default function OurJourneyPage() {
         <OurJourneyTimeline />
       </Section>
 
+      <Section tone="cream" className="pt-0">
+        <div className="mx-auto max-w-4xl">
+          <div className="eyebrow text-forest flex items-center gap-3">
+            <span className="hairline bg-forest hairline-grow" />
+            <span>European Stage for Indian Art</span>
+          </div>
+          <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-3xl">
+            The Joy and the Passion motivate the team not only to introduce
+            Yakshagana to European audiences but also perform with pride.
+            <br />
+            <br />
+            The team travels across Europe and introduces Yakshagana to European
+            audiences.
+            <br />
+            <br />
+            German cities such as Frankfurt, Munich, Berlin, Cologne, Hamburg
+            and so on and France, Sweden, Poland, Netherlands, Switzerland,
+            Spain, Denmark, and Finland have staged Yakshagana Performances
+            between 2018 to 2025.
+          </p>
+        </div>
+      </Section>
+      <Section tone="cream" className="pt-0">
+        <SectionHeader
+          eyebrow="Annual Festival"
+          title={
+            <>
+              Yaksha <em className="italic font-light">Sankranthi</em>.
+            </>
+          }
+          lede="Yaksha Sankranthi, introduced in Frankfurt in 2023, celebrates the spirit of Yakshagana on European stages, bringing traditional performances to diverse audiences while recognising and honouring artists who preserve and promote Indian art forms across Europe through the Yaksha Mitra Award."
+        />
+      </Section>
+      <Section tone="cream" className="pt-0">
+        <SectionHeader
+          eyebrow="Mission & Vision"
+          title={
+            <>
+              What we <em className="italic font-light">stand for</em>.
+            </>
+          }
+          align="center"
+          className="mx-auto"
+        />
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <BrandCard variant="cream" className="p-8 md:p-12 hover-lift">
+            <div className="flex items-center gap-3 text-forest">
+              <Compass className="h-5 w-5 text-saffron" />
+              <span className="eyebrow">Our Mission</span>
+            </div>
+            <h3 className="mt-6 font-serif text-3xl md:text-4xl text-forest-deep leading-tight">
+              To preserve and present Yakshagana faithfully — for Europe.
+            </h3>
+            <p className="mt-6 text-base md:text-lg text-ink-soft leading-relaxed">
+              We stage full-length productions, train new artists and open the
+              tradition to European audiences without dilution — carrying the
+              music, movement and story of Yakshagana into a wider cultural
+              conversation.
+            </p>
+          </BrandCard>
+          <BrandCard variant="forest" className="p-8 md:p-12 hover-lift">
+            <div className="flex items-center gap-3 text-saffron">
+              <Sparkles className="h-5 w-5" />
+              <span className="eyebrow">Our Vision</span>
+            </div>
+            <h3 className="mt-6 font-serif text-3xl md:text-4xl text-cream leading-tight">
+              A European home for the night theatre of Karnataka.
+            </h3>
+            <p className="mt-6 text-base md:text-lg text-cream/80 leading-relaxed">
+              A permanent training studio, a youth ensemble and a touring
+              circuit across Europe&apos;s cultural capitals — so Yakshagana
+              lives here as it does on its coast: nightly, generously, in full
+              voice.
+            </p>
+          </BrandCard>
+        </div>
+      </Section>
+
+      {/* 8. Why Yakshamitraru Germany */}
+      <Section tone="cream" className="pt-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <div className="eyebrow text-crimson flex items-center gap-3">
+              <span className="hairline bg-crimson/60 hairline-grow" />
+              <span>Why Yakshamitraru Germany</span>
+            </div>
+            <h2 className="mt-6 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.02] text-forest-deep text-balance">
+              What makes this ensemble{" "}
+              <em className="italic font-light">unique</em>.
+            </h2>
+            <p className="mt-6 text-ink-soft leading-relaxed max-w-md">
+              We are not a booking agency, a festival or a temple programme. We
+              are a resident ensemble, built for European stages, faithful to a
+              Karnataka tradition.
+            </p>
+          </div>
+          <div className="lg:col-span-7 space-y-4">
+            {WHY.map((w) => (
+              <div
+                key={w.n}
+                className="group flex gap-6 rounded-2xl border border-forest-deep/10 bg-cream p-7 md:p-8 hover:border-saffron/50 transition-colors"
+              >
+                <div className="font-mono text-sm text-saffron pt-1">{w.n}</div>
+                <div>
+                  <h3 className="font-serif text-2xl text-forest-deep leading-tight">
+                    {w.title}
+                  </h3>
+                  <p className="mt-3 text-ink-soft leading-relaxed">{w.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
       <Section tone="forest">
         <div className="rounded-sm border border-cream/15 bg-cream/10 p-8 md:p-12 text-center">
           <p className="font-serif text-[clamp(1.35rem,2.2vw,1.8rem)] leading-relaxed text-cream">
@@ -142,6 +296,7 @@ export default function OurJourneyPage() {
           </p>
         </div>
       </Section>
+      <SectionSeparator />
     </>
   );
 }

@@ -21,13 +21,19 @@ export function SiteFooter() {
               />
             </span>
             <div className="leading-tight">
-              <div className="font-serif text-lg">Yakshamitraru</div>
-              <div className="eyebrow text-cream/60 text-[10px]">
+              <div className="eyebrow text-saffron/80 text-[10px]">
+                Yakshamitraru
+                <br />
                 Germany e.V.
               </div>
             </div>
           </Link>
-          <p className="mt-6 max-w-sm text-sm text-cream/60 leading-relaxed">
+          <p className="mt-2">
+            <em className="italic font-light text-saffron/80 text-base">
+              The Spark that created Yakshagana wave in Europe.
+            </em>
+          </p>
+          <p className="mt-4 max-w-sm text-sm text-cream/60 leading-relaxed">
             A passionate group of Yakshagana enthusiasts dedicated to
             presenting, and promoting India&apos;s rich traditional art form
             Yakshagana across Germany and Europe.
@@ -37,14 +43,14 @@ export function SiteFooter() {
         <div className="md:col-span-3">
           <div className="eyebrow text-saffron/80">Explore</div>
           <ul className="mt-5 space-y-3 text-sm text-cream/80">
-            <li>
+            {/* <li>
               <Link
                 href="/about"
                 className="hover:text-saffron transition-colors"
               >
                 About Us
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="/our-journey"
@@ -85,14 +91,14 @@ export function SiteFooter() {
                 Gallery
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href="/learn"
                 className="hover:text-saffron transition-colors"
               >
                 Learn
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
 
@@ -147,9 +153,6 @@ export function SiteFooter() {
               >
                 <span>Yakshamitraru Germany e.V.</span>
               </a>
-              <em className="italic font-light text-xs">
-                &quot;The Spark that created Yakshagana wave in Europe.&quot;
-              </em>
             </li>
           </ul>
         </div>
