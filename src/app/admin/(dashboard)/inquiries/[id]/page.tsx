@@ -1,6 +1,6 @@
 import { AdminInquiryDetail } from "@/components/admin/AdminInquiryDetail";
 import { formatBerlinDateTime } from "@/lib/events-utils";
-import { formatPhoneForDisplay } from "@/lib/phone";
+import { buildWhatsAppInquiryHref, formatPhoneForDisplay } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
@@ -36,6 +36,9 @@ export default async function AdminInquiryDetailPage({
   }
 
   const formattedPhone = formatPhoneForDisplay(inquiry.phone);
+  const whatsappHref = formattedPhone?.whatsappDigits
+    ? buildWhatsAppInquiryHref(formattedPhone.whatsappDigits, inquiry.name)
+    : null;
 
   return (
     <section className="space-y-6 max-w-4xl">
@@ -63,6 +66,7 @@ export default async function AdminInquiryDetailPage({
           email: inquiry.email,
           phoneDisplay: formattedPhone?.display ?? null,
           phoneTelHref: formattedPhone?.telHref ?? null,
+          whatsappHref,
           organization: inquiry.organization,
           city: inquiry.city,
           requestedEventType: inquiry.requestedEventType,

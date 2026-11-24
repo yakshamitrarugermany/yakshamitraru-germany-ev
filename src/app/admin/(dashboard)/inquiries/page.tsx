@@ -15,10 +15,10 @@ import {
   INQUIRY_TYPE_LABELS,
   INQUIRY_TYPE_VALUES,
 } from "@/lib/inquiries-utils";
-import { formatPhoneForDisplay } from "@/lib/phone";
+import { buildWhatsAppInquiryHref, formatPhoneForDisplay } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 import { cn } from "@/lib/utils";
-import { Eye, Mail } from "lucide-react";
+import { Eye, Mail, MessageCircle, Phone } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -222,6 +222,12 @@ export default async function AdminInquiriesPage({
             <TableBody>
               {inquiries.map((inquiry) => {
                 const formattedPhone = formatPhoneForDisplay(inquiry.phone);
+                const whatsappHref = formattedPhone?.whatsappDigits
+                  ? buildWhatsAppInquiryHref(
+                      formattedPhone.whatsappDigits,
+                      inquiry.name,
+                    )
+                  : null;
                 return (
                   <TableRow key={inquiry.id}>
                     <TableCell className="px-4 py-3.5 font-mono text-xs tabular-nums text-foreground">
@@ -242,20 +248,7 @@ export default async function AdminInquiriesPage({
                       {inquiry.email}
                     </TableCell>
                     <TableCell className="px-4 py-3.5 text-ink-soft whitespace-nowrap">
-                      {formattedPhone ? (
-                        formattedPhone.telHref ? (
-                          <a
-                            href={formattedPhone.telHref}
-                            className="hover:text-forest-deep hover:underline underline-offset-4"
-                          >
-                            {formattedPhone.display}
-                          </a>
-                        ) : (
-                          formattedPhone.display
-                        )
-                      ) : (
-                        "—"
-                      )}
+                      {formattedPhone ? formattedPhone.display : "—"}
                     </TableCell>
                     <TableCell className="px-4 py-3.5">
                       <span
@@ -271,12 +264,51 @@ export default async function AdminInquiriesPage({
                       {inquiry.event ? inquiry.event.title : "—"}
                     </TableCell>
                     <TableCell className="px-4 py-3.5 text-right">
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={`/admin/inquiries/${inquiry.id}`}>
-                          <Eye className="h-3.5 w-3.5" />
-                          View
-                        </Link>
-                      </Button>
+                      <div className="inline-flex items-center justify-end gap-1.5">
+                        {formattedPhone?.telHref && (
+                          <Button
+                            asChild
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
+                            <a
+                              href={formattedPhone.telHref}
+                              aria-label={`Call ${inquiry.name}`}
+                              title={`Call ${inquiry.name}`}
+                            >
+                              <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                            </a>
+                          </Button>
+                        )}
+                        {whatsappHref && (
+                          <Button
+                            asChild
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
+                            <a
+                              href={whatsappHref}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`Message ${inquiry.name} on WhatsApp`}
+                              title={`Message ${inquiry.name} on WhatsApp`}
+                            >
+                              <MessageCircle
+                                className="h-3.5 w-3.5"
+                                aria-hidden="true"
+                              />
+                            </a>
+                          </Button>
+                        )}
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={`/admin/inquiries/${inquiry.id}`}>
+                            <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+                            View
+                          </Link>
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );

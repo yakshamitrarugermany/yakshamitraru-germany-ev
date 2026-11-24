@@ -30,7 +30,7 @@ import {
   stripHeaderLineBreaks,
 } from "@/lib/inquiries-utils";
 import { cn } from "@/lib/utils";
-import { Loader2, Mail, Trash2 } from "lucide-react";
+import { Loader2, Mail, MessageCircle, Phone, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -44,6 +44,7 @@ export interface AdminInquiryDetailData {
   email: string;
   phoneDisplay: string | null;
   phoneTelHref: string | null;
+  whatsappHref: string | null;
   organization: string | null;
   city: string | null;
   requestedEventType: string | null;
@@ -189,11 +190,38 @@ export function AdminInquiryDetail({
 
         <div className="flex flex-wrap items-center gap-2.5">
           <Button asChild variant="forest" size="sm">
-            <a href={replyHref}>
-              <Mail className="h-4 w-4" />
+            <a
+              href={replyHref}
+              aria-label={`Reply to ${inquiry.name} by email`}
+            >
+              <Mail className="h-4 w-4" aria-hidden="true" />
               Reply by email
             </a>
           </Button>
+          {inquiry.phoneTelHref && (
+            <Button asChild variant="outline" size="sm">
+              <a
+                href={inquiry.phoneTelHref}
+                aria-label={`Call ${inquiry.name}`}
+              >
+                <Phone className="h-4 w-4" aria-hidden="true" />
+                Call
+              </a>
+            </Button>
+          )}
+          {inquiry.whatsappHref && (
+            <Button asChild variant="outline" size="sm">
+              <a
+                href={inquiry.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Message ${inquiry.name} on WhatsApp`}
+              >
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                WhatsApp
+              </a>
+            </Button>
+          )}
           <Button
             type="button"
             variant="outline"
@@ -201,7 +229,7 @@ export function AdminInquiryDetail({
             className="text-crimson hover:bg-crimson/10 hover:text-crimson border-crimson/25"
             onClick={() => setDeleteOpen(true)}
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-4 w-4" aria-hidden="true" />
             Delete
           </Button>
         </div>
@@ -240,20 +268,7 @@ export function AdminInquiryDetail({
           <div>
             <dt className="eyebrow text-ink-soft">Phone</dt>
             <dd className="mt-1 text-foreground">
-              {inquiry.phoneDisplay ? (
-                inquiry.phoneTelHref ? (
-                  <a
-                    href={inquiry.phoneTelHref}
-                    className="underline underline-offset-4 hover:text-forest-deep"
-                  >
-                    {inquiry.phoneDisplay}
-                  </a>
-                ) : (
-                  inquiry.phoneDisplay
-                )
-              ) : (
-                "—"
-              )}
+              {inquiry.phoneDisplay || "—"}
             </dd>
           </div>
           <div>
