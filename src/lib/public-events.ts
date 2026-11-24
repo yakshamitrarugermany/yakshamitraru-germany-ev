@@ -1,7 +1,6 @@
-import perf1 from "@/assets/perf1.jpg.asset.json";
 import { EVENTS as STATIC_EVENTS, type EventItem } from "@/data/events";
-import type { EventType } from "@/generated/prisma/enums";
 import type { Event as PrismaEvent } from "@/generated/prisma/client";
+import type { EventType } from "@/generated/prisma/enums";
 import {
   EVENT_TYPE_LABELS,
   EVENT_TYPE_VALUES,
@@ -13,6 +12,8 @@ import {
 import { prisma } from "@/lib/prisma";
 
 export type PublicEventsWhen = "upcoming" | "past";
+
+const DEFAULT_EVENT_IMAGE = "/images/events/event1.jpg";
 
 export function parseWhenParam(raw?: string | string[]): PublicEventsWhen {
   const value = Array.isArray(raw) ? raw[0] : raw;
@@ -27,6 +28,49 @@ export function parseEventTypeParam(
   return EVENT_TYPE_VALUES.includes(value as EventType)
     ? (value as EventType)
     : undefined;
+}
+
+function sanitizeDbErrorMessage(err: unknown): string {
+  const raw = err instanceof Error ? err.message : String(err);
+  return raw
+    .replace(/postgres(?:ql)?:\/\/[^\s"'`]+/gi, "[REDACTED_URL]")
+    .replace(/(password|pwd|secret|token)=[^\s&;"'`]+/gi, "$1=[REDACTED]")
+    .replace(/\b[\w.-]+@[\w.-]+\.\w+\b/g, "[REDACTED_EMAIL]")
+    .slice(0, 300);
+}
+
+function getPrismaErrorCode(err: unknown): string {
+  if (!err || typeof err !== "object") return "";
+  const code = (err as { code?: unknown }).code;
+  return typeof code === "string" ? code : "";
+}
+
+function isDatabaseUnreachableError(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false;
+  const code = getPrismaErrorCode(err);
+  if (/^P10\d\d$/.test(code)) return true;
+  if (
+    [
+      "ECONNREFUSED",
+      "ENOTFOUND",
+      "ETIMEDOUT",
+      "EHOSTUNREACH",
+      "ECONNRESET",
+      "EAI_AGAIN",
+    ].includes(code)
+  ) {
+    return true;
+  }
+
+  const e = err as {
+    name?: string;
+    message?: string;
+    meta?: { driverAdapterError?: { name?: string; message?: string } };
+  };
+  const combined = `${e.name ?? ""} ${e.message ?? ""} ${e.meta?.driverAdapterError?.name ?? ""} ${e.meta?.driverAdapterError?.message ?? ""}`;
+  return /DatabaseNotReachable|Can't reach database server|Connection terminated|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|PrismaClientInitializationError/i.test(
+    combined,
+  );
 }
 
 export function mapDbEventToEventItem(
@@ -45,13 +89,15 @@ export function mapDbEventToEventItem(
   >,
   todayStartUtc: Date = getBerlinTodayStartUtc(),
 ): EventItem {
+  const country = event.country?.trim() || "Germany";
+  const venueName = event.venueName?.trim() || "";
   const organizer =
-    event.venueName?.trim() || EVENT_TYPE_LABELS[event.eventType];
-  const locationParts = [event.address, event.city, event.country]
+    venueName || EVENT_TYPE_LABELS[event.eventType] || "Yakshamitraru Germany e.V.";
+  const locationParts = [event.address, event.city, country]
     .map((p) => p?.trim())
     .filter((p): p is string => Boolean(p));
-  const location =
-    locationParts.join(", ") || event.venueName?.trim() || event.country;
+  const location = locationParts.join(", ") || venueName || country;
+  const coverImage = event.coverImageUrl?.trim();
 
   return {
     slug: event.slug,
@@ -61,9 +107,9 @@ export function mapDbEventToEventItem(
     time: formatBerlinPublicTime(event.startDate, event.endDate),
     location,
     iso: formatBerlinCalendarIso(event.startDate),
-    city: event.city?.trim() || event.country,
-    country: event.country,
-    image: event.coverImageUrl || perf1.url,
+    city: event.city?.trim() || country,
+    country,
+    image: coverImage || DEFAULT_EVENT_IMAGE,
     status:
       event.startDate.getTime() >= todayStartUtc.getTime()
         ? "upcoming"
@@ -94,6 +140,9 @@ export async function getPublicEvents(options: {
   const { when, type } = options;
 
   if (!process.env.DATABASE_URL?.trim()) {
+    console.error(
+      "[public-events] DATABASE_URL is not configured; falling back to static events.",
+    );
     return getStaticFallbackEvents(when, type);
   }
 
@@ -127,11 +176,14 @@ export async function getPublicEvents(options: {
 
     return rows.map((row) => mapDbEventToEventItem(row, todayStartUtc));
   } catch (err) {
-    console.warn(
-      "Falling back to static events because database query failed:",
-      err instanceof Error ? err.message : err,
-    );
-    return getStaticFallbackEvents(when, type);
+    console.error("[public-events] Failed to load events from database:", {
+      code: getPrismaErrorCode(err) || undefined,
+      message: sanitizeDbErrorMessage(err),
+    });
+    if (isDatabaseUnreachableError(err)) {
+      return getStaticFallbackEvents(when, type);
+    }
+    throw err;
   }
 }
 
@@ -139,6 +191,9 @@ export async function getPublicEventBySlug(
   slug: string,
 ): Promise<EventItem | null> {
   if (!process.env.DATABASE_URL?.trim()) {
+    console.error(
+      "[public-events] DATABASE_URL is not configured; falling back to static event detail.",
+    );
     return STATIC_EVENTS.find((item) => item.slug === slug) ?? null;
   }
 
@@ -165,10 +220,13 @@ export async function getPublicEventBySlug(
 
     return row ? mapDbEventToEventItem(row, todayStartUtc) : null;
   } catch (err) {
-    console.warn(
-      "Falling back to static event detail because database query failed:",
-      err instanceof Error ? err.message : err,
-    );
-    return STATIC_EVENTS.find((item) => item.slug === slug) ?? null;
+    console.error("[public-events] Failed to load event detail from database:", {
+      code: getPrismaErrorCode(err) || undefined,
+      message: sanitizeDbErrorMessage(err),
+    });
+    if (isDatabaseUnreachableError(err)) {
+      return STATIC_EVENTS.find((item) => item.slug === slug) ?? null;
+    }
+    throw err;
   }
 }

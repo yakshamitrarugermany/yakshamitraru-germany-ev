@@ -75,29 +75,58 @@ export default function OurJourneyPage() {
               Where It All Began.
             </h2>
             <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
-              Every journey begins with a story, and so does Yakshamitraru
-              Germany.
+              Every achiever has a story, so does Yakshamitraru Germany!
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
-              Driven by a deep desire to reconnect with his artistic roots,
-              Apurva Beleyur initiated the discussion with a fellow enthusiast
-              whose lifelong passion for Yakshagana inspired them to present
-              their first performance together in 2018.
+              Apurva Beleyur’s quest to reconnect to his artistic roots led him
+              to initiate a discussion with a friend (Due to GDPR restriction,
+              name has been masked), whose Yakshagana within him motivated them
+              to perform a first Yakshagana performance together in 2018 in
+              &quot;Kannada Rajyothsava&quot; event organised by Rhein Main
+              Kannada Sangha e.V, in Frankfurt Germany. While Apurva Beleyur
+              convinced organisers to introduce Yakshagana and secured the first
+              lengthy stage performance in Europe, his friend coordinated with
+              costume wearing and make-up. Thereby, Yakshagana was successfully
+              introduced for the first time by the expats in Europe.
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
-              Their debut performance took place during the Kannada Rajyothsava
-              celebrations organised by Rhein Main Kannada Sangha e.V. in
-              Frankfurt. While the traditional costume preparation and make-up
-              were carefully arranged backstage, Apurva Beleyur introduced
-              Yakshagana to the organisers and secured a dedicated 45-minute
-              performance slot on the main stage.
+              The duo friends performed Yakshagana &quot;Babruvahana
+              KaLaga&quot; (Along with a supporting character by Loukya
+              Balasubramaniam) which received standing applause from the
+              audience and the door to
+              <em className="font-extrabold">Yakshagana in Europe</em> opened
+              up. Since then, the duo friends have performed a number of shows
+              together within Germany until 2020 and a group formed under the
+              name
+              <em className="font-extrabold">Yakshamitraru</em>.
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
-              Together they presented the Yakshagana play &quot;Babruvahana
-              Kalaga&quot;, captivating the audience with an authentic and
-              powerful performance. The standing ovation they received marked
-              the beginning of a remarkable journey and opened new doors for
-              Yakshagana across Europe.
+              After which Apurva Beleyur was invited to Paris, France by the
+              France Kannada Balaga for a Yakshagana Performance. As his friend
+              was not residing in Europe, Apurva Beleyur trained Madhushree
+              Devaraj and took Yakshagana to France under the name{" "}
+              <em className="font-extrabold">Yakshamitraru Germany</em>, thereby
+              founding stone was laid.
+            </p>
+            <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
+              After the successful performances, Apurva Beleyur initiated,
+              conceptualized, named and financed{" "}
+              <em className="font-extrabold">Yakshamitraru Germany</em> and
+              planned the play &quot;Jatayu Moksha&quot; and called upon
+              interested theatre background artists in Germany. Through which
+              Shashidhar Nairy, Sushma Ravindra and a friend joined the Team and
+              later on Shrihari Hosamane and Prateek Hegde Bengle contacted
+              Apurva Beleyur and completed the Team.
+            </p>
+            <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
+              Until 2024, Yakshamitraru Germany was the only recognised and
+              established Yakshagana &quot;Team&quot; operated in Europe. From
+              2021 till 2026, Yakshagana was introduced and performed by the
+              team in Germany, France, Sweden, The Netherlands, Poland,
+              Switzerland, Spain, Denmark and Finland.{" "}
+              <em className="font-extrabold">
+                Yakshamitraru Germany created the Yakshagana wave in Europe.
+              </em>
             </p>
           </div>
           <div className="lg:col-span-5">

@@ -79,7 +79,7 @@ export default async function TestimonialsPage() {
         title={
           <>
             Words from our <em className="italic font-light">audiences</em> and
-            hosts
+            <em className="italic font-light">hosts</em>
           </>
         }
         lede="Reflections from theatre directors, festival curators, fellow artists and audience members who have experienced Yakshamitraru Germany across Europe."
