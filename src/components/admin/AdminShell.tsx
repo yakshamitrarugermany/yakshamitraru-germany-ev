@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { showAdminErrorToast } from "@/lib/admin-toast";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import {
@@ -72,6 +73,10 @@ export function AdminShell({ user, children }: AdminShellProps) {
       router.replace("/admin/login");
       router.refresh();
     } catch {
+      showAdminErrorToast(
+        "Could not log out right now. Please try again.",
+        "admin-signout-error",
+      );
       setSigningOut(false);
     }
   }

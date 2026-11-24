@@ -21,6 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { EventType, PostStatus } from "@/generated/prisma/enums";
+import { showAdminErrorToast, showAdminSuccessToast } from "@/lib/admin-toast";
 import { EVENT_TYPE_LABELS, POST_STATUS_LABELS } from "@/lib/events-utils";
 import { cn } from "@/lib/utils";
 import { Calendar, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
@@ -58,37 +59,25 @@ export function AdminEventsTable({
   const router = useRouter();
   const [deleteTarget, setDeleteTarget] = useState<AdminEventRow | null>(null);
   const [deleting, setDeleting] = useState(false);
-  const [feedback, setFeedback] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
 
   async function handleConfirmDelete() {
     if (!deleteTarget) return;
     setDeleting(true);
-    setFeedback(null);
 
     try {
       const result = await deleteEventAction(deleteTarget.id);
       if (result.success) {
-        const deletedTitle = deleteTarget.title;
         setDeleteTarget(null);
-        setFeedback({
-          type: "success",
-          message: `Deleted "${deletedTitle}".`,
-        });
+        showAdminSuccessToast("Event deleted.", "admin-event-deleted");
         router.refresh();
       } else {
-        setFeedback({
-          type: "error",
-          message: result.error,
-        });
+        showAdminErrorToast(result.error, "admin-event-delete-error");
       }
     } catch {
-      setFeedback({
-        type: "error",
-        message: "Could not delete the event right now. Please try again.",
-      });
+      showAdminErrorToast(
+        "Could not delete the event right now. Please try again.",
+        "admin-event-delete-error",
+      );
     } finally {
       setDeleting(false);
     }
@@ -96,20 +85,6 @@ export function AdminEventsTable({
 
   return (
     <div className="space-y-4">
-      {feedback && (
-        <div
-          role={feedback.type === "error" ? "alert" : "status"}
-          className={cn(
-            "rounded-md border px-4 py-3 text-sm",
-            feedback.type === "error"
-              ? "border-crimson/30 bg-crimson/5 text-crimson"
-              : "border-forest-deep/20 bg-forest-deep/5 text-forest-deep",
-          )}
-        >
-          {feedback.message}
-        </div>
-      )}
-
       {events.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-10 md:p-14 text-center">
           <div className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-forest-deep">
@@ -191,7 +166,6 @@ export function AdminEventsTable({
                         size="sm"
                         className="text-crimson hover:bg-crimson/10 hover:text-crimson border-crimson/25"
                         onClick={() => {
-                          setFeedback(null);
                           setDeleteTarget(event);
                         }}
                       >

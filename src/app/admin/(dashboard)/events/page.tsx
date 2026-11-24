@@ -2,6 +2,7 @@ import {
   AdminEventsTable,
   type AdminEventRow,
 } from "@/components/admin/AdminEventsTable";
+import { AdminFlashToast } from "@/components/admin/AdminFlashToast";
 import { Button } from "@/components/ui/button";
 import type { PostStatus } from "@/generated/prisma/enums";
 import {
@@ -129,20 +130,18 @@ export default async function AdminEventsPage({
       </div>
 
       {savedFlag === "created" && (
-        <div
-          role="status"
-          className="rounded-md border border-forest-deep/20 bg-forest-deep/5 px-4 py-3 text-sm text-forest-deep"
-        >
-          Event created successfully.
-        </div>
+        <AdminFlashToast
+          message="Event created."
+          toastId="admin-event-saved"
+          clearParam="saved"
+        />
       )}
       {savedFlag === "updated" && (
-        <div
-          role="status"
-          className="rounded-md border border-forest-deep/20 bg-forest-deep/5 px-4 py-3 text-sm text-forest-deep"
-        >
-          Event updated successfully.
-        </div>
+        <AdminFlashToast
+          message="Event saved."
+          toastId="admin-event-saved"
+          clearParam="saved"
+        />
       )}
 
       {/* Upcoming / Past & Status filters */}
