@@ -75,7 +75,8 @@ export default function OurJourneyPage() {
               Where It All Began.
             </h2>
             <p className="mt-8 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
-              Every achiever has a story, so does Yakshamitraru Germany!
+              Every achiever has a story, so does{" "}
+              <em className="font-extrabold">Yakshamitraru Germany!</em>
             </p>
             <p className="mt-4 text-base md:text-lg text-ink-soft leading-relaxed max-w-2xl">
               Apurva Beleyur’s quest to reconnect to his artistic roots led him

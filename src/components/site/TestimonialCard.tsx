@@ -51,7 +51,7 @@ export function TestimonialCard({
       variant="cream"
       interactive
       data-expanded={isActive ? "true" : "false"}
-      className={`scroll-mt-28 mb-6 md:mb-8 break-inside-avoid flex flex-col justify-between shadow-[0_24px_60px_-35px_rgba(47,82,51,0.18)] transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out ${borderAndSurfaceClass} ${
+      className={`scroll-mt-28 mb-6 md:mb-8 break-inside-avoid p-6 sm:p-8 md:p-9 flex flex-col justify-between shadow-[0_24px_60px_-35px_rgba(47,82,51,0.18)] transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out ${borderAndSurfaceClass} ${
         highlighted
           ? "ring-2 ring-[#B8863B] ring-offset-2 ring-offset-[#FAF6EE]"
           : "ring-0 ring-transparent"

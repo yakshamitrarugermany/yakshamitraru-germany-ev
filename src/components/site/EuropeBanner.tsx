@@ -1,215 +1,91 @@
-"use client";
+const COUNTRY_SENTENCE =
+  "Performed in Germany, France, Sweden, The Netherlands, Poland, Switzerland, Spain, Denmark and Finland";
 
-import { useEffect, useState } from "react";
+const INFINITY_LOOP_SEGMENTS =
+  "C 576 62, 642 26, 730 26 " +
+  "C 858 26, 954 64, 954 120 " +
+  "C 954 176, 858 214, 730 214 " +
+  "C 642 214, 576 178, 500 120 " +
+  "C 424 62, 358 26, 270 26 " +
+  "C 142 26, 46 64, 46 120 " +
+  "C 46 176, 142 214, 270 214 " +
+  "C 358 214, 424 178, 500 120";
 
-const COUNTRIES = [
-  "Germany",
-  "Poland",
-  "France",
-  "Denmark",
-  "Spain",
-  "Finland",
-] as const;
-
-const CYCLE_MS = 2500;
+const INFINITY_PATH_DOUBLE = `M 500 120 ${INFINITY_LOOP_SEGMENTS} ${INFINITY_LOOP_SEGMENTS}`;
 
 const BANNER_STYLES = `
-@keyframes europeBannerFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.europe-infinity-text {
+  font-size: 31px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
 }
 
-@keyframes europeBannerShimmer {
-  from {
-    background-position: 100% 0;
-  }
-  to {
-    background-position: 0% 0;
+@media (min-width: 640px) {
+  .europe-infinity-text {
+    font-size: 25px;
+    letter-spacing: 0.05em;
   }
 }
 
-@keyframes europeBannerLineDraw {
-  from {
-    opacity: 0;
-    transform: scaleX(0);
-  }
-  to {
-    opacity: 1;
-    transform: scaleX(1);
+@media (min-width: 768px) {
+  .europe-infinity-text {
+    font-size: 25px;
+    letter-spacing: 0.055em;
   }
 }
 
-@keyframes europeBannerDiamondIn {
-  from {
-    opacity: 0;
-    transform: rotate(45deg) scale(0.4);
-  }
-  to {
-    opacity: 1;
-    transform: rotate(45deg) scale(1);
+@media (min-width: 1024px) {
+  .europe-infinity-text {
+    font-size: 24px;
+    letter-spacing: 0.06em;
   }
 }
 
-@keyframes europeBannerCountryIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@media (min-width: 1280px) {
+  .europe-infinity-text {
+    font-size: 22px;
+    letter-spacing: 0.065em;
   }
 }
 
-.europe-banner-word {
-  display: inline-block;
-  background-size: 260% 100%;
-  background-position: 100% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+@media (min-width: 1440px) {
+  .europe-infinity-text {
+    font-size: 25px;
+    letter-spacing: 0.06em;
+  }
 }
 
-.europe-banner-word-ivory {
-  color: #FAF6EE;
-  background-image: linear-gradient(
-    110deg,
-    #FAF6EE 0%,
-    #FAF6EE 38%,
-    #E6C47E 50%,
-    #FAF6EE 62%,
-    #FAF6EE 100%
-  );
-}
-
-.europe-banner-word-gold {
-  color: #B8863B;
-  background-image: linear-gradient(
-    110deg,
-    #B8863B 0%,
-    #B8863B 38%,
-    #F3DDA5 50%,
-    #B8863B 62%,
-    #B8863B 100%
-  );
-}
-
-.europe-banner-word-1 {
-  animation:
-    europeBannerFadeUp 600ms cubic-bezier(0.2, 0.7, 0.2, 1) 0ms both,
-    europeBannerShimmer 1200ms ease-in-out 850ms 1 forwards;
-}
-
-.europe-banner-word-2 {
-  animation:
-    europeBannerFadeUp 600ms cubic-bezier(0.2, 0.7, 0.2, 1) 120ms both,
-    europeBannerShimmer 1200ms ease-in-out 950ms 1 forwards;
-}
-
-.europe-banner-word-3 {
-  animation:
-    europeBannerFadeUp 600ms cubic-bezier(0.2, 0.7, 0.2, 1) 240ms both,
-    europeBannerShimmer 1200ms ease-in-out 1050ms 1 forwards;
-}
-
-.europe-banner-line-left {
-  transform-origin: right center;
-  animation: europeBannerLineDraw 800ms cubic-bezier(0.2, 0.7, 0.2, 1) 220ms both;
-}
-
-.europe-banner-line-right {
-  transform-origin: left center;
-  animation: europeBannerLineDraw 800ms cubic-bezier(0.2, 0.7, 0.2, 1) 220ms both;
-}
-
-.europe-banner-diamond {
-  animation: europeBannerDiamondIn 500ms cubic-bezier(0.2, 0.7, 0.2, 1) 160ms both;
-}
-
-.europe-banner-country {
-  animation: europeBannerCountryIn 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+.europe-banner-reduced-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .europe-banner-word,
-  .europe-banner-word-1,
-  .europe-banner-word-2,
-  .europe-banner-word-3 {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    background-image: none !important;
-    -webkit-text-fill-color: currentColor !important;
+  .europe-infinity-text {
+    display: none;
   }
 
-  .europe-banner-line-left,
-  .europe-banner-line-right,
-  .europe-banner-diamond,
-  .europe-banner-country {
-    animation: none !important;
-    opacity: 1 !important;
-  }
-
-  .europe-banner-line-left,
-  .europe-banner-line-right,
-  .europe-banner-country {
-    transform: none !important;
-  }
-
-  .europe-banner-diamond {
-    transform: rotate(45deg) !important;
+  .europe-banner-reduced-text {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0.75rem auto 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
   }
 }
 `;
 
 export function EuropeBanner() {
-  const [countryIndex, setCountryIndex] = useState(0);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let intervalId: number | null = null;
-
-    const startCycling = () => {
-      if (intervalId !== null) return;
-      intervalId = window.setInterval(() => {
-        setCountryIndex((prev) => (prev + 1) % COUNTRIES.length);
-      }, CYCLE_MS);
-    };
-
-    const stopCycling = () => {
-      if (intervalId !== null) {
-        window.clearInterval(intervalId);
-        intervalId = null;
-      }
-    };
-
-    if (!mediaQuery.matches) {
-      startCycling();
-    }
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        stopCycling();
-        setCountryIndex(0);
-      } else {
-        startCycling();
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      stopCycling();
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, []);
-
   return (
     <section
       aria-label="Yakshagana in Europe"
@@ -217,64 +93,76 @@ export function EuropeBanner() {
     >
       <style>{BANNER_STYLES}</style>
 
-      {/* Continuous maroon backdrop + stage light matching Hero's top edge so there is no visible seam */}
+      {/* Continuous deep maroon backdrop + subtle stage light matching Hero's top edge */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#1e0409_0%,#26050a_25%,#2d070c_45%,#34080e_70%,#2b060b_100%)]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_52%_65%_at_50%_28%,rgba(122,31,43,0.28)_0%,transparent_72%)]"
-      />
-      <div
-        aria-hidden="true"
         className="pointer-events-none absolute -bottom-140 right-[20%] h-180 w-180 gold-radial opacity-40"
       />
 
-      {/* Reserved fixed height prevents layout shift */}
-      <div className="relative container-page py-6 md:py-8 h-35 md:h-42 lg:h-45 flex flex-col items-center justify-center text-center">
-        <h2 className="font-serif font-normal tracking-[-0.02em] leading-[1.1] whitespace-nowrap text-[clamp(1.625rem,7.2vw,1.875rem)] md:text-4xl lg:text-5xl">
-          <span className="europe-banner-word europe-banner-word-ivory europe-banner-word-1">
-            Yakshagana
-          </span>
-          <span className="europe-banner-word europe-banner-word-ivory europe-banner-word-2">
-            &nbsp;in
-          </span>
-          <span className="europe-banner-word europe-banner-word-gold europe-banner-word-3 italic pr-[0.08em]">
-            &nbsp;Europe
-          </span>
-        </h2>
+      <div className="relative container-page px-2 sm:px-6 py-2 sm:py-2.5 md:py-3 flex flex-col items-center justify-center">
+        {/* Flattened infinity loop stage: left loop frames "Yakshagana", centre crossing frames smaller "in", right loop frames "EUROPE" */}
+        <div className="relative mx-auto w-full max-w-[344px] sm:max-w-[460px] md:max-w-[500px] lg:max-w-[560px] xl:max-w-[620px] aspect-[1000/240] flex items-center justify-center">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 1000 240"
+            className="pointer-events-none absolute inset-0 h-full w-full overflow-visible select-none"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <defs>
+              <path
+                id="europe-infinity-track"
+                d={INFINITY_PATH_DOUBLE}
+                fill="none"
+              />
+            </defs>
 
-        {/* Ornament: 1px gold lines drawing outward from a centered gold diamond */}
-        <div
-          aria-hidden="true"
-          className="mt-2.5 md:mt-3 flex items-center justify-center gap-3 w-full max-w-50 sm:max-w-60 md:max-w-70"
-        >
-          <span className="europe-banner-line-left h-px flex-1 bg-linear-to-l from-[#B8863B] to-[#B8863B]/15" />
-          <span className="europe-banner-diamond h-1.5 w-1.5 rotate-45 bg-[#B8863B] shrink-0" />
-          <span className="europe-banner-line-right h-px flex-1 bg-linear-to-r from-[#B8863B] to-[#B8863B]/15" />
+            {/* Continuously travelling country sentence along the invisible infinity path */}
+            <text
+              className="europe-infinity-text font-sans"
+              fill="#B8863B"
+              fillOpacity="0.95"
+              dominantBaseline="central"
+            >
+              <textPath
+                href="#europe-infinity-track"
+                startOffset="0%"
+                method="align"
+                spacing="auto"
+              >
+                {COUNTRY_SENTENCE}
+                <animate
+                  attributeName="startOffset"
+                  from="0%"
+                  to="50%"
+                  dur="28s"
+                  repeatCount="indefinite"
+                />
+              </textPath>
+            </text>
+          </svg>
+
+          {/* Primary Heading: "Yakshagana" in left loop, visibly smaller "in" at centre crossing, "EUROPE" in right loop */}
+          <h2 className="relative z-10 grid grid-cols-[1fr_auto_1fr] items-baseline w-full font-serif font-normal tracking-[-0.02em] leading-[1.08] text-[1.625rem] sm:text-3xl md:text-4xl xl:text-5xl [text-shadow:0_2px_18px_rgba(42,6,11,0.92),0_0_8px_rgba(42,6,11,0.85)]">
+            <span className="text-right pr-2 sm:pr-3 md:pr-3.5 text-[#FAF6EE] whitespace-nowrap">
+              Yakshagana{" "}
+            </span>
+            <span className="text-center text-base sm:text-lg md:text-2xl xl:text-[1.75rem] text-[#FAF6EE]/90 whitespace-nowrap">
+              in
+            </span>
+            <span className="text-left pl-2 sm:pl-3 md:pl-3.5 italic text-[#B8863B] whitespace-nowrap">
+              {" "}
+              EUROPE
+            </span>
+          </h2>
         </div>
 
-        {/* Touring line */}
-        <p className="mt-2.5 md:mt-3 flex items-center justify-center text-[10px] sm:text-[11px] uppercase tracking-[0.26em] font-medium leading-5 h-5">
-          <span className="sr-only">
-            Performed in Germany, Poland, France, Denmark and Spain
-          </span>
-          <span aria-hidden="true" className="text-[#FAF6EE]/70">
-            Performed in&nbsp;
-          </span>
-          <span
-            aria-hidden="true"
-            className="inline-block min-w-22 sm:min-w-24 text-left text-[#B8863B]"
-          >
-            <span
-              key={COUNTRIES[countryIndex]}
-              aria-hidden="true"
-              className="europe-banner-country inline-block"
-            >
-              {COUNTRIES[countryIndex]}
-            </span>
-          </span>
+        {/* Accessible sentence for screen readers; becomes visible static text under prefers-reduced-motion */}
+        <p className="europe-banner-reduced-text max-w-2xl text-center font-sans text-xs sm:text-sm tracking-[0.06em] text-[#B8863B]">
+          {COUNTRY_SENTENCE}
         </p>
       </div>
     </section>
