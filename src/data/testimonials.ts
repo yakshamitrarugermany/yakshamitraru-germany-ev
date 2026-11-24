@@ -30,6 +30,17 @@ export const HOME_TESTIMONIAL_IDS = [
 
 export const TESTIMONIALS: Testimonial[] = [
   {
+    id: "anoosha-n-shastry",
+    name: "Dr. Anoosha N. Shastry",
+    role: "Fellow artist",
+    title:
+      "Ayurveda Physician (BAMS, RGUHS - India), Bharatanatyam Artist; Founder & Director, Sanatana Akademie",
+    city: "Munich",
+    country: "Germany",
+    lang: "en",
+    text: "Watching Yakshamitraru Germany has always meant more to me than simply watching a Yakshagana performance in Germany. Living and working with Indian knowledge traditions away from India, I know how delicate the balance is between making a tradition accessible to a new audience and allowing it to remain unmistakably itself. This is something I deeply appreciate in the work of Yakshamitraru Germany.\n\nWhat stands out in their performances is how completely they bring the world of Yakshagana onto the stage. The music, costumes, movement, dialogue, storytelling and unmistakable energy of the art form come together without being diluted for a different audience. For those of us who know Yakshagana, there is an immediate familiarity and connection to home; for someone encountering it for the first time, it is an opportunity to experience the richness and character of the tradition in its authentic form.\n\nPerhaps that is what I value most about their work: they are not only taking Yakshagana to new stages, they are allowing Yakshagana to travel while retaining its authentic identity.\n\nMy heartfelt appreciation to Apurva ji and the entire team of Yakshamitraru Germany for the dedication, conviction and immense effort behind each performance, and for continuing to give this treasured art form the space, respect and visibility it deserves.",
+  },
+  {
     id: "vasudeva-nayak-kukkundoor",
     name: "Vasudeva Nayak Kukkundoor",
     role: "Audience",
@@ -47,17 +58,6 @@ export const TESTIMONIALS: Testimonial[] = [
     country: "Germany",
     lang: "en",
     text: "You don’t need a word of the language to be held by Yakshagana. The rhythm, the colour and the storytelling carry you completely — I was spellbound from the first beat to the last. Being honoured as a Yakshamitra this year meant the world to me. This is a tradition that belongs on every stage in Europe, and I wish this wonderful initiative all the very best.",
-  },
-  {
-    id: "anoosha-n-shastry",
-    name: "Dr. Anoosha N. Shastry",
-    role: "Fellow artist",
-    title:
-      "Ayurveda Physician (BAMS, RGUHS - India), Bharatanatyam Artist; Founder & Director, Sanatana Akademie",
-    city: "Munich",
-    country: "Germany",
-    lang: "en",
-    text: "Watching Yakshamitraru Germany has always meant more to me than simply watching a Yakshagana performance in Germany. Living and working with Indian knowledge traditions away from India, I know how delicate the balance is between making a tradition accessible to a new audience and allowing it to remain unmistakably itself. This is something I deeply appreciate in the work of Yakshamitraru Germany.\n\nWhat stands out in their performances is how completely they bring the world of Yakshagana onto the stage. The music, costumes, movement, dialogue, storytelling and unmistakable energy of the art form come together without being diluted for a different audience. For those of us who know Yakshagana, there is an immediate familiarity and connection to home; for someone encountering it for the first time, it is an opportunity to experience the richness and character of the tradition in its authentic form.\n\nPerhaps that is what I value most about their work: they are not only taking Yakshagana to new stages, they are allowing Yakshagana to travel while retaining its authentic identity.\n\nMy heartfelt appreciation to Apurva ji and the entire team of Yakshamitraru Germany for the dedication, conviction and immense effort behind each performance, and for continuing to give this treasured art form the space, respect and visibility it deserves.",
   },
   {
     id: "janardhan-krishnappa",

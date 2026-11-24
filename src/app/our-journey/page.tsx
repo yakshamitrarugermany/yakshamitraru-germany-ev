@@ -252,7 +252,7 @@ export default function OurJourneyPage() {
               <span className="eyebrow">Our Mission</span>
             </div>
             <h3 className="mt-6 font-serif text-3xl md:text-4xl text-forest-deep leading-tight">
-              To preserve and present Yakshagana faithfully — for Europe.
+              To present and promote Yakshagana faithfully — for Europe.
             </h3>
             <p className="mt-6 text-base md:text-lg text-ink-soft leading-relaxed">
               We stage full-length productions, train new artists and open the

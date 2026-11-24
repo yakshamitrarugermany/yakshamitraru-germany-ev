@@ -219,7 +219,7 @@ export default function AboutPage() {
               Yaksha <em className="italic font-light">Sankranthi</em>.
             </>
           }
-          lede="Yaksha Sankranthi, introduced in Frankfurt in 2023, celebrates the spirit of Yakshagana on European stages, bringing traditional performances to diverse audiences while recognising and honouring artists who preserve and promote Indian art forms across Europe through the Yaksha Mitra Award."
+          lede="Yaksha Sankranthi, introduced in Frankfurt in 2023, celebrates the spirit of Yakshagana on European stages, bringing traditional performances to diverse audiences while recognising and honouring artists who present and promote Indian art forms across Europe through the Yaksha Mitra Award."
         />
       </Section>
 
