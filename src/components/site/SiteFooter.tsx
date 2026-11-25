@@ -34,9 +34,9 @@ export function SiteFooter() {
             </em>
           </p>
           <p className="mt-4 max-w-sm text-sm text-cream/60 leading-relaxed">
-            A passionate group of Yakshagana enthusiasts dedicated to
-            presenting, and promoting India&apos;s rich traditional art form
-            Yakshagana across Germany and Europe.
+            A passionate group of Yakshagana enthusiasts dedicated to presenting
+            and promoting India&apos;s rich traditional art form Yakshagana
+            across Germany and Europe.
           </p>
         </div>
 
