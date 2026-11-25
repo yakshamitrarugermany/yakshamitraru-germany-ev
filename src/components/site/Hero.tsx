@@ -270,9 +270,11 @@ export function Hero() {
         }}
         className="mt-4 max-w-152 text-[1rem] md:text-[1.20rem] leading-7 md:leading-8 text-cream/70"
       >
-        A passionate group of Yakshagana enthusiasts dedicated to presenting,
-        and promoting India&apos;s rich traditional art form{" "}
-        <span className="font-bold">Yakshagana</span> across Germany and Europe.
+        A passionate group of Yakshagana enthusiasts dedicated to presenting and
+        promoting India&apos;s rich traditional art form{" "}
+        <span className="font-bold">Yakshagana</span> across{" "}
+        <span className="font-bold">Germany</span> and{" "}
+        <span className="font-bold">Europe</span>.
       </motion.p>
     </>
   );
