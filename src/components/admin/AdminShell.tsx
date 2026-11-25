@@ -6,7 +6,6 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import {
   Calendar,
-  GraduationCap,
   Image as ImageIcon,
   LayoutDashboard,
   Loader2,
@@ -25,7 +24,6 @@ const ADMIN_NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Events", href: "/admin/events", icon: Calendar },
   { label: "Media", href: "/admin/media", icon: ImageIcon },
-  { label: "Classes", href: "/admin/classes", icon: GraduationCap },
   { label: "Inquiries", href: "/admin/inquiries", icon: Mail },
   {
     label: "Testimonials",
