@@ -18,7 +18,11 @@ export async function submitTestimonialAction(
   rawInput: TestimonialFormInput,
 ): Promise<SubmitTestimonialResult> {
   // Silently succeed if the hidden honeypot field is filled
-  if (rawInput && typeof rawInput.website === "string" && rawInput.website.trim().length > 0) {
+  if (
+    rawInput &&
+    typeof rawInput.website === "string" &&
+    rawInput.website.trim().length > 0
+  ) {
     return { success: true };
   }
 
@@ -44,18 +48,19 @@ export async function submitTestimonialAction(
   if (data.consentGiven !== true) {
     return {
       success: false,
-      error: "Please agree that your review may be published on this website.",
+      error:
+        "Please agree that your review, together with your name, role, event and city, may be published on this website.",
       fieldErrors: {
         consentGiven:
-          "Please agree that your review may be published on this website",
+          "Please agree that your review, together with your name, role, event and city, may be published on this website",
       },
     };
   }
 
-  const normalizedEmail = data.email.toLowerCase();
+  const normalizedEmail = data.email.trim().toLowerCase();
 
   try {
-    // Rate-limit per email: reject if 3 or more submissions in the last 24 hours
+    // Rate-limit per email: reject if 3 or more submissions in the last 24 hours (any status)
     const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const recentCount = await prisma.testimonial.count({
       where: {
@@ -81,11 +86,10 @@ export async function submitTestimonialAction(
     await prisma.testimonial.create({
       data: {
         name: data.name,
-        displayNameMode: data.displayNameMode,
         email: normalizedEmail,
         role: data.role,
-        event: data.event ? data.event : null,
-        city: data.city ? data.city : null,
+        event: data.event,
+        city: data.city,
         text: data.text,
         consentGiven: true,
         status: "PENDING",
@@ -94,7 +98,9 @@ export async function submitTestimonialAction(
 
     return { success: true };
   } catch (err) {
-    console.error("Failed to save testimonial submission:", err);
+    console.error("[testimonials] Failed to save testimonial submission.", {
+      errorName: err instanceof Error ? err.name : "UnknownError",
+    });
     return {
       success: false,
       error:

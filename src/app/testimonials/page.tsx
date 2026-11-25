@@ -7,21 +7,21 @@ import { prisma } from "@/lib/prisma";
 import type { Metadata } from "next";
 import { TestimonialForm } from "./TestimonialForm";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Testimonials",
   description:
     "Reflections and reviews from audiences, theatre hosts, festival organisers and fellow artists across Europe on Yakshamitraru Germany e.V. performances.",
 };
 
-function formatDisplayName(
-  name: string,
-  displayNameMode: "FULL" | "FIRST",
-): string {
-  const trimmed = name.trim();
-  if (displayNameMode === "FIRST") {
-    return trimmed.split(/\s+/)[0] || trimmed;
-  }
-  return trimmed;
+function sanitizeDbErrorMessage(err: unknown): string {
+  const raw = err instanceof Error ? err.message : String(err);
+  return raw
+    .replace(/postgres(?:ql)?:\/\/[^\s"'`]+/gi, "[REDACTED_URL]")
+    .replace(/(password|pwd|secret|token)=[^\s&;"'`]+/gi, "$1=[REDACTED]")
+    .replace(/\b[\w.-]+@[\w.-]+\.\w+\b/g, "[REDACTED_EMAIL]")
+    .slice(0, 300);
 }
 
 async function getApprovedTestimonials(): Promise<Testimonial[]> {
@@ -36,11 +36,10 @@ async function getApprovedTestimonials(): Promise<Testimonial[]> {
     // Select ONLY public fields — never select email
     const dbRows = await prisma.testimonial.findMany({
       where: { status: "APPROVED" },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
       select: {
         id: true,
         name: true,
-        displayNameMode: true,
         role: true,
         event: true,
         city: true,
@@ -51,7 +50,7 @@ async function getApprovedTestimonials(): Promise<Testimonial[]> {
 
     const mappedDbRows: Testimonial[] = dbRows.map((row) => ({
       id: row.id,
-      name: formatDisplayName(row.name, row.displayNameMode),
+      name: row.name.trim(),
       role: row.role || "Audience",
       event: row.event || undefined,
       city: row.city || undefined,
@@ -62,8 +61,8 @@ async function getApprovedTestimonials(): Promise<Testimonial[]> {
     return [...mappedDbRows, ...TESTIMONIALS];
   } catch (err) {
     console.error(
-      "Failed to fetch approved testimonials from database, falling back to static data:",
-      err,
+      "[testimonials] Failed to fetch approved testimonials from database, falling back to static data:",
+      sanitizeDbErrorMessage(err),
     );
     return TESTIMONIALS;
   }
@@ -78,7 +77,7 @@ export default async function TestimonialsPage() {
         eyebrow="In Their Words · Testimonials"
         title={
           <>
-            Words from our <em className="italic font-light">audiences</em> and
+            Words from our <em className="italic font-light">audiences</em> and{" "}
             <em className="italic font-light">hosts</em>
           </>
         }
