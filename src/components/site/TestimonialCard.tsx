@@ -82,7 +82,7 @@ export function TestimonialCard({
                 }
               : undefined
           }
-          className={`mt-3 space-y-4 font-serif text-lg sm:text-xl md:text-[1.35rem] leading-relaxed text-forest-deep hyphens-auto ${
+          className={`mt-3 space-y-4 font-serif text-lg sm:text-xl md:text-[1.35rem] leading-relaxed text-forest-deep ${
             isLong && !expanded ? "line-clamp-6" : ""
           }`}
         >

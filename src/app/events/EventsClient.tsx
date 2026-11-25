@@ -96,6 +96,22 @@ export default function EventsClient({
       <main>
         <EventsHero />
 
+        <Section
+          tone="cream"
+          id="yaksha-sankranthi"
+          className="border-b border-border/60"
+        >
+          <SectionHeader
+            eyebrow="Annual Festival"
+            title={
+              <>
+                Yaksha <em className="italic font-light">Sankranthi</em>.
+              </>
+            }
+            lede="Yaksha Sankranthi, introduced in Frankfurt in 2023, celebrates the spirit of Yakshagana on European stages, bringing traditional performances to diverse audiences while recognising and honouring artists who preserve and promote Indian art forms across Europe through the Yaksha Mitra Award."
+          />
+        </Section>
+
         {when === "upcoming" ? (
           <>
             <Section tone="cream" id="upcoming">

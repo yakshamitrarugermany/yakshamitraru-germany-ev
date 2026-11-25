@@ -164,7 +164,7 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Yakshamitraru Germany e.V. All rights
             reserved.
           </span>
-          <span className="eyebrow">Yakshagana in Europe · Since 2018</span>
+          <span className="eyebrow">Yakshagana in Europe · Since 2021</span>
         </div>
       </div>
     </footer>

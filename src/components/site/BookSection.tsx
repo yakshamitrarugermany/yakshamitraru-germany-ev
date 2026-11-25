@@ -33,8 +33,8 @@ export function BookSection() {
           </h2>
           <p className="mt-8 text-cream/75 leading-relaxed max-w-md">
             Theatres, festivals, universities, embassies and private hosts —
-            share a few details and we will come back with programme options,
-            technical rider and fees.
+            share a few details and we will come back with programme options and
+            a technical rider.
           </p>
 
           <dl className="mt-12 space-y-6 text-sm">
