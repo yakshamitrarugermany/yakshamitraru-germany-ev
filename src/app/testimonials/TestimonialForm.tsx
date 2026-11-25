@@ -29,9 +29,8 @@ export function TestimonialForm() {
     resolver: zodResolver(testimonialFormSchema),
     defaultValues: {
       name: "",
-      displayNameMode: "FIRST",
       email: "",
-      role: "Audience member",
+      role: "",
       event: "",
       city: "",
       text: "",
@@ -43,6 +42,11 @@ export function TestimonialForm() {
   const watchedText = useWatch({
     control,
     name: "text",
+    defaultValue: "",
+  });
+  const watchedRole = useWatch({
+    control,
+    name: "role",
     defaultValue: "",
   });
   const charCount = (watchedText ?? "").length;
@@ -104,7 +108,7 @@ export function TestimonialForm() {
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       aria-label="Share your experience review form"
-      className="mt-8 rounded-2xl bg-white border border-border p-6 md:p-10 lg:p-12 shadow-sm"
+      className="mt-8 rounded-2xl bg-white border border-border p-6 md:p-10 lg:p-12 shadow-sm [&_input::placeholder]:text-muted-foreground/70 [&_textarea::placeholder]:text-muted-foreground/70"
     >
       {/* Hidden honeypot field */}
       <div
@@ -130,47 +134,20 @@ export function TestimonialForm() {
           <input
             id="t-name"
             type="text"
+            required
             placeholder="Your full name"
             aria-invalid={errors.name ? true : undefined}
-            aria-describedby={errors.name ? "t-name-error" : undefined}
+            aria-describedby={errors.name ? "t-name-error" : "t-name-hint"}
             className={inputClass}
             {...register("name")}
           />
+          <p id="t-name-hint" className="mt-1.5 text-xs text-ink-soft">
+            Your name will be shown with your review.
+          </p>
           {errors.name && (
             <p id="t-name-error" className={errorClass}>
               {errors.name.message}
             </p>
-          )}
-        </div>
-
-        {/* Display name mode */}
-        <div>
-          <span className={labelClass}>
-            Show full name or first name only{" "}
-            <span className="text-crimson">*</span>
-          </span>
-          <div className="mt-3 flex flex-wrap items-center gap-6 py-1">
-            <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
-              <input
-                type="radio"
-                value="FIRST"
-                className="cursor-pointer accent-forest-deep"
-                {...register("displayNameMode")}
-              />
-              <span>First name only</span>
-            </label>
-            <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
-              <input
-                type="radio"
-                value="FULL"
-                className="cursor-pointer accent-forest-deep"
-                {...register("displayNameMode")}
-              />
-              <span>Full name</span>
-            </label>
-          </div>
-          {errors.displayNameMode && (
-            <p className={errorClass}>{errors.displayNameMode.message}</p>
           )}
         </div>
 
@@ -187,6 +164,7 @@ export function TestimonialForm() {
           <input
             id="t-email"
             type="email"
+            required
             placeholder="you@example.com"
             aria-invalid={errors.email ? true : undefined}
             aria-describedby={errors.email ? "t-email-error" : undefined}
@@ -200,61 +178,85 @@ export function TestimonialForm() {
           )}
         </div>
 
-        {/* Role: I was a... */}
-        <div>
-          <label htmlFor="t-role" className={labelClass}>
-            I was a… <span className="text-crimson">*</span>
-          </label>
-          <div className="relative mt-1.5">
-            <select
-              id="t-role"
-              aria-invalid={errors.role ? true : undefined}
-              className={`${inputBaseClass} py-2 pr-8 appearance-none cursor-pointer`}
-              {...register("role")}
-            >
-              {TESTIMONIAL_ROLES.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
-            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-ink-soft">
-              ▾
-            </span>
+        {/* Role, Event or venue, City */}
+        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-5">
+          {/* Role: I was a... */}
+          <div>
+            <label htmlFor="t-role" className={labelClass}>
+              I was a… <span className="text-crimson">*</span>
+            </label>
+            <div className="relative mt-1.5">
+              <select
+                id="t-role"
+                required
+                aria-invalid={errors.role ? true : undefined}
+                aria-describedby={errors.role ? "t-role-error" : undefined}
+                className={`${inputBaseClass} py-2 pr-8 appearance-none cursor-pointer ${
+                  !watchedRole ? "text-muted-foreground/70" : ""
+                }`}
+                {...register("role")}
+              >
+                <option value="">Select…</option>
+                {TESTIMONIAL_ROLES.map((r) => (
+                  <option key={r} value={r} className="text-foreground">
+                    {r}
+                  </option>
+                ))}
+              </select>
+              <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-ink-soft">
+                ▾
+              </span>
+            </div>
+            {errors.role && (
+              <p id="t-role-error" className={errorClass}>
+                {errors.role.message}
+              </p>
+            )}
           </div>
-          {errors.role && <p className={errorClass}>{errors.role.message}</p>}
-        </div>
 
-        {/* Event or venue */}
-        <div>
-          <label htmlFor="t-event" className={labelClass}>
-            Event or venue
-          </label>
-          <input
-            id="t-event"
-            type="text"
-            placeholder="e.g. Yaksha Sankranthi, Diwali Bonn"
-            aria-invalid={errors.event ? true : undefined}
-            className={inputClass}
-            {...register("event")}
-          />
-          {errors.event && <p className={errorClass}>{errors.event.message}</p>}
-        </div>
+          {/* Event or venue */}
+          <div>
+            <label htmlFor="t-event" className={labelClass}>
+              Event or venue <span className="text-crimson">*</span>
+            </label>
+            <input
+              id="t-event"
+              type="text"
+              required
+              placeholder="e.g. Yaksha Sankranthi, Diwali Bonn"
+              aria-invalid={errors.event ? true : undefined}
+              aria-describedby={errors.event ? "t-event-error" : undefined}
+              className={inputClass}
+              {...register("event")}
+            />
+            {errors.event && (
+              <p id="t-event-error" className={errorClass}>
+                {errors.event.message}
+              </p>
+            )}
+          </div>
 
-        {/* City */}
-        <div>
-          <label htmlFor="t-city" className={labelClass}>
-            City
-          </label>
-          <input
-            id="t-city"
-            type="text"
-            placeholder="e.g. Frankfurt, Munich, Berlin"
-            aria-invalid={errors.city ? true : undefined}
-            className={inputClass}
-            {...register("city")}
-          />
-          {errors.city && <p className={errorClass}>{errors.city.message}</p>}
+          {/* City */}
+          <div>
+            <label htmlFor="t-city" className={labelClass}>
+              City <span className="text-crimson">*</span>
+            </label>
+            <input
+              id="t-city"
+              type="text"
+              required
+              placeholder="e.g. Frankfurt, Munich, Berlin"
+              aria-invalid={errors.city ? true : undefined}
+              aria-describedby={errors.city ? "t-city-error" : undefined}
+              className={inputClass}
+              {...register("city")}
+            />
+            {errors.city && (
+              <p id="t-city-error" className={errorClass}>
+                {errors.city.message}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Review text */}
@@ -280,6 +282,7 @@ export function TestimonialForm() {
             id="t-text"
             rows={5}
             maxLength={1500}
+            required
             placeholder="Share your reflections on the performance, music, storytelling, or hosting experience…"
             aria-invalid={errors.text ? true : undefined}
             aria-describedby={errors.text ? "t-text-error" : undefined}
@@ -298,6 +301,7 @@ export function TestimonialForm() {
           <label className="flex items-start gap-3 text-sm text-foreground cursor-pointer">
             <input
               type="checkbox"
+              required
               className="mt-1 h-4 w-4 shrink-0 cursor-pointer accent-forest-deep"
               aria-invalid={errors.consentGiven ? true : undefined}
               aria-describedby={
@@ -306,7 +310,8 @@ export function TestimonialForm() {
               {...register("consentGiven")}
             />
             <span className="leading-relaxed text-ink-soft">
-              I agree that my review may be published on this website.{" "}
+              I agree that my review, together with my name, role, event and
+              city, may be published on this website.{" "}
               <span className="text-crimson">*</span>
             </span>
           </label>

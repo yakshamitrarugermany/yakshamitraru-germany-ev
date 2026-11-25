@@ -8,44 +8,48 @@ export const TESTIMONIAL_ROLES = [
   "Other",
 ] as const;
 
-export const DISPLAY_NAME_MODES = ["FULL", "FIRST"] as const;
+export type TestimonialRole = (typeof TESTIMONIAL_ROLES)[number];
 
 export const testimonialFormSchema = z.object({
   name: z
     .string()
     .trim()
     .min(2, "Please share your name (at least 2 characters)")
-    .max(120, "Name must be 120 characters or fewer"),
-  displayNameMode: z.enum(DISPLAY_NAME_MODES),
+    .max(100, "Name must be 100 characters or fewer"),
   email: z
     .string()
     .trim()
+    .min(1, "Please enter your email address")
     .email("Please enter a valid email address")
     .max(255, "Email must be 255 characters or fewer"),
-  role: z.enum(TESTIMONIAL_ROLES, {
-    message: "Please select your role",
-  }),
+  role: z
+    .string()
+    .refine(
+      (val): val is TestimonialRole =>
+        (TESTIMONIAL_ROLES as readonly string[]).includes(val),
+      { message: "Please select your role" },
+    ),
   event: z
     .string()
     .trim()
-    .max(160, "Event or venue must be 160 characters or fewer")
-    .optional()
-    .or(z.literal("")),
+    .min(2, "Please enter the event or venue (at least 2 characters)")
+    .max(120, "Event or venue must be 120 characters or fewer"),
   city: z
     .string()
     .trim()
-    .max(120, "City must be 120 characters or fewer")
-    .optional()
-    .or(z.literal("")),
+    .min(2, "Please enter the city (at least 2 characters)")
+    .max(80, "City must be 80 characters or fewer"),
   text: z
     .string()
     .trim()
     .min(30, "Please share at least 30 characters about your experience")
     .max(1500, "Review must be 1500 characters or fewer"),
   consentGiven: z.boolean().refine((val) => val === true, {
-    message: "Please agree that your review may be published on this website",
+    message:
+      "Please agree that your review, together with your name, role, event and city, may be published on this website",
   }),
   website: z.string().optional().or(z.literal("")),
 });
 
-export type TestimonialFormInput = z.infer<typeof testimonialFormSchema>;
+export type TestimonialFormInput = z.input<typeof testimonialFormSchema>;
+export type TestimonialFormOutput = z.output<typeof testimonialFormSchema>;
