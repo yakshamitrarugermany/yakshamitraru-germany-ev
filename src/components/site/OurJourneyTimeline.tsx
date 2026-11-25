@@ -6,8 +6,11 @@ import {
   Award,
   Building2,
   Drama,
+  Globe,
   Globe2,
   GraduationCap,
+  Languages,
+  MapPin,
   Music4,
   Users,
 } from "lucide-react";
@@ -16,20 +19,31 @@ const MILESTONES = [
   {
     year: "2018",
     title: "First performance",
-    body: 'Apurva Beleyur and a fellow artist presented "Babruvahana Kalaga" at Rhein Main Kannada Sangha e.V. in Frankfurt, marking the beginning of their journey.',
+    body: 'Apurva Beleyur and his friend presented "Babruvahana Kalaga" at Rhein Main Kannada Sangha e.V. in Frankfurt, marking the beginning of their journey.',
     icon: Drama,
   },
   {
+    year: "2019",
+    title: "Expansion across Germany",
+    body: "Yakshagana reached Berlin and Cologne in Germany.",
+    icon: MapPin,
+  },
+  {
     year: "2020",
-    title: "A name takes form",
-    body: 'The group was officially named Yakshamitraru and performed "Kamsa Vadhe", establishing a stronger cultural identity.',
-    icon: Users,
+    title: "Corona Pandemic led to Online Yakshagana",
+    body: 'The group was named as Yakshamitraru and performed "Kamsa Vadhe", establishing a stronger cultural identity.',
+    icon: Globe,
   },
   {
     year: "2021",
-    title: "Crossing borders",
-    body: "Yakshamitraru Germany performed in Paris, extending the reach of Yakshagana beyond Germany’s borders.",
-    icon: Globe2,
+    title: "A name takes place",
+    body: (
+      <>
+        <strong>Yakshamitraru Germany</strong> performed in Paris, extending the
+        reach of Yakshagana beyond Germany’s borders.
+      </>
+    ),
+    icon: Users,
   },
   {
     year: "2023",
@@ -40,20 +54,36 @@ const MILESTONES = [
   {
     year: "2024",
     title: "A new annual tradition",
-    body: "The first exclusive annual Yakshagana theatre event, Yaksha Sankranthi, was organised in Frankfurt.",
+    body: (
+      <>
+        The first exclusive annual Yakshagana theatre event,
+        <strong>Yaksha Sankranthi</strong> was organised in Frankfurt.
+      </>
+    ),
     icon: Award,
   },
   {
     year: "2025",
     title: "A recognised community",
-    body: "Yakshamitraru Germany was officially registered and recognised as Yakshamitraru Germany e.V., while also launching training in collaboration with Dheemahi Yakshagana Kalakendra® Sirsi.",
+    body: (
+      <>
+        <strong>Yakshamitraru Germany</strong> was officially registered and
+        recognised as <strong>Yakshamitraru Germany e.V.</strong>
+      </>
+    ),
     icon: Building2,
   },
   {
     year: "2025",
     title: "English-language milestone",
-    body: "Europe’s first Yakshagana performance presented entirely in English took place in Bonn on 25 October 2025.",
-    icon: Globe2,
+    body: (
+      <>
+        <strong>Europe’s first Yakshagana</strong> performance presented
+        entirely in <strong>English</strong> took place in Bonn on 25 October
+        2025.
+      </>
+    ),
+    icon: Languages,
   },
   {
     year: "2025",
@@ -61,17 +91,39 @@ const MILESTONES = [
     body: "Yakshagana training officially launched in collaboration with Dheemahi Yakshagana Kalakendra® Sirsi.",
     icon: GraduationCap,
   },
+  {
+    year: "2025",
+    title: "Expanding across Europe",
+    body: "Yakshagana was presented in Barcelona, Spain and Copenhagen, Denmark.",
+    icon: Globe2,
+  },
+  {
+    year: "2026",
+    title: "A New Stage in Finland",
+    body: "The team took Yakshagana to Finland, in association with Finland Kannada Association Ry.",
+    icon: Globe2,
+  },
+  {
+    year: "2026",
+    title: "A story reaches academia",
+    body: (
+      <>
+        A film on <strong>Yakshamitraru Germany</strong> (University version)
+        was released in Münster, Germany.
+      </>
+    ),
+    icon: Award,
+  },
 ];
 
 export function OurJourneyTimeline() {
   return (
-    <div className="mt-16 relative">
-      <div className="absolute left-4 top-0 bottom-0 w-px bg-linear-to-b from-saffron via-saffron/60 to-forest-deep/10 md:left-1/2 md:-translate-x-1/2" />
+    <div className="mt-16 relative md:max-w-2xl md:mx-auto lg:max-w-none">
+      <div className="absolute left-4 top-0 bottom-0 w-px bg-linear-to-b from-saffron via-saffron/60 to-forest-deep/10 lg:left-1/2 lg:-translate-x-1/2" />
       <div className="space-y-8 md:space-y-10">
         <div className="lg:hidden flex flex-col gap-2.5">
-          {MILESTONES.map((milestone, index) => {
+          {MILESTONES.map((milestone) => {
             const Icon = milestone.icon;
-            const isLeft = index % 2 === 0;
 
             return (
               <motion.div
@@ -80,25 +132,11 @@ export function OurJourneyTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
-                className="relative md:grid md:grid-cols-2 md:gap-8 items-start"
+                className="relative"
               >
-                <div
-                  className={`hidden md:block ${isLeft ? "md:pr-10 text-right" : "md:pl-10"}`}
-                >
-                  {isLeft ? (
-                    <div className="inline-flex items-center gap-3 rounded-full border border-forest-deep/10 bg-cream px-4 py-2 shadow-sm">
-                      <span className="font-serif text-lg text-forest-deep/70">
-                        {milestone.year}
-                      </span>
-                    </div>
-                  ) : null}
-                </div>
-
-                <div className="ml-8 md:ml-0">
-                  <div className="absolute left-2.5 top-4 md:left-1/2 md:-translate-x-1/2 h-4 w-4 rounded-full border-4 border-cream bg-saffron shadow-[0_0_0_6px_rgba(218,165,32,0.18)]" />
-                  <div
-                    className={`ml-4 md:ml-0 ${isLeft ? "md:mr-6" : "md:ml-6"}`}
-                  >
+                <div className="ml-8">
+                  <div className="absolute left-4 -translate-x-1/2 top-4 h-4 w-4 rounded-full border-4 border-cream bg-saffron shadow-[0_0_0_6px_rgba(218,165,32,0.18)]" />
+                  <div className="ml-4">
                     <BrandCard
                       variant="cream"
                       className="p-6 md:p-7 hover-lift relative overflow-hidden"
@@ -109,9 +147,9 @@ export function OurJourneyTimeline() {
                           <Icon className="h-5 w-5" />
                         </div>
                         <div className="flex-1">
-                          <div className="md:hidden font-serif text-lg text-forest-deep/70">
+                          <span className="mb-2 inline-flex items-center rounded-full border-[1.5px] border-[#B8863B] bg-[#FAF6EE] px-3 py-1 font-serif text-base font-semibold leading-tight tracking-wide tabular-nums text-[#7A1F2B]">
                             {milestone.year}
-                          </div>
+                          </span>
                           <h3 className="font-serif text-2xl text-forest-deep leading-tight">
                             {milestone.title}
                           </h3>
@@ -122,18 +160,6 @@ export function OurJourneyTimeline() {
                       </div>
                     </BrandCard>
                   </div>
-                </div>
-
-                <div
-                  className={`hidden md:block ${isLeft ? "md:pl-10" : "md:pr-10 text-right"}`}
-                >
-                  {!isLeft ? (
-                    <div className="inline-flex items-center gap-3 rounded-full border border-forest-deep/10 bg-cream px-4 py-2 shadow-sm">
-                      <span className="font-serif text-lg text-forest-deep/70">
-                        {milestone.year}
-                      </span>
-                    </div>
-                  ) : null}
                 </div>
               </motion.div>
             );
@@ -178,11 +204,9 @@ export function OurJourneyTimeline() {
                   </div>
                 ) : (
                   <div className="flex items-center justify-end pr-8">
-                    <div className="inline-flex items-center gap-3 rounded-full border border-forest-deep/10 bg-cream px-4 py-2 shadow-sm">
-                      <span className="font-serif text-lg text-forest-deep/70">
-                        {milestone.year}
-                      </span>
-                    </div>
+                    <span className="inline-flex items-center rounded-full border-[1.5px] border-[#B8863B] bg-[#FFFFFF] px-3 py-1 lg:px-4 lg:py-1.5 font-serif text-base lg:text-lg font-semibold leading-tight tracking-wide tabular-nums text-[#7A1F2B] shadow-sm">
+                      {milestone.year}
+                    </span>
                   </div>
                 )}
 
@@ -192,11 +216,9 @@ export function OurJourneyTimeline() {
 
                 {isLeft ? (
                   <div className="flex items-center justify-start pl-8">
-                    <div className="inline-flex items-center gap-3 rounded-full border border-forest-deep/10 bg-cream px-4 py-2 shadow-sm">
-                      <span className="font-serif text-lg text-forest-deep/70">
-                        {milestone.year}
-                      </span>
-                    </div>
+                    <span className="inline-flex items-center rounded-full border-[1.5px] border-[#B8863B] bg-[#FFFFFF] px-3 py-1 lg:px-4 lg:py-1.5 font-serif text-base lg:text-lg font-semibold leading-tight tracking-wide tabular-nums text-[#7A1F2B] shadow-sm">
+                      {milestone.year}
+                    </span>
                   </div>
                 ) : (
                   <div className="flex justify-start pl-8">

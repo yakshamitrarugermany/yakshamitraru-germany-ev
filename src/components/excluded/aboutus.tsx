@@ -133,7 +133,7 @@ export default function AboutPage() {
         lede="A registered cultural association carrying Yakshagana — the four-hundred-year-old night theatre of Karnataka — onto European stages, with faithful craft and considered presentation."
         meta={
           <>
-            <Stat n={2018} label="Founded" />
+            <Stat n={2021} label="Founded" />
             <Stat n={20} label="Ensemble members" />
             <Stat n={26} label="European cities" />
             <Stat n={"e.V."} label="Registered association" />
@@ -348,8 +348,8 @@ export default function AboutPage() {
               <span>Why Yakshamitraru Germany</span>
             </div>
             <h2 className="mt-6 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.02] text-forest-deep text-balance">
-              What makes this ensemble{" "}
-              <em className="italic font-light">unique</em>.
+              What makes this team <em className="italic font-light">unique</em>
+              .
             </h2>
             <p className="mt-6 text-ink-soft leading-relaxed max-w-md">
               We are not a booking agency, a festival or a temple programme. We

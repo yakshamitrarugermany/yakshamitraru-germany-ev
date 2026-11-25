@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const COUNTRIES = [
   "Germany",
@@ -168,11 +168,24 @@ const BANNER_STYLES = `
   .europe-banner-diamond {
     transform: rotate(45deg) !important;
   }
+
+  .europe-banner-country-slot {
+    transition: none !important;
+  }
 }
 `;
 
 export function EuropeBanner() {
   const [countryIndex, setCountryIndex] = useState(0);
+  const slotRef = useRef<HTMLSpanElement | null>(null);
+  const wordRef = useRef<HTMLSpanElement | null>(null);
+
+  const syncSlotWidth = useCallback(() => {
+    const slot = slotRef.current;
+    const word = wordRef.current;
+    if (!slot || !word) return;
+    slot.style.width = `${word.offsetWidth}px`;
+  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -213,6 +226,28 @@ export function EuropeBanner() {
     };
   }, []);
 
+  useEffect(() => {
+    syncSlotWidth();
+  }, [countryIndex, syncSlotWidth]);
+
+  useEffect(() => {
+    let active = true;
+    const handleResize = () => syncSlotWidth();
+
+    window.addEventListener("resize", handleResize);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (active) syncSlotWidth();
+      });
+    }
+
+    return () => {
+      active = false;
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [syncSlotWidth]);
+
   return (
     <section
       aria-label="Yakshagana in Europe"
@@ -234,8 +269,8 @@ export function EuropeBanner() {
         className="pointer-events-none absolute -bottom-140 right-[20%] h-180 w-180 gold-radial opacity-40"
       />
 
-      {/* Reserved fixed height prevents layout shift */}
-      <div className="relative container-page py-3 md:py-4 h-26 md:h-31 lg:h-35 flex flex-col items-center justify-center text-center">
+      {/* Compact equal vertical padding with fixed-height rows prevents layout shift */}
+      <div className="relative container-page py-2.5 md:py-3 flex flex-col items-center justify-center text-center">
         <h2 className="font-serif font-normal tracking-[-0.02em] leading-tight whitespace-nowrap text-[clamp(1.625rem,7.2vw,1.875rem)] md:text-4xl lg:text-5xl">
           <span className="europe-banner-word europe-banner-word-ivory europe-banner-word-1">
             Yakshagana
@@ -248,31 +283,39 @@ export function EuropeBanner() {
           </span>
         </h2>
 
-        {/* Row 1: Ornament row framing "Performed in" between two diamonds and outward-drawing 1px gold lines */}
+        {/* Ornament row: outward-drawing 1px gold lines framing a central 6px gold diamond */}
         <div
           aria-hidden="true"
-          className="mt-1.5 md:mt-2 flex items-center gap-2 sm:gap-2.5 w-full max-w-72 sm:max-w-84 md:max-w-96"
+          className="mt-1.5 flex items-center justify-center gap-3 w-full max-w-52 sm:max-w-64 md:max-w-72"
         >
           <span className="europe-banner-line-left h-px flex-1 bg-linear-to-l from-[#B8863B] to-[#B8863B]/15" />
-          <span className="europe-banner-diamond h-1.5 w-1.5 rotate-45 bg-[#B8863B] shrink-0" />
-          <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] font-medium leading-none text-[#FAF6EE]/75 whitespace-nowrap">
-            Performed in
-          </span>
           <span className="europe-banner-diamond h-1.5 w-1.5 rotate-45 bg-[#B8863B] shrink-0" />
           <span className="europe-banner-line-right h-px flex-1 bg-linear-to-r from-[#B8863B] to-[#B8863B]/15" />
         </div>
 
-        {/* Row 2: Centered cycling country with fixed height */}
-        <p className="mt-1 flex items-center justify-center h-5 leading-none">
+        {/* Single centered line: "Performed in" + dynamically sized country slot */}
+        <p className="mt-1.5 flex justify-center items-baseline gap-2 h-5 leading-5">
           <span className="sr-only">
             Performed in Germany, Poland, France, Denmark and Spain
           </span>
           <span
-            key={COUNTRIES[countryIndex]}
             aria-hidden="true"
-            className="europe-banner-country inline-block text-center text-[13px] uppercase tracking-[0.24em] font-medium leading-none text-[#B8863B] whitespace-nowrap"
+            className="inline-block overflow-hidden text-[11px] sm:text-xs uppercase tracking-[0.2em] font-medium leading-5 text-[#FAF6EE]/75 whitespace-nowrap"
           >
-            {COUNTRIES[countryIndex]}
+            Performed in
+          </span>
+          <span
+            ref={slotRef}
+            aria-hidden="true"
+            className="europe-banner-country-slot inline-block overflow-hidden whitespace-nowrap text-left leading-5 -mr-[0.2em] transition-[width] duration-300 ease-out motion-reduce:transition-none"
+          >
+            <span
+              key={COUNTRIES[countryIndex]}
+              ref={wordRef}
+              className="europe-banner-country inline-block text-[11px] sm:text-xs uppercase tracking-[0.2em] font-medium leading-5 text-[#B8863B] whitespace-nowrap"
+            >
+              {COUNTRIES[countryIndex]}
+            </span>
           </span>
         </p>
       </div>

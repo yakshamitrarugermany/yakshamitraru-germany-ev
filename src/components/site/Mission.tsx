@@ -93,7 +93,7 @@ export function Mission() {
             </Button>
           </div>
 
-          <p className="text-base md:text-lg text-ink-soft leading-relaxed max-w-lg">
+          <p className="text-base md:text-lg text-ink-soft leading-relaxed max-w-lg text-justify hyphens-none max-sm:text-[15px]">
             Yakshagana is a traditional folk theatre form from Karnataka, India.
             It seamlessly combines dynamic dance, music, spontaneous dialogue,
             and vibrant costumes to bring ancient epic stories to life. A single

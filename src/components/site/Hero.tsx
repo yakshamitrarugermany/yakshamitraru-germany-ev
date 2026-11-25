@@ -96,7 +96,7 @@ function HeroFeaturedArtists() {
                   <span
                     key={i}
                     className={`block whitespace-nowrap ${
-                      part === "(Founder)" ? "italic text-saffron" : ""
+                      part === "- Founder" ? "italic text-saffron" : ""
                     }`}
                   >
                     {part}

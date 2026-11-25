@@ -246,7 +246,7 @@ export function Testimonials() {
                                 }
                               : undefined
                           }
-                          className="font-serif text-lg md:text-xl leading-relaxed text-forest-deep text-balance line-clamp-6 min-h-[9.75em] hyphens-auto"
+                          className="font-serif text-lg md:text-xl leading-relaxed text-forest-deep text-balance line-clamp-6 min-h-[9.75em]"
                         >
                           <span className="text-saffron font-medium">“</span>
                           {q.text.replace(/\n\n/g, " ")}
